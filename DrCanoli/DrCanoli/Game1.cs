@@ -11,7 +11,7 @@ namespace DrCanoli
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        int x;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
