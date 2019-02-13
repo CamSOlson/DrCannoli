@@ -5,13 +5,12 @@ using Microsoft.Xna.Framework.Input;
 namespace DrCanoli
 {
     /// <summary>
-    /// This is the main type for your game. Neat! -Cam -Liam
+    /// This is the main type for your game. Neat! -Cam -Julien -Liam
     /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        int x;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
