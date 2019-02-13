@@ -6,12 +6,12 @@ namespace DrCanoli
 {
     /// <summary>
     /// This is the main type for your game. Neat! -Cam
+    /// I want to die. -Julien
     /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        int x;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
