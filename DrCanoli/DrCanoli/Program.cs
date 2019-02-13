@@ -5,6 +5,7 @@ namespace DrCanoli
 #if WINDOWS || LINUX
     /// <summary>
     /// The main class.
+    /// Ravioli ravioli we're submitting this to Cascioli
     /// </summary>
     public static class Program
     {

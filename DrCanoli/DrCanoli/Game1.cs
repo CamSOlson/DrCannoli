@@ -5,13 +5,12 @@ using Microsoft.Xna.Framework.Input;
 namespace DrCanoli
 {
     /// <summary>
-    /// According to all known laws of aviation, there is no way a bee should be able to fly. -Drew
+    /// This is the main type for your game. Neat! -Cam -Julien -Liam -Alex -Drew
     /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
