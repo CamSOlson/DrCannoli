@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 namespace DrCanoli
 {
     /// <summary>
-    /// This is the main type for your game. Neat! -Cam
+    /// According to all known laws of aviation, there is no way a bee should be able to fly. -Drew
     /// </summary>
     public class Game1 : Game
     {
