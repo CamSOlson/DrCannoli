@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 namespace DrCanoli
 {
     /// <summary>
-    /// This is the main type for your game. Neat! -Cam
+    /// This is the main type for your game. Neat! -Cam -Liam
     /// </summary>
     public class Game1 : Game
     {
