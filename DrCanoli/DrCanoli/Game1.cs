@@ -54,8 +54,14 @@ namespace DrCanoli
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            //uncomment these when we can fully initialize player
             //player = new Player()
             //phys = new PhysManager(player, enemyList, GraphicsDevice.Viewport.Height); //change viewport to max resolution ingame
+            //drawables.Add(player);
+            foreach (Enemy e in enemyList)
+            {
+                drawables.Add(e);
+            }
 
 			// TODO: use this.Content to load your game content here
 			startTexture = Content.Load<Texture2D>("start");
