@@ -11,7 +11,7 @@ namespace DrCanoli
 {
     class Enemy : Fighter
     {
-        //enemy specific fields
+        // enemy specific fields
 
         public Enemy(Rectangle box, Texture2D sprite) : base(box, sprite)
         {
