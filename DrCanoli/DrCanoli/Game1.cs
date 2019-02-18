@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 namespace DrCanoli
 {
+	enum GameState { Menu, Settings, Level1, GameOver }	//states of game, more levels can be added as needed
+
     /// <summary>
     /// This is the main type for your game. Neat! -Cam -Julien -Liam -Alex -Drew
     /// </summary>
@@ -13,6 +15,11 @@ namespace DrCanoli
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+		GameState gameState = GameState.Menu;	//deafult state brings player to menu
+		private Texture2D startTexture;
+		private Texture2D optionsTexture;
+
         private List<IDrawn> drawables;
         private List<Enemy> enemyList;
         private Player player;
@@ -33,7 +40,6 @@ namespace DrCanoli
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
             drawables = new List<IDrawn>();
             enemyList = new List<Enemy>();
@@ -56,7 +62,9 @@ namespace DrCanoli
                 drawables.Add(e);
             }
 
-            // TODO: use this.Content to load your game content here
+			// TODO: use this.Content to load your game content here
+			startTexture = Content.Load<Texture2D>("start");
+			optionsTexture = Content.Load<Texture2D>("options");
         }
 
         /// <summary>
@@ -78,7 +86,18 @@ namespace DrCanoli
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+			// TODO: Add your update logic here
+			switch (gameState)	//used for transitioning between gameStates
+			{
+				case GameState.Menu:
+					break;
+				case GameState.Settings:
+					break;
+				case GameState.Level1:
+					break;
+				case GameState.GameOver:
+					break;
+			}
 
             base.Update(gameTime);
         }
@@ -91,7 +110,47 @@ namespace DrCanoli
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+			// TODO: Add your drawing code here
+			spriteBatch.Begin();
+
+			switch (gameState)  //used for drawing screen based on gameState
+			{
+				case GameState.Menu:            //put all menu draw methods here
+
+					spriteBatch.Draw(			//draws start button
+						startTexture,
+						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 - 25, 100, 50),
+						Color.White
+						);
+
+					spriteBatch.Draw(           //draws start button
+						optionsTexture,
+						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 3) * 2 - 25, 100, 50),
+						Color.White
+						);
+
+					switch (gameState)	//used for transitioning between gameStates
+			{
+				case GameState.Menu:
+					break;
+				case GameState.Settings:
+					break;
+				case GameState.Level1:
+					break;
+				case GameState.GameOver:
+					break;
+			}
+
+					break;
+				case GameState.Settings:		//put all setting draw methods here
+					break;
+				case GameState.Level1:			//put all level1 draw methods here
+					break;
+				case GameState.GameOver:		//put all gameOver draw methods here
+					break;
+			}
+
+			spriteBatch.End();
 
             base.Draw(gameTime);
         }
