@@ -19,6 +19,7 @@ namespace DrCanoli
 		GameState gameState = GameState.Menu;	//deafult state brings player to menu
 		private Texture2D startTexture;
 		private Texture2D optionsTexture;
+		private Texture2D exitTexture;
 
         private List<IDrawn> drawables;
         private List<Enemy> enemyList;
@@ -59,6 +60,7 @@ namespace DrCanoli
 			// TODO: use this.Content to load your game content here
 			startTexture = Content.Load<Texture2D>("start");
 			optionsTexture = Content.Load<Texture2D>("options");
+			exitTexture = Content.Load<Texture2D>("exit");
         }
 
         /// <summary>
@@ -113,34 +115,28 @@ namespace DrCanoli
 
 					spriteBatch.Draw(			//draws start button
 						startTexture,
-						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, GraphicsDevice.Viewport.Height / 2 - 25, 100, 50),
+						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 4 - 25, 100, 50),
 						Color.White
 						);
 
-					spriteBatch.Draw(           //draws start button
+					spriteBatch.Draw(           //draws options button
 						optionsTexture,
-						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 3) * 2 - 25, 100, 50),
+						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 5 - 25, 100, 50),
 						Color.White
 						);
 
-					switch (gameState)	//used for transitioning between gameStates
-			{
-				case GameState.Menu:
+					spriteBatch.Draw(           //draws exit button
+						exitTexture,
+						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 6 - 25, 100, 50),
+						Color.White
+						);
+
 					break;
 				case GameState.Settings:
 					break;
 				case GameState.Level1:
 					break;
 				case GameState.GameOver:
-					break;
-			}
-
-					break;
-				case GameState.Settings:		//put all setting draw methods here
-					break;
-				case GameState.Level1:			//put all level1 draw methods here
-					break;
-				case GameState.GameOver:		//put all gameOver draw methods here
 					break;
 			}
 
