@@ -19,6 +19,14 @@ namespace DrCanoli
         private Player player;
         //weapon reference too
         //private Weapon currentWeapon;
+        private int unicorns; //standard unit for window height
+
+        public PhysManager(Player player, List<Enemy> enemies, int screenHeight)
+        {
+            this.player = player;
+            enemyList = enemies;
+            unicorns = screenHeight / 9;
+        }
 
         private void CheckCollisions()
         {
