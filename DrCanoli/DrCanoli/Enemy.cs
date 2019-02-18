@@ -13,15 +13,15 @@ namespace DrCanoli
     {
         //enemy specific fields
 
-        public Enemy(Rectangle box) : base(box)
+        public Enemy(Rectangle box, Texture2D sprite) : base(box, sprite)
         {
             //initialize enemy specific fields
         }
-        public Enemy(int x, int y, int width, int height) : this(new Rectangle(x, y, width, height)) { }
+        public Enemy(int x, int y, int width, int height, Texture2D sprite) : this(new Rectangle(x, y, width, height), sprite) { }
 
         public override void Draw(SpriteBatch batch)
         {
-            //enemy draw method, again we should probably call within the spritebatch .begin and .end and not have those here
+            base.Draw(batch);
         }
     }
 }

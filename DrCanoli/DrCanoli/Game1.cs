@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace DrCanoli
 {
@@ -12,6 +13,11 @@ namespace DrCanoli
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private List<IDrawn> drawables;
+        private List<Enemy> enemyList;
+        private Player player;
+        private PhysManager phys;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -29,6 +35,8 @@ namespace DrCanoli
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            drawables = new List<IDrawn>();
+            enemyList = new List<Enemy>();
         }
 
         /// <summary>
@@ -39,6 +47,8 @@ namespace DrCanoli
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            //player = new Player()
+            //phys = new PhysManager(player, enemyList, GraphicsDevice.Viewport.Height); //change viewport to max resolution ingame
 
             // TODO: use this.Content to load your game content here
         }
