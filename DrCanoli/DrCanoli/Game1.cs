@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DrCanoli
 {
-	enum GameState { Menu, Settings, Level1, GameOver }	//states of game, more levels can be added as needed
+	enum GameState { Menu, Options, Level1, GameOver }	//states of game, more levels can be added as needed
 
     /// <summary>
     /// This is the main type for your game. Neat! -Cam -Julien -Liam -Alex -Drew
@@ -16,12 +16,17 @@ namespace DrCanoli
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-		GameState gameState = GameState.Menu;	//deafult state brings player to menu
-		private Texture2D startTexture;
-		private Texture2D optionsTexture;
-		private Texture2D exitTexture;
+		GameState gameState = GameState.Menu;   //deafult state brings player to menu
 
-        private List<IDrawn> drawables;
+		private Texture2D startTexture;
+		private Texture2D optionsTexture;   //place-holder textures for menu buttons
+		private Texture2D exitTexture;
+		private Rectangle startButton;
+		private Rectangle optionsButton;    //positions for menu buttons
+		private Rectangle exitButton;
+		private Menu menu;					//draws menu
+
+		private List<IDrawn> drawables;
         private List<Enemy> enemyList;
         private Player player;
         private PhysManager phys;
@@ -40,11 +45,18 @@ namespace DrCanoli
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            base.Initialize();
+			// TODO: Add your initialization logic here
+			this.IsMouseVisible = true;
+
             drawables = new List<IDrawn>();
             enemyList = new List<Enemy>();
-        }
+
+			startButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 4 - 25, 100, 50);
+			optionsButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 5 - 25, 100, 50);
+			exitButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 6 - 25, 100, 50);
+
+			base.Initialize();
+		}
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -54,20 +66,21 @@ namespace DrCanoli
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //uncomment these when we can fully initialize player
-            //player = new Player()
-            //phys = new PhysManager(player, enemyList, GraphicsDevice.Viewport.Height); //change viewport to max resolution ingame
-            //drawables.Add(player);
-            foreach (Enemy e in enemyList)
-            {
-                drawables.Add(e);
-            }
+			//uncomment these when we can fully initialize player
+			//player = new Player()
+			//phys = new PhysManager(player, enemyList, GraphicsDevice.Viewport.Height); //change viewport to max resolution ingame
+			//drawables.Add(player);
+			foreach (Enemy e in enemyList)
+			{
+				drawables.Add(e);
+			}
 
 			// TODO: use this.Content to load your game content here
 			startTexture = Content.Load<Texture2D>("start");
-			optionsTexture = Content.Load<Texture2D>("options");
+			optionsTexture = Content.Load<Texture2D>("options");	//loads button textures
 			exitTexture = Content.Load<Texture2D>("exit");
-        }
+			menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
+		}
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -92,8 +105,14 @@ namespace DrCanoli
 			switch (gameState)	//used for transitioning between gameStates
 			{
 				case GameState.Menu:
+					if (menu.startClicked())			
+						gameState = GameState.Level1;	//goes to level1 state when start is clicked
+					if (menu.optionsClicked())
+						gameState = GameState.Options;	//goes to options menu state when options is clicked
+					if (menu.exitClicked())
+						this.Exit();					//closes game when exit is clicked
 					break;
-				case GameState.Settings:
+				case GameState.Options:
 					break;
 				case GameState.Level1:
 					break;
@@ -118,29 +137,21 @@ namespace DrCanoli
 			switch (gameState)  //used for drawing screen based on gameState
 			{
 				case GameState.Menu:            //put all menu draw methods here
-
-					spriteBatch.Draw(			//draws start button
-						startTexture,
-						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 4 - 25, 100, 50),
-						Color.White
-						);
-
-					spriteBatch.Draw(           //draws options button
-						optionsTexture,
-						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 5 - 25, 100, 50),
-						Color.White
-						);
-
-					spriteBatch.Draw(           //draws exit button
-						exitTexture,
-						new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 6 - 25, 100, 50),
-						Color.White
-						);
-
+					menu.Draw(spriteBatch);
 					break;
-				case GameState.Settings:
+				case GameState.Options:
+					spriteBatch.Draw(		//place-holder so we know options works
+						optionsTexture,
+						optionsButton,
+						Color.White
+						);
 					break;
 				case GameState.Level1:
+					spriteBatch.Draw(       //place-holder so we know level1 works
+						startTexture,
+						startButton,
+						Color.White
+						);
 					break;
 				case GameState.GameOver:
 					break;

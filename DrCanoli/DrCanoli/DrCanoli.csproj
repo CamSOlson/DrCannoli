@@ -45,6 +45,7 @@
     <Compile Include="Fighter.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="IDrawn.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="PhysManager.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
