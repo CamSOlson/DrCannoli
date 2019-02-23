@@ -120,6 +120,8 @@ namespace DrCanoli
 					break;
 			}
 
+            phys.ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
+
             base.Update(gameTime);
         }
 

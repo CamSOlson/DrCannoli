@@ -20,12 +20,18 @@ namespace DrCanoli
         //weapon reference too
         //private Weapon currentWeapon;
         private int unicorns; //standard unit for window height
+        private double frameSeconds, acceleration; //time between frames, acceleration in unicorns per frameSeconds squared
+        private const double JUMPUNICORNS = 2;
+        private double elapsedTime; //every frame we call gameTime.ElapsedGameTime.TotalSeconds in game1 and call the property here
 
         public PhysManager(Player player, List<Enemy> enemies, int screenHeight)
         {
             this.player = player;
             enemyList = enemies;
             unicorns = screenHeight / 9;
+            frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
+            acceleration = -9.81 * 2 * Math.Pow(frameSeconds, 2); //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
+            elapsedTime = 0;
         }
 
         private void CheckCollisions()
@@ -51,11 +57,24 @@ namespace DrCanoli
             return 0;
         }
 
-        private void Jump(Fighter jumper)
+        /// <summary>
+        /// calculates the change in the juping fighter's height based on horizontal velocity and constructed acceleration, applies changes
+        /// </summary>
+        /// <param name="jumper">the fighter who is jumping</param>
+        /// <returns>true if the fighter is now done jumping, false if not</returns>
+        private bool Jump(Fighter jumper)
         {
             //the player should have an double (probably 2 for x and y components?) for velocity and the Y coord they jumped from to properly track jumping and an int to track how much time they have been jumping for
             //this method will simply calculate and change their coordinates based on the stored values (and updates with new values)
             //we could also store them here but then we'd need it for every player and enemy so it makes more sense to have them store it
+            int changeY = (int)((Math.Pow(player.VelocityY + acceleration * elapsedTime, 2) - Math.Pow(player.VelocityY, 2)) / 2 * acceleration);
+            player.Box = new Rectangle(player.Box.X, player.Box.Y + changeY, player.Box.Width, player.Box.Height);
+            if (player.Box.Y <= player.InitialY)
+            {
+                player.Box = new Rectangle(player.Box.X, player.InitialY, player.Box.Width, player.Box.Height);
+                return true;
+            }
+            return false;
         }
 
         private void Knockback(Fighter wasHit)
@@ -66,5 +85,19 @@ namespace DrCanoli
 
         //players and enemies should have a method for dying, this manager should just detract health
         //the player should also have a state for running, jumping, attacking, stunned, etc.
+
+        public double InitialYVelocity
+        {
+            get
+            {
+                return Math.Sqrt(-2 * acceleration * unicorns * JUMPUNICORNS);
+            }
+        }
+
+        public double ElapsedTime
+        {
+            get { return elapsedTime; }
+            set { elapsedTime = value; }
+        }
     }
 }
