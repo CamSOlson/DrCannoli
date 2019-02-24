@@ -53,5 +53,9 @@ namespace DrCanoli
             get { return velocityY; }
             set { velocityY = value; }
         }
+        public Texture2D Sprite
+        {
+            get { return sprite; }
+        }
     }
 }
