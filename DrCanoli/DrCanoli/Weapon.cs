@@ -48,6 +48,7 @@ namespace DrCanoli
             this.fireRate = fireRate;
         }
 
+        // Draw weapon
         public virtual void Draw(SpriteBatch batch)
         {
             batch.Draw(sprite, box, Color.White);
