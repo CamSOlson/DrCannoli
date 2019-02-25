@@ -56,7 +56,30 @@ namespace DrCanoli
             }
             return 0;
         }
+        public void Hit(Fighter Hitter, Fighter Target)
+        {
+            //If a hit lands on the player, this method will be called
+            Target.Hp -= Hitter.Dmg;
 
+            if (player.Hp > 0)
+            {
+                Knockback(Target);
+            }
+            else
+            {
+                if(Target is Player)
+                {
+                    Player player = (Player)Target;
+                    player.Alive = false;
+                }
+                else
+                {
+                    Enemy enemy = (Enemy)Target;
+                    enemy.Active = false;
+                }
+            }
+
+        }
         /// <summary>
         /// calculates the change in the juping fighter's height based on horizontal velocity and constructed acceleration, applies changes
         /// </summary>

@@ -18,7 +18,18 @@ namespace DrCanoli
         //actual stat fields here I haven't really put much thought into how we store and calculate them
         private Texture2D sprite;
         private bool stunned;
-
+        private int hp;
+        private int dmg;
+        public int Hp
+        {
+            get { return hp; }
+            set { hp = value; }
+        }
+        public int Dmg
+        {
+            get { return dmg; }
+            set { dmg = value; }
+        }
         public Fighter(Rectangle box, Texture2D sprite)
         {
             this.box = box;
@@ -29,7 +40,7 @@ namespace DrCanoli
             stunned = false;
             stunTime = 0;
         }
-        public Fighter(int x, int y, int width, int height, Texture2D sprite) : this(new Rectangle(x, y, width, height), sprite) { }
+        public Fighter(int x, int y, int width, int height, Texture2D sprite, int hp, int dmg) : this(new Rectangle(x, y, width, height), sprite, hp, dmg) { }
 
         public virtual void Draw(SpriteBatch batch)
         {

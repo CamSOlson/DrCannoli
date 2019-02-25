@@ -44,12 +44,5 @@ namespace DrCanoli
         {
             base.Draw(batch);
         }
-        public void Hit(Enemy enemy)
-        {
-            //If a hit lands on the enemy
-            enemy.Hp -= wep.Damage;
-            if(enemy.Hp <= 0)
-                enemy.Active = false;
-        }
     }
 }
