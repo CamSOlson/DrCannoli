@@ -115,12 +115,14 @@ namespace DrCanoli
 				case GameState.Options:
 					break;
 				case GameState.Level1:
+					if (player.Hp <= 0)					//changes state to gameover screen when player hp reaches 0
+						gameState = GameState.GameOver;
 					break;
 				case GameState.GameOver:
 					break;
 			}
 
-            phys.ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
+            //phys.ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;  //remember to uncomment this
 
             base.Update(gameTime);
         }
@@ -142,20 +144,13 @@ namespace DrCanoli
 					menu.Draw(spriteBatch);
 					break;
 				case GameState.Options:
-					spriteBatch.Draw(		//place-holder so we know options works
-						optionsTexture,
-						optionsButton,
-						Color.White
-						);
+					GraphicsDevice.Clear(Color.LawnGreen);		//placeholder color for testing
 					break;
 				case GameState.Level1:
-					spriteBatch.Draw(       //place-holder so we know level1 works
-						startTexture,
-						startButton,
-						Color.White
-						);
+					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
 					break;
 				case GameState.GameOver:
+					GraphicsDevice.Clear(Color.Black);			//placeholder color for testing
 					break;
 			}
 
