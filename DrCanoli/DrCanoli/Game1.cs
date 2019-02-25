@@ -122,7 +122,7 @@ namespace DrCanoli
 					break;
 			}
 
-            //phys.ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;  //remember to uncomment this
+            phys.ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
 
             base.Update(gameTime);
         }
@@ -148,6 +148,7 @@ namespace DrCanoli
 					break;
 				case GameState.Level1:
 					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
+					player.Draw(spriteBatch);
 					break;
 				case GameState.GameOver:
 					GraphicsDevice.Clear(Color.Black);			//placeholder color for testing
