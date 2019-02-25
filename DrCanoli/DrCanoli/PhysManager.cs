@@ -39,22 +39,12 @@ namespace DrCanoli
             //checks what hitboxes are touching simply for stopping movement, not damage
         }
 
-        private int EnemyHit()
-        {
-            //checks if any enemy has been hit by the player's weapon and returns damage
-            //assuming we use a foreach loop
-            foreach (Enemy e in enemyList)
-            {
-                Knockback(e);
-            }
-            return 0;
-        }
         public void Hit(Fighter Hitter, Fighter Target)
         {
-            //If a hit lands on the player, this method will be called
+            //If a hit lands on anyone, this method will be called
             Target.Hp -= Hitter.Dmg;
 
-            if (player.Hp > 0)
+            if (Target.Hp > 0)
             {
                 Knockback(Target);
             }
