@@ -29,7 +29,8 @@ namespace DrCanoli
             get { return alive; }
             set { alive = value; }
         }
-        //player specific fields
+		//player specific fields
+		
 
         public Player(Rectangle box, Texture2D sprite, Weapon weapon = null): base(box, sprite)
         {

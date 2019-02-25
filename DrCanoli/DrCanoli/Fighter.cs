@@ -18,6 +18,7 @@ namespace DrCanoli
         //actual stat fields here I haven't really put much thought into how we store and calculate them
         private Texture2D sprite;
         private bool stunned;
+		
 
         public Fighter(Rectangle box, Texture2D sprite)
         {
