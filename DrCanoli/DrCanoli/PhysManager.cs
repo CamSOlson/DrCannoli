@@ -39,13 +39,6 @@ namespace DrCanoli
             //checks what hitboxes are touching simply for stopping movement, not damage
         }
 
-        private int IsHit()
-        {
-            //checks if the player is hit by an enemy and returns damage from enemy
-            Knockback(player);
-            return 0;
-        }
-
         private int EnemyHit()
         {
             //checks if any enemy has been hit by the player's weapon and returns damage
