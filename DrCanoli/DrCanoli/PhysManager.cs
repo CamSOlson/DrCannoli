@@ -39,13 +39,6 @@ namespace DrCanoli
             //checks what hitboxes are touching simply for stopping movement, not damage
         }
 
-        private int IsHit()
-        {
-            //checks if the player is hit by an enemy and returns damage from enemy
-            Knockback(player);
-            return 0;
-        }
-
         private int EnemyHit()
         {
             //checks if any enemy has been hit by the player's weapon and returns damage
@@ -91,6 +84,8 @@ namespace DrCanoli
             //will override jumping state if hit midair, so this can use the same fields for moving back as jumping
             //also will simply calculate new position based on stored values and updates said values
             //calling this should set the fighter's state to jumping
+
+            //set player state machine to jumping
             if (Math.Abs(wasHit.VelocityX) < 1) //horizontal move speed
             {
                 if (wasHit.VelocityX >= 0)
