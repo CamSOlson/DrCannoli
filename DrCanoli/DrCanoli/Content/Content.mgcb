@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:options.png
 
+#begin placeholderText.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:placeholderText.spritefont
+
 #begin start.png
 /importer:TextureImporter
 /processor:TextureProcessor

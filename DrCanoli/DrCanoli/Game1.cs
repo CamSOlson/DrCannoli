@@ -24,7 +24,8 @@ namespace DrCanoli
 		private Rectangle startButton;
 		private Rectangle optionsButton;    //positions for menu buttons
 		private Rectangle exitButton;
-		private Menu menu;					//draws menu
+		private Menu menu;                  //draws menu
+		private SpriteFont font;	//just a placeholder font until we get an actual font
 
 		private List<IDrawn> drawables;
         private List<Enemy> enemyList;
@@ -80,6 +81,7 @@ namespace DrCanoli
 			optionsTexture = Content.Load<Texture2D>("options");	//loads button textures
 			exitTexture = Content.Load<Texture2D>("exit");
 			menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
+			font = Content.Load<SpriteFont>("placeholderFont");
 		}
 
         /// <summary>
@@ -144,14 +146,22 @@ namespace DrCanoli
 					menu.Draw(spriteBatch);
 					break;
 				case GameState.Options:
-					GraphicsDevice.Clear(Color.LawnGreen);		//placeholder color for testing
+					GraphicsDevice.Clear(Color.LawnGreen);      //placeholder color for testing
+					spriteBatch.DrawString(
+						font, "This is the options menu", new Vector2(10, 10), Color.White
+						);
 					break;
 				case GameState.Level1:
 					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
-					player.Draw(spriteBatch);
+					spriteBatch.DrawString(
+						font, "This is level1", new Vector2(10, 10), Color.White
+						);
 					break;
 				case GameState.GameOver:
-					GraphicsDevice.Clear(Color.Black);			//placeholder color for testing
+					GraphicsDevice.Clear(Color.Black);          //placeholder color for testing
+					spriteBatch.DrawString(
+						font, "This is the Game Over Screen", new Vector2(10, 10), Color.White
+						);
 					break;
 			}
 
