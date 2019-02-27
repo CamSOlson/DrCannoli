@@ -28,6 +28,7 @@ namespace DrCanoli
 		private SpriteFont font;	//just a placeholder font until we get an actual font
 
 		private List<IDrawn> drawables;
+        private List<Obstacle> obstacles;
         private List<Enemy> enemyList;
         private Player player;
         private PhysManager phys;

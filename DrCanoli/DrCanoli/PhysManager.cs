@@ -14,7 +14,7 @@ namespace DrCanoli
         //if this manages enemies as well, we shoud add a list for enemy references here
         private List<Enemy> enemyList;
         //any map obstacles should go here 
-        //private List<> obstacles;
+        private List<Obstacle> obstacles;
         //we could also give this a reference to the player
         private Player player;
         //weapon reference too
@@ -25,9 +25,10 @@ namespace DrCanoli
         private double elapsedTime; //every frame we call gameTime.ElapsedGameTime.TotalSeconds in game1 and call the property here
         private int offset;
 
-        public PhysManager(Player player, List<Enemy> enemies, int screenHeight)
+        public PhysManager(Player player, List<Enemy> enemies, List<Obstacle> obs, int screenHeight)
         {
             this.player = player;
+            obstacles = obs;
             enemyList = enemies;
             unicorns = screenHeight / 9;
             frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
@@ -38,7 +39,34 @@ namespace DrCanoli
 
         private void CheckCollisions()
         {
-            //checks what hitboxes are touching simply for stopping movement, not damage
+            //CHECK WEAPON COLLISIONS WITH ENEMIES, calls Hit() with proper entities
+
+            //CHECK ENEMY COLLISIONS WITH PLAYER, also calls Hit() with proper entities
+            foreach (Enemy e in enemyList)
+            {
+                if (e.Box.Intersects(player.Box))
+                {
+                    if (!player.Stunned)
+                        Hit(e, player);
+                }
+            }
+
+            //CHECK AND ADJUST COLLISONS THAT DON'T PERMIT MOVEMENT
+            foreach (Obstacle o in obstacles)
+            {
+                if (o.Box.Intersects(player.Box))
+                {
+                    Rectangle intersect = Rectangle.Intersect(o.Box, player.Box);
+                    if (player.Box.X < o.Box.X)
+                        offset -= intersect.Width;
+                    else
+                        offset += intersect.Width;
+                    if (player.Box.Y < o.Box.Y)
+                        player.Box = new Rectangle(player.Box.X, player.Box.Y - intersect.Height, player.Box.Width, player.Box.Height);
+                    else
+                        player.Box = new Rectangle(player.Box.X, player.Box.Y + intersect.Height, player.Box.Width, player.Box.Height);
+                }
+            }
         }
 
         public void Hit(Fighter Hitter, Fighter Target)
