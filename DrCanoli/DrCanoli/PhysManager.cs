@@ -73,7 +73,7 @@ namespace DrCanoli
             if (player.Stunned)
             {
                 jumper.StunTime -= elapsedTime;
-                if (jumper.StunTime >= 0)
+                if (jumper.StunTime <= 0)
                     player.Stunned = false;
             }
             if (jumper.Box.Y <= jumper.InitialY)
