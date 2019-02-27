@@ -9,16 +9,30 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DrCanoli
 {
+
+	enum FighterState { IdleRight, IdleLeft, MoveRight, MoveLeft, MoveUp, MoveDown, Attack, Jump }
     class Fighter: IDrawn
     {
         //fields
         private Rectangle box;
         private int initialY; //just used for jumps and knockback
         private double velocityY, velocityX, stunTime; //intended for just jumping and knockback but if yall have a use for it have at it, could be good for tracking horizontal movement for a jump?
+		private FighterState fighterState;
         //actual stat fields here I haven't really put much thought into how we store and calculate them
         private Texture2D sprite;
         private bool stunned;
-
+        private int hp;
+        private int dmg;
+        public int Hp
+        {
+            get { return hp; }
+            set { hp = value; }
+        }
+        public int Dmg
+        {
+            get { return dmg; }
+            set { dmg = value; }
+        }
         public Fighter(Rectangle box, Texture2D sprite)
         {
             this.box = box;
@@ -29,7 +43,7 @@ namespace DrCanoli
             stunned = false;
             stunTime = 0;
         }
-        public Fighter(int x, int y, int width, int height, Texture2D sprite) : this(new Rectangle(x, y, width, height), sprite) { }
+        public Fighter(int x, int y, int width, int height, Texture2D sprite, int hp, int dmg) : this(new Rectangle(x, y, width, height), sprite, hp, dmg) { }
 
         public virtual void Draw(SpriteBatch batch)
         {
@@ -72,5 +86,11 @@ namespace DrCanoli
             get { return stunTime; }
             set { stunTime = value; }
         }
+
+		public FighterState FighterState
+		{
+			get { return fighterState; }
+			set { fighterState = value; }
+		}
     }
 }

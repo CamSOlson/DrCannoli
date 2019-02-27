@@ -23,6 +23,7 @@ namespace DrCanoli
         private double frameSeconds, acceleration; //time between frames, acceleration in unicorns per frameSeconds squared
         private const double JUMPUNICORNS = 2;
         private double elapsedTime; //every frame we call gameTime.ElapsedGameTime.TotalSeconds in game1 and call the property here
+        private int offset;
 
         public PhysManager(Player player, List<Enemy> enemies, int screenHeight)
         {
@@ -32,6 +33,7 @@ namespace DrCanoli
             frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
             acceleration = -9.81 * 2 * Math.Pow(frameSeconds, 2); //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
             elapsedTime = 0;
+            offset = player.Box.X;
         }
 
         private void CheckCollisions()
@@ -39,24 +41,30 @@ namespace DrCanoli
             //checks what hitboxes are touching simply for stopping movement, not damage
         }
 
-        private int IsHit()
+        public void Hit(Fighter Hitter, Fighter Target)
         {
-            //checks if the player is hit by an enemy and returns damage from enemy
-            Knockback(player);
-            return 0;
-        }
+            //If a hit lands on anyone, this method will be called
+            Target.Hp -= Hitter.Dmg;
 
-        private int EnemyHit()
-        {
-            //checks if any enemy has been hit by the player's weapon and returns damage
-            //assuming we use a foreach loop
-            foreach (Enemy e in enemyList)
+            if (Target.Hp > 0)
             {
-                Knockback(e);
+                Knockback(Target);
             }
-            return 0;
-        }
+            else
+            {
+                if(Target is Player)
+                {
+                    Player player = (Player)Target;
+                    player.Alive = false;
+                }
+                else
+                {
+                    Enemy enemy = (Enemy)Target;
+                    enemy.Active = false;
+                }
+            }
 
+        }
         /// <summary>
         /// calculates the change in the juping fighter's height based on horizontal velocity and constructed acceleration, applies changes
         /// </summary>
@@ -91,6 +99,8 @@ namespace DrCanoli
             //will override jumping state if hit midair, so this can use the same fields for moving back as jumping
             //also will simply calculate new position based on stored values and updates said values
             //calling this should set the fighter's state to jumping
+
+            //set player state machine to jumping
             if (Math.Abs(wasHit.VelocityX) < 1) //horizontal move speed
             {
                 if (wasHit.VelocityX >= 0)
@@ -120,6 +130,12 @@ namespace DrCanoli
         {
             get { return elapsedTime; }
             set { elapsedTime = value; }
+        }
+
+        public int Offset
+        {
+            get { return offset; }
+            set { offset = value; }
         }
     }
 }

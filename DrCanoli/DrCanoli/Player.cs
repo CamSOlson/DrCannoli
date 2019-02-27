@@ -14,6 +14,7 @@ namespace DrCanoli
         private int hp;
         private Weapon wep;
         private bool alive;
+		private FighterState fighterState;
         public int Hp
         {
             get { return hp; }
@@ -29,9 +30,10 @@ namespace DrCanoli
             get { return alive; }
             set { alive = value; }
         }
-        //player specific fields
+		//player specific fields
+		
 
-        public Player(Rectangle box, Texture2D sprite, Weapon weapon = null): base(box, sprite)
+        public Player(Rectangle box, Texture2D sprite, Weapon weapon = null, FighterState fighterState = FighterState.Idle): base(box, sprite)
         {
             wep = weapon;
             //100 is just a placeholder value, subject to change
@@ -40,16 +42,45 @@ namespace DrCanoli
         }
         public Player(int x, int y, int width, int height, Texture2D sprite) : this(new Rectangle(x, y, width, height), sprite) { }
 
-        public override void Draw(SpriteBatch batch)
+		/// <summary>
+		/// used to update player's state based on input
+		/// </summary>
+		public void Update()
+		{
+
+		}
+
+        public override void Draw(SpriteBatch batch)	//has states for drawing character based on state
         {
+			switch (fighterState)
+			{
+				case FighterState.IdleLeft:
+					//draw idle animation facing left
+					break;
+				case FighterState.IdleRight:
+					//draw idle animation facing right
+					break;
+				case FighterState.MoveLeft:
+					//draw walking left animation
+					break;
+				case FighterState.MoveRight:
+					//draw walking right animation
+					break;
+				case FighterState.MoveUp:
+					//draw walking up animation
+					break;
+				case FighterState.MoveDown:
+					//draw walking down animation
+					break;
+				case FighterState.Jump:
+					//draw jump animation
+					break;
+				case FighterState.Attack:
+					//draw attack animation
+					break;
+			}
+
             base.Draw(batch);
-        }
-        public void Hit(Enemy enemy)
-        {
-            //If a hit lands on the enemy
-            enemy.Hp -= wep.Damage;
-            if(enemy.Hp <= 0)
-                enemy.Active = false;
         }
     }
 }
