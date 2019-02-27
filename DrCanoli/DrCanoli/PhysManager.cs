@@ -23,6 +23,7 @@ namespace DrCanoli
         private double frameSeconds, acceleration; //time between frames, acceleration in unicorns per frameSeconds squared
         private const double JUMPUNICORNS = 2;
         private double elapsedTime; //every frame we call gameTime.ElapsedGameTime.TotalSeconds in game1 and call the property here
+        private int offset;
 
         public PhysManager(Player player, List<Enemy> enemies, int screenHeight)
         {
@@ -32,6 +33,7 @@ namespace DrCanoli
             frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
             acceleration = -9.81 * 2 * Math.Pow(frameSeconds, 2); //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
             elapsedTime = 0;
+            offset = player.Box.X;
         }
 
         private void CheckCollisions()
@@ -128,6 +130,12 @@ namespace DrCanoli
         {
             get { return elapsedTime; }
             set { elapsedTime = value; }
+        }
+
+        public int Offset
+        {
+            get { return offset; }
+            set { offset = value; }
         }
     }
 }
