@@ -19,11 +19,17 @@ namespace DrCanoli
         private Player player;
         //weapon reference too
         //private Weapon currentWeapon;
-        private int unicorns; //standard unit for window height
+        private static int unicorns; //standard unit for window height
         private double frameSeconds, acceleration; //time between frames, acceleration in unicorns per frameSeconds squared
         private const double JUMPUNICORNS = 2;
         private double elapsedTime; //every frame we call gameTime.ElapsedGameTime.TotalSeconds in game1 and call the property here
         private int offset;
+
+        //I needed to add this here so I could use it in my animations <3 -Love, Cam XOXOXOXO
+        public static int Unicorn
+        {
+            get { return unicorns; }
+        }
 
         public PhysManager(Player player, List<Enemy> enemies, List<Obstacle> obs, int screenHeight)
         {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DrCanoli
 {
-	enum GameState { Menu, Options, Level1, GameOver }	//states of game, more levels can be added as needed
+	enum GameState { Menu, Options, Game, GameOver }	//states of game, more levels can be added as needed
 
     /// <summary>
     /// This is the main type for your game. Neat! -Cam -Julien -Liam -Alex -Drew
@@ -32,6 +32,14 @@ namespace DrCanoli
         private List<Enemy> enemyList;
         private Player player;
         private PhysManager phys;
+
+        private static int cameraOffset; //Stores how far in the x direction the camera should be shifted. MUST be static to access in other classes
+
+        public static int CameraOffset
+        {
+            get { return cameraOffset; }
+            set { cameraOffset = value; }
+        }
 
         public Game1()
         {
@@ -109,7 +117,7 @@ namespace DrCanoli
 			{
 				case GameState.Menu:
 					if (menu.startClicked())			
-						gameState = GameState.Level1;	//goes to level1 state when start is clicked
+						gameState = GameState.Game;	//goes to level1 state when start is clicked
 					if (menu.optionsClicked())
 						gameState = GameState.Options;	//goes to options menu state when options is clicked
 					if (menu.exitClicked())
@@ -117,7 +125,7 @@ namespace DrCanoli
 					break;
 				case GameState.Options:
 					break;
-				case GameState.Level1:
+				case GameState.Game:
 					if (player.Hp <= 0)					//changes state to gameover screen when player hp reaches 0
 						gameState = GameState.GameOver;
 					break;
@@ -152,7 +160,7 @@ namespace DrCanoli
 						font, "This is the options menu", new Vector2(10, 10), Color.White
 						);
 					break;
-				case GameState.Level1:
+				case GameState.Game:
 					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
 					spriteBatch.DrawString(
 						font, "This is level1", new Vector2(10, 10), Color.White
