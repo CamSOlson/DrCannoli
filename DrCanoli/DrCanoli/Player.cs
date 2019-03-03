@@ -33,26 +33,31 @@ namespace DrCanoli
 		//player specific fields
 		
 
-        public Player(Rectangle box, Texture2D sprite, Weapon weapon = null, FighterState fighterState = FighterState.Idle): base(box, sprite)
+        public Player(Rectangle box, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.IdleRight): base(box, animSet)
         {
             wep = weapon;
             //100 is just a placeholder value, subject to change
             hp = 100;
             alive = true;
         }
-        public Player(int x, int y, int width, int height, Texture2D sprite) : this(new Rectangle(x, y, width, height), sprite) { }
+        public Player(int x, int y, int width, int height, AnimationSet animSet) : this(new Rectangle(x, y, width, height), animSet) { }
 
 		/// <summary>
 		/// used to update player's state based on input
 		/// </summary>
-		public void Update()
+		public override void Update()
 		{
+            animation.Update();
 
+            base.Update();
 		}
 
         public override void Draw(SpriteBatch batch)	//has states for drawing character based on state
         {
-			switch (fighterState)
+            //base.Draw(batch);
+            animation.Draw(Box, batch);
+
+            switch (fighterState)
 			{
 				case FighterState.IdleLeft:
 					//draw idle animation facing left
@@ -80,7 +85,6 @@ namespace DrCanoli
 					break;
 			}
 
-            base.Draw(batch);
         }
     }
 }

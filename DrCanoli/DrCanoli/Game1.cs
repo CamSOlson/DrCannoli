@@ -65,6 +65,7 @@ namespace DrCanoli
 			optionsButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 5 - 25, 100, 50);
 			exitButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 6 - 25, 100, 50);
 
+
 			base.Initialize();
 		}
 
@@ -90,8 +91,14 @@ namespace DrCanoli
 			optionsTexture = Content.Load<Texture2D>("options");	//loads button textures
 			exitTexture = Content.Load<Texture2D>("exit");
 			menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
-			font = Content.Load<SpriteFont>("placeholderFont");
-		}
+			font = Content.Load<SpriteFont>("placeholderText");
+
+            //Test player
+            Animation playerIdle = new Animation();
+            playerIdle.Load(Animation.CANNOLI_IDLE, Content);
+            AnimationSet playerAnimSet = new AnimationSet(playerIdle);
+            player = new Player(new Rectangle(0, 0, 50, 100), playerAnimSet);
+        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -126,14 +133,18 @@ namespace DrCanoli
 				case GameState.Options:
 					break;
 				case GameState.Game:
-					if (player.Hp <= 0)					//changes state to gameover screen when player hp reaches 0
-						gameState = GameState.GameOver;
-					break;
+                    if (player != null)
+                    {
+                        if (player.Hp <= 0)                 //changes state to gameover screen when player hp reaches 0
+                            gameState = GameState.GameOver;
+                        player.Update();
+                    }
+                    break;
 				case GameState.GameOver:
 					break;
 			}
 
-            phys.ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
+            //phys.ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
 
             base.Update(gameTime);
         }
@@ -165,6 +176,10 @@ namespace DrCanoli
 					spriteBatch.DrawString(
 						font, "This is level1", new Vector2(10, 10), Color.White
 						);
+                    if (player != null)
+                    {
+                        player.Draw(spriteBatch);
+                    }
 					break;
 				case GameState.GameOver:
 					GraphicsDevice.Clear(Color.Black);          //placeholder color for testing

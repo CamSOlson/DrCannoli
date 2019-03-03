@@ -17,7 +17,7 @@ namespace DrCanoli
         public void DrawHealthbar(SpriteBatch batch)
         {
             //The rectangle values are just temporary, draws a boss' healthbar
-            batch.Draw(Sprite, new Rectangle(0, 50, 600, 50), Color.White);
+            //batch.Draw(Sprite, new Rectangle(0, 50, 600, 50), Color.White);
         }
     }
 }

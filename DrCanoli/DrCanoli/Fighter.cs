@@ -19,10 +19,12 @@ namespace DrCanoli
         private double velocityY, velocityX, stunTime; //intended for just jumping and knockback but if yall have a use for it have at it, could be good for tracking horizontal movement for a jump?
 		private FighterState fighterState;
         //actual stat fields here I haven't really put much thought into how we store and calculate them
-        private Texture2D sprite;
         private bool stunned;
         private int hp;
         private int dmg;
+        protected Animation animation;
+        protected AnimationSet animationSet;
+
         public int Hp
         {
             get { return hp; }
@@ -33,21 +35,27 @@ namespace DrCanoli
             get { return dmg; }
             set { dmg = value; }
         }
-        public Fighter(Rectangle box, Texture2D sprite)
+        public Fighter(Rectangle box, AnimationSet animationSet)
         {
             this.box = box;
-            this.sprite = sprite;
+            this.animationSet = animationSet;
+            this.animation = animationSet.Idle;
             initialY = 0;
             velocityY = 0;
             velocityX = 0;
             stunned = false;
             stunTime = 0;
         }
-        public Fighter(int x, int y, int width, int height, Texture2D sprite, int hp, int dmg) : this(new Rectangle(x, y, width, height), sprite, hp, dmg) { }
+        public Fighter(int x, int y, int width, int height, int hp, int dmg) { }
+
+        public virtual void Update()
+        {
+            animation.Update();
+        }
 
         public virtual void Draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, box, Color.White);
+            animation.Draw(box, batch);
         }
 
         public bool Stunned
@@ -76,9 +84,15 @@ namespace DrCanoli
             get { return velocityY; }
             set { velocityY = value; }
         }
-        public Texture2D Sprite
+        public Animation CurrentAnimation
         {
-            get { return sprite; }
+            get { return animation; }
+            set { animation = value; }
+        }
+        public AnimationSet AnimationSet
+        {
+            get { return animationSet; }
+            set { animationSet = value; }
         }
 
         public double StunTime

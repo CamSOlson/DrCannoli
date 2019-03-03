@@ -7,6 +7,7 @@ using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using System.Reflection;
 
 namespace DrCanoli
 {
@@ -17,6 +18,10 @@ namespace DrCanoli
     /// </summary>
     class Animation
     {
+        //Some basic animation directories for quick loading
+        //public static string CANNOLI_IDLE = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "/Content/animations/cannoli/Idle.anim";
+        public static string CANNOLI_IDLE = AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\..\Content\animations\cannoli\Idle.anim";
+
         private Texture2D texture;
         private Rectangle[] frameBounds;
         private int[] updatesPerFrame;
@@ -69,10 +74,11 @@ namespace DrCanoli
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="sb"></param>
-        public void Draw(int x, int y, int width, int height, SpriteBatch sb)
+        public void Draw(Rectangle bounds, SpriteBatch sb)
         {
             sb.Draw(texture,
-                destinationRectangle: new Rectangle(x - Game1.CameraOffset - (width / 2), y - height, width, height),
+                sourceRectangle: frameBounds[currentFrame],
+                destinationRectangle: new Rectangle(bounds.X - Game1.CameraOffset, bounds.Y, bounds.Width, bounds.Height),
                 color: Color.White,
                 effects: spriteEffects);
         }
@@ -93,7 +99,7 @@ namespace DrCanoli
                 //Read first line (texture directory)
                 string data = input.ReadLine();
                 //Load texture
-                texture = content.Load<Texture2D>(data);
+                texture = content.Load<Texture2D>("textures/sprites/cannoli/Idle");
 
                 //Read second line (frame times and mappings)
                 data = input.ReadLine();
@@ -117,11 +123,11 @@ namespace DrCanoli
                     int x1 = 0;
                     Int32.TryParse(boundStringSplit[0], out x1);
                     int y1 = 0;
-                    Int32.TryParse(boundStringSplit[0], out y1);
+                    Int32.TryParse(boundStringSplit[1], out y1);
                     int x2 = 0;
-                    Int32.TryParse(boundStringSplit[1], out x2);
+                    Int32.TryParse(boundStringSplit[2], out x2);
                     int y2 = 0;
-                    Int32.TryParse(boundStringSplit[1], out y2);
+                    Int32.TryParse(boundStringSplit[3], out y2);
                     //Create new rectangle and store it in the frameBounds array
                     frameBounds[i] = new Rectangle(x1, y1, x2 - x1, y2 - y1);
 
@@ -142,5 +148,13 @@ namespace DrCanoli
             }
         }
 
+        /// <summary>
+        /// Set current frame and update counter to 0, effectively "resetting" the animation to the beginning
+        /// </summary>
+        public void Reset()
+        {
+            currentFrame = 0;
+            updates = 0;
+        }
     }
 }

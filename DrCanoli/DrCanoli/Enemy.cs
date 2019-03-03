@@ -25,7 +25,7 @@ namespace DrCanoli
         }
         // enemy specific fields
 
-        public Enemy(Rectangle box, Texture2D sprite, int hp, int dmg, int speed) : base(box, sprite, hp, dmg)
+        public Enemy(Rectangle box, Texture2D sprite, int hp, int dmg, int speed) : base(box.X, box.Y, box.Width, box.Height, hp, dmg)
         {
             this.speed = speed;
             active = true;
