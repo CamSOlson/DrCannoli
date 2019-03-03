@@ -33,6 +33,11 @@ namespace DrCanoli
         private Player player;
         private PhysManager phys;
 
+        // List of enemy positions
+        private List<int> levelData;
+        // Text file
+        private TextFile textFile;
+
         private static int cameraOffset; //Stores how far in the x direction the camera should be shifted. MUST be static to access in other classes
 
         public static int CameraOffset
@@ -65,6 +70,9 @@ namespace DrCanoli
 			optionsButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 5 - 25, 100, 50);
 			exitButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 6 - 25, 100, 50);
 
+            // Get data from text file
+            textFile = new TextFile("position.txt");
+            levelData = textFile.Read();
 
 			base.Initialize();
 		}
