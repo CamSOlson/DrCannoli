@@ -15,11 +15,7 @@ namespace DrCanoli
         private Weapon wep;
         private bool alive;
 		private FighterState fighterState;
-        public int Hp
-        {
-            get { return hp; }
-            set { hp = value; }
-        }
+
         public Weapon Wep
         {
             get { return wep; }

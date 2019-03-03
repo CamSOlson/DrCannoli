@@ -15,6 +15,7 @@ namespace DrCanoli
         Rectangle box;
         Texture2D sprite;
         protected int damage;
+        private bool swinging;
         public int Damage
         {
             get
@@ -46,6 +47,7 @@ namespace DrCanoli
             this.sprite = sprite;
             this.damage = damage;
             this.fireRate = fireRate;
+            swinging = false;
         }
 
         // Draw weapon
@@ -57,6 +59,18 @@ namespace DrCanoli
         public void Swing(int fireRate)
         {
             // Put swing animation code here
+        }
+
+        public bool Swinging
+        {
+            get { return swinging; }
+            set { swinging = value; }
+        }
+
+        public Rectangle Box
+        {
+            get { return box; }
+            set { box = value; }
         }
     }
 }
