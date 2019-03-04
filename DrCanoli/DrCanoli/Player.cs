@@ -250,11 +250,11 @@ namespace DrCanoli
 					//draw idle animation facing right
 					break;
 				case FighterState.MoveLeft:
-					Box = new Rectangle(Box.X - PhysManager.Unicorn, Box.Y, Box.Width, Box.Height);
+					Box = new Rectangle(Box.X - PhysManager.Unicorns, Box.Y, Box.Width, Box.Height);
 					//draw walking left animation
 					break;
 				case FighterState.MoveRight:
-					Box = new Rectangle(Box.X + PhysManager.Unicorn, Box.Y, Box.Width, Box.Height);
+					Box = new Rectangle(Box.X + PhysManager.Unicorns, Box.Y, Box.Width, Box.Height);
 					//draw walking right animation
 					break;
 				case FighterState.Jump:

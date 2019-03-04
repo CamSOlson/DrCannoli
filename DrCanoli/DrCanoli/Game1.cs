@@ -140,11 +140,15 @@ namespace DrCanoli
 				case GameState.Options:
 					break;
 				case GameState.Game:
-                    if (player.Alive == false)
-                    {               //changes state to gameover screen when player hp reaches 0
-                        gameState = GameState.GameOver;
-                        player.Update();
-                    }
+					if (player.Alive == false)
+					{               //changes state to gameover screen when player hp reaches 0
+						gameState = GameState.GameOver;
+						player.Update();
+					}
+					else
+					{
+						player.Update();
+					}
                     break;
 				case GameState.GameOver:
 					break;
