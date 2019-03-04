@@ -32,6 +32,7 @@ namespace DrCanoli
         private List<Enemy> enemyList;
         private Player player;
         private PhysManager phys;
+        
 
         // List of enemy positions
         private List<List<string>> levelData;
@@ -50,6 +51,11 @@ namespace DrCanoli
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Animation playerIdle = new Animation();
+            playerIdle.Load(Animation.CANNOLI_IDLE, Content);
+            AnimationSet playerAnimSet = new AnimationSet(playerIdle);
+            player = new Player(new Rectangle(0, 0, 50, 100), playerAnimSet);
+            
         }
 
         /// <summary>
@@ -65,7 +71,7 @@ namespace DrCanoli
 
             drawables = new List<IDrawn>();
             enemyList = new List<Enemy>();
-
+			//menu buttons
 			startButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 4 - 25, 100, 50);
 			optionsButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 5 - 25, 100, 50);
 			exitButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 6 - 25, 100, 50);
@@ -73,8 +79,9 @@ namespace DrCanoli
             // Get data from text file
             textFile = new TextFile("Content/positions.txt");
             levelData = textFile.Read();
-
-			base.Initialize();
+            
+            
+            base.Initialize();
 		}
 
         /// <summary>
@@ -101,10 +108,7 @@ namespace DrCanoli
 			font = Content.Load<SpriteFont>("placeholderText");
 
             //Test player
-            Animation playerIdle = new Animation();
-            playerIdle.Load(Animation.CANNOLI_IDLE, Content);
-            AnimationSet playerAnimSet = new AnimationSet(playerIdle);
-            player = new Player(new Rectangle(0, 0, 50, 100), playerAnimSet);
+            
         }
 
         /// <summary>
@@ -144,6 +148,30 @@ namespace DrCanoli
                     {               //changes state to gameover screen when player hp reaches 0
                         gameState = GameState.GameOver;
                         player.Update();
+                    }
+                    for(int c = 0; c < levelData.Count; c++)
+                    {
+                        for(int d = 0; d < levelData[c].Count; d++)
+                        {
+                            int x = 10 * d;
+                            int y;
+                            if(c == 0)
+                            {
+                                y = 10;
+                            }
+                            else
+                            {
+                                y = GraphicsDevice.Viewport.Height / 6 * c;
+                            }
+                            if(levelData[c][d] == "X")
+                            {
+                                player.Box = new Rectangle(x, y, 50, 100);
+                            }
+                            else if(levelData[c][d] == "E")
+                            {
+                                enemyList.Add(new Enemy(new Rectangle(x, y, 50, 100), playerAnimSet, 50, 10, 5));
+                            }
+                        }
                     }
                     break;
 				case GameState.GameOver:
