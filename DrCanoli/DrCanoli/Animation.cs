@@ -21,6 +21,7 @@ namespace DrCanoli
         //Some basic animation directories for quick loading
         //public static string CANNOLI_IDLE = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "/Content/animations/cannoli/Idle.anim";
         public static string CANNOLI_IDLE = AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\..\Content\animations\cannoli\Idle.anim";
+        public static string CANNOLI_WALKING = AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\..\Content\animations\cannoli\Walking.anim";
 
         private Texture2D texture;
         private Rectangle[] frameBounds;
@@ -28,7 +29,7 @@ namespace DrCanoli
         private int currentFrame;
         private int updates;
         private int frames;
-        private bool flipped;
+        private bool facingRight;
         private SpriteEffects spriteEffects;
 
         public Rectangle this[int frame]
@@ -39,10 +40,10 @@ namespace DrCanoli
         {
             get { return frames; }
         }
-        public bool Flipped
+        public bool FacingRight
         {
-            get { return flipped; }
-            set { flipped = value; }
+            get { return facingRight; }
+            set { facingRight = value; }
         }
 
         public Animation()
@@ -65,6 +66,16 @@ namespace DrCanoli
             if (currentFrame >= frames)
             {
                 currentFrame = 0;
+            }
+
+            //Update sprite effects if it needs to be flipped
+            if (FacingRight && spriteEffects.Equals(SpriteEffects.FlipHorizontally))
+            {
+                spriteEffects = SpriteEffects.None;
+            }
+            else if (!FacingRight && !spriteEffects.Equals(SpriteEffects.FlipHorizontally))
+            {
+                spriteEffects = SpriteEffects.FlipHorizontally;
             }
         }
 
@@ -155,6 +166,7 @@ namespace DrCanoli
         {
             currentFrame = 0;
             updates = 0;
+            facingRight = true;
         }
     }
 }
