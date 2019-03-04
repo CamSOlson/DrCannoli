@@ -160,6 +160,19 @@ namespace DrCanoli
         }
 
         /// <summary>
+        /// Get a new animation from the current dir
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static Animation LoadAnimation(String dir, ContentManager content)
+        {
+            Animation anim = new Animation();
+            anim.Load(dir, content);
+            return anim;
+        }
+
+        /// <summary>
         /// Set current frame and update counter to 0, effectively "resetting" the animation to the beginning
         /// </summary>
         public void Reset()
