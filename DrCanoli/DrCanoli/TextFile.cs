@@ -21,28 +21,34 @@ namespace DrCanoli
                 fileName = value;
             }
         }
-        private List<int> positionList;
+        private List<List<string>> positionList;
 
         public TextFile(string fileName)
         {
             this.fileName = fileName;
         }
 
-        public List<int> Read()
+        public List<List<string>> Read()
         {
             try
             {
                 StreamReader reader = new StreamReader(fileName);
                 string lineOfText = null;
-                positionList = new List<int>();
+                string element = null;
+                positionList = new List<List<string>>();
                 while ((lineOfText = reader.ReadLine()) != null)
                 {
-                    positionList.Add(int.Parse(lineOfText));
+                    List<string> row = new List<string>();
+                    while ((element = reader.Read().ToString()) != null)
+                    {
+                        row.Add(element);
+                    }
+                    positionList.Add(row);
                 }
             }
             catch(Exception e)
             {
-                Console.WriteLine("File not found");
+                Console.WriteLine("File error");
             }
 
             return positionList;
