@@ -12,5 +12,6 @@ namespace DrCanoli
     interface IDrawn
     {
         void Draw(SpriteBatch batch);
+        void Update();
     }
 }

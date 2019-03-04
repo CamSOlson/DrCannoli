@@ -37,19 +37,14 @@ namespace DrCanoli
 		//player specific fields
 
 
-		public Player(Rectangle box, AnimationSet animSet, Weapon weapon = null): base(box, animSet)
+		public Player(Rectangle box, int hp, int dmg, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.IdleRight, bool facingRight = true): base(box, hp, dmg, animSet)
         {
             wep = weapon;
             //100 is just a placeholder value, subject to change
             hp = 100;
             alive = true;
-			fighterState = FighterState.IdleRight;
-			facingRight = true;
-			movingUp = false;
-			movingDown = false;
-
-		}
-        public Player(int x, int y, int width, int height, AnimationSet animSet) : this(new Rectangle(x, y, width, height), animSet) { }
+        }
+        public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet) : this(new Rectangle(x, y, width, height), hp, dmg, animSet) { }
 
 		/// <summary>
 		/// used to update player's state based on input
