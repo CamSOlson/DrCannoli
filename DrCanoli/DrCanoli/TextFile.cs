@@ -30,12 +30,19 @@ namespace DrCanoli
 
         public List<int> Read()
         {
-            StreamReader reader = new StreamReader(fileName);
-            string lineOfText = null;
-            positionList = new List<int>();
-            while((lineOfText = reader.ReadLine()) != null)
+            try
             {
-                positionList.Add(int.Parse(lineOfText));
+                StreamReader reader = new StreamReader(fileName);
+                string lineOfText = null;
+                positionList = new List<int>();
+                while ((lineOfText = reader.ReadLine()) != null)
+                {
+                    positionList.Add(int.Parse(lineOfText));
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("File not found");
             }
 
             return positionList;

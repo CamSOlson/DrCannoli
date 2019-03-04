@@ -44,6 +44,9 @@
 /processorParam:TextureFormat=Compressed
 /build:placeholderText.spritefont
 
+#begin positions.txt
+/copy:positions.txt
+
 #begin start.png
 /importer:TextureImporter
 /processor:TextureProcessor
