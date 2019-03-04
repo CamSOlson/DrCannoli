@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 namespace DrCanoli
 {
 
-	enum FighterState { IdleRight, IdleLeft, MoveRight, MoveLeft, MoveUp, MoveDown, Attack, Jump }
+	enum FighterState { IdleRight, IdleLeft, MoveRight, MoveLeft, Attack, Jump }
     class Fighter: IDrawn
     {
         //fields
