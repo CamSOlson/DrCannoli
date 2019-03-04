@@ -15,6 +15,7 @@ namespace DrCanoli
         private Weapon wep;
         private bool alive;
 		private FighterState fighterState;
+		private bool facingRight;	//true if last idle state was right, false if last idle state was left
 
         public Weapon Wep
         {
@@ -26,10 +27,15 @@ namespace DrCanoli
             get { return alive; }
             set { alive = value; }
         }
+		public FighterState FighterState
+		{
+			get { return fighterState; }
+			set { fighterState = value; }
+		}
 		//player specific fields
-		
 
-        public Player(Rectangle box, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.IdleRight): base(box, animSet)
+
+		public Player(Rectangle box, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.IdleRight, bool facingRight = true): base(box, animSet)
         {
             wep = weapon;
             //100 is just a placeholder value, subject to change
@@ -44,13 +50,212 @@ namespace DrCanoli
 		public override void Update()
 		{
             animation.Update();
-
-            base.Update();
+			KeyboardState kbState = Keyboard.GetState();
+			switch (fighterState)
+			{
+				case FighterState.IdleLeft:
+					if (kbState.IsKeyDown(Keys.A))
+						fighterState = FighterState.MoveLeft;
+					else if (kbState.IsKeyDown(Keys.D))
+					{
+						fighterState = FighterState.IdleRight;
+						facingRight = true;
+					}
+					else if (kbState.IsKeyDown(Keys.W))
+						fighterState = FighterState.MoveUp;
+					else if (kbState.IsKeyDown(Keys.S))
+						fighterState = FighterState.MoveDown;
+					else if (kbState.IsKeyDown(Keys.Space))
+						fighterState = FighterState.Jump;
+					else if (kbState.IsKeyDown(Keys.P))
+						fighterState = FighterState.Attack;
+					else
+					{
+						fighterState = FighterState.IdleLeft;
+						facingRight = false;
+					}
+					break;
+				case FighterState.IdleRight:
+					if (kbState.IsKeyDown(Keys.A))
+					{
+						fighterState = FighterState.IdleLeft;
+						facingRight = false;
+					}
+					else if (kbState.IsKeyDown(Keys.D))
+						fighterState = FighterState.MoveRight;
+					else if (kbState.IsKeyDown(Keys.W))
+						fighterState = FighterState.MoveUp;
+					else if (kbState.IsKeyDown(Keys.S))
+						fighterState = FighterState.MoveDown;
+					else if (kbState.IsKeyDown(Keys.Space))
+						fighterState = FighterState.Jump;
+					else if (kbState.IsKeyDown(Keys.P))
+						fighterState = FighterState.Attack;
+					else
+					{
+						fighterState = FighterState.IdleRight;
+						facingRight = true;
+					}
+					break;
+				case FighterState.MoveLeft:
+					if (kbState.IsKeyDown(Keys.A))
+						fighterState = FighterState.MoveLeft;
+					else if (kbState.IsKeyDown(Keys.D))
+					{
+						fighterState = FighterState.IdleRight;
+						facingRight = true;
+					}
+					else if (kbState.IsKeyDown(Keys.W))
+						fighterState = FighterState.MoveUp;
+					else if (kbState.IsKeyDown(Keys.S))
+						fighterState = FighterState.MoveDown;
+					else if (kbState.IsKeyDown(Keys.Space))
+						fighterState = FighterState.Jump;
+					else if (kbState.IsKeyDown(Keys.P))
+						fighterState = FighterState.Attack;
+					else
+					{
+						fighterState = FighterState.IdleLeft;
+						facingRight = false;
+					}
+					break;
+				case FighterState.MoveRight:
+					if (kbState.IsKeyDown(Keys.A))
+					{
+						fighterState = FighterState.IdleLeft;
+						facingRight = false;
+					}
+					else if (kbState.IsKeyDown(Keys.D))
+						fighterState = FighterState.MoveRight;
+					else if (kbState.IsKeyDown(Keys.W))
+						fighterState = FighterState.MoveUp;
+					else if (kbState.IsKeyDown(Keys.S))
+						fighterState = FighterState.MoveDown;
+					else if (kbState.IsKeyDown(Keys.Space))
+						fighterState = FighterState.Jump;
+					else if (kbState.IsKeyDown(Keys.P))
+						fighterState = FighterState.Attack;
+					else
+					{
+						fighterState = FighterState.IdleRight;
+						facingRight = true;
+					}
+					break;
+				case FighterState.MoveUp:
+					if (kbState.IsKeyDown(Keys.A))
+					{
+						fighterState = FighterState.IdleLeft;
+						facingRight = false;
+					}
+					else if (kbState.IsKeyDown(Keys.D))
+					{
+						fighterState = FighterState.IdleRight;
+						facingRight = true;
+					}
+					else if (kbState.IsKeyDown(Keys.W))
+						fighterState = FighterState.MoveUp;
+					else if (kbState.IsKeyDown(Keys.S))
+						fighterState = FighterState.MoveDown;
+					else if (kbState.IsKeyDown(Keys.Space))
+						fighterState = FighterState.Jump;
+					else if (kbState.IsKeyDown(Keys.P))
+						fighterState = FighterState.Attack;
+					else
+					{
+						if (facingRight == true)
+							fighterState = FighterState.IdleRight;
+						else
+							fighterState = FighterState.IdleLeft;
+					}
+					break;
+				case FighterState.MoveDown:
+					if (kbState.IsKeyDown(Keys.A))
+					{
+						fighterState = FighterState.IdleLeft;
+						facingRight = false;
+					}
+					else if (kbState.IsKeyDown(Keys.D))
+					{
+						fighterState = FighterState.IdleRight;
+						facingRight = true;
+					}
+					else if (kbState.IsKeyDown(Keys.W))
+						fighterState = FighterState.MoveUp;
+					else if (kbState.IsKeyDown(Keys.S))
+						fighterState = FighterState.MoveDown;
+					else if (kbState.IsKeyDown(Keys.Space))
+						fighterState = FighterState.Jump;
+					else if (kbState.IsKeyDown(Keys.P))
+						fighterState = FighterState.Attack;
+					else
+					{
+						if (facingRight == true)
+							fighterState = FighterState.IdleRight;
+						else
+							fighterState = FighterState.IdleLeft;
+					}
+					break;
+				case FighterState.Jump:
+					if (kbState.IsKeyDown(Keys.A))
+					{
+						fighterState = FighterState.IdleLeft;
+						facingRight = false;
+					}
+					else if (kbState.IsKeyDown(Keys.D))
+					{
+						fighterState = FighterState.IdleRight;
+						facingRight = true;
+					}
+					else if (kbState.IsKeyDown(Keys.W))
+						fighterState = FighterState.MoveUp;
+					else if (kbState.IsKeyDown(Keys.S))
+						fighterState = FighterState.MoveDown;
+					else if (kbState.IsKeyDown(Keys.Space))
+						fighterState = FighterState.Jump;
+					else if (kbState.IsKeyDown(Keys.P))
+						fighterState = FighterState.Attack;
+					else
+					{
+						if (facingRight == true)
+							fighterState = FighterState.IdleRight;
+						else
+							fighterState = FighterState.IdleLeft;
+					}
+					break;
+				case FighterState.Attack:
+					if (kbState.IsKeyDown(Keys.A))
+					{
+						fighterState = FighterState.IdleLeft;
+						facingRight = false;
+					}
+					else if (kbState.IsKeyDown(Keys.D))
+					{
+						fighterState = FighterState.IdleRight;
+						facingRight = true;
+					}
+					else if (kbState.IsKeyDown(Keys.W))
+						fighterState = FighterState.MoveUp;
+					else if (kbState.IsKeyDown(Keys.S))
+						fighterState = FighterState.MoveDown;
+					else if (kbState.IsKeyDown(Keys.Space))
+						fighterState = FighterState.Jump;
+					else if (kbState.IsKeyDown(Keys.P))
+						fighterState = FighterState.Attack;
+					else
+					{
+						if (facingRight == true)
+							fighterState = FighterState.IdleRight;
+						else
+							fighterState = FighterState.IdleLeft;
+					}
+					break;
+			}
+			base.Update();
 		}
 
         public override void Draw(SpriteBatch batch)	//has states for drawing character based on state
         {
-            //base.Draw(batch);
+            base.Draw(batch);
             animation.Draw(Box, batch);
 
             switch (fighterState)
