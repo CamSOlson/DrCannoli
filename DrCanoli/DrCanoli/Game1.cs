@@ -34,7 +34,7 @@ namespace DrCanoli
         private PhysManager phys;
 
         // List of enemy positions
-        private List<int> levelData;
+        private List<List<string>> levelData;
         // Text file
         private TextFile textFile;
 
