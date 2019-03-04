@@ -51,13 +51,16 @@ namespace DrCanoli
 		/// </summary>
 		public override void Update()
 		{
-            animation.Update();
             if(hp <= 0)
             {
                 alive = false;
             }
             base.Update();
 			KeyboardState kbState = Keyboard.GetState();
+
+
+            //PLEASE CONDENSE THIS MESS PLEASE!!!!!! I'M ITALIAN BUT THIS IS TOO MUCH SPAGHETTI!
+            
 			switch (fighterState)
 			{
 				case FighterState.IdleLeft:
@@ -229,36 +232,15 @@ namespace DrCanoli
 						movingDown = false;
 					break;
 			}
-			base.Update();
+
+            base.Update();
 		}
 
         public override void Draw(SpriteBatch batch)	//has states for drawing character based on state
         {
+            //NO state updating here. Only things that DIRECTLY draw to the screen
+
             base.Draw(batch);
-            animation.Draw(Box, batch);
-            switch (fighterState)
-			{
-				case FighterState.IdleLeft:
-					//draw idle animation facing left
-					break;
-				case FighterState.IdleRight:
-					//draw idle animation facing right
-					break;
-				case FighterState.MoveLeft:
-					Box = new Rectangle(Box.X - PhysManager.Unicorns, Box.Y, Box.Width, Box.Height);
-					//draw walking left animation
-					break;
-				case FighterState.MoveRight:
-					Box = new Rectangle(Box.X + PhysManager.Unicorns, Box.Y, Box.Width, Box.Height);
-					//draw walking right animation
-					break;
-				case FighterState.Jump:
-					//draw jump animation
-					break;
-				case FighterState.Attack:
-					//draw attack animation
-					break;
-			}
 
         }
     }

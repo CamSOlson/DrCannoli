@@ -48,20 +48,32 @@ namespace DrCanoli
 		public void Draw(SpriteBatch spriteBatch)
 		{
 			mouseState = Mouse.GetState();
+
+            //If I see code without curly braces like this was again i will throw the both of us off eastman
 			if (startButton.Contains(mouseState.Position))
 			{
 				startColor = Color.Gray;
 			}
-			else
-				startColor = Color.White;
-			if (optionsButton.Contains(mouseState.Position))	//changes button color if moused over
-				optionsColor = Color.Gray;
-			else
-				optionsColor = Color.White;
-			if (exitButton.Contains(mouseState.Position))
-				exitColor = Color.Gray;
-			else
-				exitColor = Color.White;
+            else
+            {
+                startColor = Color.White;
+            }
+            if (optionsButton.Contains(mouseState.Position))    //changes button color if moused over
+            {
+                optionsColor = Color.Gray;
+            }
+            else
+            {
+                optionsColor = Color.White;
+            }
+            if (exitButton.Contains(mouseState.Position))
+            {
+                exitColor = Color.Gray;
+            }
+            else
+            {
+                exitColor = Color.White;
+            }
 
 			spriteBatch.Draw(           //draws start button
 				startTexture,
@@ -88,10 +100,16 @@ namespace DrCanoli
 		/// <returns>true if clicked, false otherwise</returns>
 		public bool startClicked()		//tells game1 if start button has been clicked
 		{
-			if (startButton.Contains(mouseState.Position))
-				if (mouseState.LeftButton == ButtonState.Pressed)
-					return true;
-			return false;
+            //I fixed this for u
+            return (startButton.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed);
+
+            /*
+			if (startButton.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
+            {
+                return true;
+            }
+            return false;
+            */
 		}
 
 		/// <summary>
@@ -100,22 +118,32 @@ namespace DrCanoli
 		/// <returns>true if clicked, false otherwise</returns>
 		public bool optionsClicked()      //tells game1 if options button has been clicked
 		{
-			if (optionsButton.Contains(mouseState.Position))
-				if (mouseState.LeftButton == ButtonState.Pressed)
-					return true;
-			return false;
-		}
+            return (optionsButton.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed);
 
-		/// <summary>
-		/// tells Game1 if exit button has been clicked
-		/// </summary>
-		/// <returns>true if clicked, false otherwise</returns>
-		public bool exitClicked()      //tells game1 if exit button has been clicked
-		{
-			if (exitButton.Contains(mouseState.Position))
-				if (mouseState.LeftButton == ButtonState.Pressed)
-					return true;
+            /*
+            if (optionsButton.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
+            {
+                return true;
+            }
 			return false;
-		}
-	}
+            */
+        }
+
+        /// <summary>
+        /// tells Game1 if exit button has been clicked
+        /// </summary>
+        /// <returns>true if clicked, false otherwise</returns>
+        public bool exitClicked()      //tells game1 if exit button has been clicked
+		{
+            return (exitButton.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed);
+
+            /*
+            if (exitButton.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
+            {
+                return true;
+            }
+			return false;
+            */
+        }
+    }
 }

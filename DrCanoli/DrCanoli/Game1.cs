@@ -50,12 +50,7 @@ namespace DrCanoli
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            Animation playerIdle = new Animation();
-            playerIdle.Load(Animation.CANNOLI_IDLE, Content);
-            AnimationSet playerAnimSet = new AnimationSet(playerIdle);
-            player = new Player(new Rectangle(0, 0, 50, 100), playerAnimSet);
-            
+            Content.RootDirectory = "Content";            
         }
 
         /// <summary>
@@ -110,8 +105,9 @@ namespace DrCanoli
             //Test player
             AnimationSet playerAnimSet = new AnimationSet(
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
-            player = new Player(new Rectangle(0, 0, PhysManager.Unicorns, PhysManager.Unicorns * 2), playerAnimSet);
+                Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
+                );
+            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet);
         }
 
         /// <summary>
@@ -147,13 +143,16 @@ namespace DrCanoli
 				case GameState.Options:
 					break;
 				case GameState.Game:
-					if (player.Alive == false)
+                    //ALWAYS update player, no ifs/elses about it
+                    player.Update();
+
+                    if (player.Alive == false)
 					{               //changes state to gameover screen when player hp reaches 0
 						gameState = GameState.GameOver;
-						player.Update();
 					}
-					else
-						player.Update();
+
+                    //This should not be in update. This will bork EVERYTHING
+                    /*
                     for(int c = 0; c < levelData.Count; c++)
                     {
                         for(int d = 0; d < levelData[c].Count; d++)
@@ -168,16 +167,20 @@ namespace DrCanoli
                             {
                                 y = GraphicsDevice.Viewport.Height / 6 * c;
                             }
-                            if(levelData[c][d] == "X")
+                            if(levelData[c][d] == 'X')
                             {
                                 player.Box = new Rectangle(x, y, 50, 100);
                             }
-                            else if(levelData[c][d] == "E")
+                            else if(levelData[c][d] == 'E')
                             {
-                                enemyList.Add(new Enemy(new Rectangle(x, y, 50, 100), playerAnimSet, 50, 10, 5));
+                                AnimationSet animSet = new AnimationSet(
+                                    Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+                                    Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
+                                enemyList.Add(new Enemy(new Rectangle(x, y, 50, 100), 50, 10, animSet));
                             }
                         }
                     }
+                    */
                     break;
 				case GameState.GameOver:
 					break;
@@ -199,6 +202,10 @@ namespace DrCanoli
 			// TODO: Add your drawing code here
 			spriteBatch.Begin();
 
+
+            //Eventually, all of these should/will be moved to individual class files to make it more organized
+
+
 			switch (gameState)  //used for drawing screen based on gameState
 			{
 				case GameState.Menu:            //put all menu draw methods here
@@ -212,11 +219,17 @@ namespace DrCanoli
 					break;
 				case GameState.Game:
 					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
-					spriteBatch.DrawString(
+
+                    spriteBatch.DrawString(
 						font, "It's class time", new Vector2(10, 10), Color.White
 						);
+                    
                     if (player != null)
                     {
+
+                        spriteBatch.DrawString(
+                            font, "It's class time", new Vector2(10, 100), Color.Blue
+                            );
                         player.Draw(spriteBatch);
                     }
 					break;
