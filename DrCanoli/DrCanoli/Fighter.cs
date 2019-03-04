@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 namespace DrCanoli
 {
 
-	enum FighterState { IdleRight, IdleLeft, MoveRight, MoveLeft, MoveUp, MoveDown, Attack, Jump }
+	enum FighterState { IdleRight, IdleLeft, MoveRight, MoveLeft, Attack, Jump }
     class Fighter: IDrawn
     {
         //fields
@@ -35,7 +35,7 @@ namespace DrCanoli
             get { return dmg; }
             set { dmg = value; }
         }
-        public Fighter(Rectangle box, AnimationSet animationSet)
+        public Fighter(Rectangle box, int hp, int damage, AnimationSet animationSet)
         {
             this.box = box;
             this.animationSet = animationSet;
@@ -46,7 +46,7 @@ namespace DrCanoli
             stunned = false;
             stunTime = 0;
         }
-        public Fighter(int x, int y, int width, int height, int hp, int dmg) { }
+        public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet): this(new Rectangle(x,y,width,height), hp, dmg, animationSet) { }
 
         public virtual void Update()
         {

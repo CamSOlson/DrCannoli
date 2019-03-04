@@ -50,6 +50,11 @@ namespace DrCanoli
             swinging = false;
         }
 
+        public virtual void Draw()
+        {
+            //animation.Update();
+        }
+
         // Draw weapon
         public virtual void Draw(SpriteBatch batch)
         {

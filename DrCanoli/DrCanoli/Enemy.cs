@@ -25,13 +25,12 @@ namespace DrCanoli
         }
         // enemy specific fields
 
-        public Enemy(Rectangle box, Texture2D sprite, int hp, int dmg, int speed) : base(box.X, box.Y, box.Width, box.Height, hp, dmg)
+        public Enemy(Rectangle box, int hp, int dmg, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.IdleRight, bool facingRight = true) : base(box, hp, dmg, animSet)
         {
-            this.speed = speed;
+            //100 is just a placeholder value, subject to change
             active = true;
-            //initialize enemy specific fields
         }
-        public Enemy(int x, int y, int width, int height, Texture2D sprite, int hp, int speed, int dmg) : this(new Rectangle(x, y, width, height), sprite, hp, speed, dmg) { }
+        public Enemy(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet) : this(new Rectangle(x, y, width, height), hp, dmg, animSet) { }
 
         public override void Draw(SpriteBatch batch)
         {
