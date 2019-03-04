@@ -133,23 +133,32 @@ namespace DrCanoli
 			switch (gameState)	//used for transitioning between gameStates
 			{
 				case GameState.Menu:
-					if (menu.startClicked())			
-						gameState = GameState.Game;	//goes to level1 state when start is clicked
-					if (menu.optionsClicked())
-						gameState = GameState.Options;	//goes to options menu state when options is clicked
-					if (menu.exitClicked())
-						this.Exit();					//closes game when exit is clicked
-					break;
+					if (menu.startClicked())
+                    {
+                        gameState = GameState.Game;	//goes to level1 state when start is clicked
+                    }
+                    if (menu.optionsClicked())
+                    {
+                        gameState = GameState.Options;	//goes to options menu state when options is clicked
+                    }
+                    if (menu.exitClicked())
+                    {
+                        this.Exit();					//closes game when exit is clicked
+                    }
+                    break;
 				case GameState.Options:
 					break;
 				case GameState.Game:
                     //ALWAYS update player, no ifs/elses about it
                     player.Update();
 
-                    if (player.Alive == false)
+                    //This borks the level
+                    /*
+                    if (!player.Alive)
 					{               //changes state to gameover screen when player hp reaches 0
 						gameState = GameState.GameOver;
 					}
+                    */
 
                     //This should not be in update. This will bork EVERYTHING
                     /*
@@ -226,10 +235,6 @@ namespace DrCanoli
                     
                     if (player != null)
                     {
-
-                        spriteBatch.DrawString(
-                            font, "It's class time", new Vector2(10, 100), Color.Blue
-                            );
                         player.Draw(spriteBatch);
                     }
 					break;

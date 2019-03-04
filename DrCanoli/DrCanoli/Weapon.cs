@@ -50,6 +50,11 @@ namespace DrCanoli
             swinging = false;
         }
 
+        public void Update()
+        {
+
+        }
+
         public virtual void Draw()
         {
             //animation.Update();

@@ -22,6 +22,11 @@ namespace DrCanoli
 
         public Obstacle(int x, int y, int width, int height, Texture2D sprite) : this(new Rectangle(x, y, width, height), sprite) { }
 
+        public void Update()
+        {
+
+        }
+
         public void Draw(SpriteBatch batch)
         {
             //draw method

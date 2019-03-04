@@ -52,10 +52,9 @@ namespace DrCanoli
         }
 
         // Class constructor
-        public Student(Rectangle box, Texture2D sprite, int hp, int speed, int dmg) : base(box, sprite, hp, speed, dmg)
+        public Student(Rectangle box, AnimationSet animSet, int hp, int speed, int dmg) : base(box, hp, dmg, animSet)
         {
             this.box = box;
-            this.sprite = sprite;
             this.hp = hp;
             this.speed = speed;
             this.dmg = dmg;

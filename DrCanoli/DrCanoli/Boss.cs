@@ -10,7 +10,7 @@ namespace DrCanoli
 {
     class Boss : Enemy
     {
-        public Boss(Rectangle box, Texture2D sprite, int hp, int speed, int dmg) : base(box, sprite, hp, speed, dmg)
+        public Boss(Rectangle box, AnimationSet animSet, int hp, int speed, int dmg) : base(box, hp, dmg, animSet)
         {
 
         }
