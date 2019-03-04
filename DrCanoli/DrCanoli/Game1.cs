@@ -71,7 +71,7 @@ namespace DrCanoli
 			exitButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 6 - 25, 100, 50);
 
             // Get data from text file
-            textFile = new TextFile("position.txt");
+            textFile = new TextFile("Content/positions.txt");
             levelData = textFile.Read();
 
 			base.Initialize();
