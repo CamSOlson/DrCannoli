@@ -257,7 +257,6 @@ namespace DrCanoli
         {
             base.Draw(batch);
             animation.Draw(Box, batch);
-
             switch (fighterState)
 			{
 				case FighterState.IdleLeft:

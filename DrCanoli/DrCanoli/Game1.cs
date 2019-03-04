@@ -176,13 +176,13 @@ namespace DrCanoli
 				case GameState.Options:
 					GraphicsDevice.Clear(Color.LawnGreen);      //placeholder color for testing
 					spriteBatch.DrawString(
-						font, "This is the options menu", new Vector2(10, 10), Color.White
+						font, "Options", new Vector2(10, 10), Color.White
 						);
 					break;
 				case GameState.Game:
 					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
 					spriteBatch.DrawString(
-						font, "This is level1", new Vector2(10, 10), Color.White
+						font, "It's class time", new Vector2(10, 10), Color.White
 						);
                     if (player != null)
                     {
@@ -192,7 +192,7 @@ namespace DrCanoli
 				case GameState.GameOver:
 					GraphicsDevice.Clear(Color.Black);          //placeholder color for testing
 					spriteBatch.DrawString(
-						font, "This is the Game Over Screen", new Vector2(10, 10), Color.White
+						font, "Your body is limp, lifeless wholly. You are dead, Dr. Cannoli", new Vector2(10, 10), Color.White
 						);
 					break;
 			}
