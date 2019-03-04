@@ -21,27 +21,27 @@ namespace DrCanoli
                 fileName = value;
             }
         }
-        private List<List<string>> positionList;
+        private List<List<char>> positionList;
 
         public TextFile(string fileName)
         {
             this.fileName = fileName;
         }
 
-        public List<List<string>> Read()
+        public List<List<char>> Read()
         {
             try
             {
                 StreamReader reader = new StreamReader(fileName);
                 string lineOfText = null;
                 string element = null;
-                positionList = new List<List<string>>();
+                positionList = new List<List<char>>();
                 while ((lineOfText = reader.ReadLine()) != null)
                 {
-                    List<string> row = new List<string>();
-                    while ((element = reader.Read().ToString()) != null)
+                    List<char> row = new List<char>();
+                    foreach(char ch in lineOfText)
                     {
-                        row.Add(element);
+                        row.Add(ch);
                     }
                     positionList.Add(row);
                 }

@@ -35,7 +35,7 @@ namespace DrCanoli
         
 
         // List of enemy positions
-        private List<List<string>> levelData;
+        private List<List<char>> levelData;
         // Text file
         private TextFile textFile;
 
