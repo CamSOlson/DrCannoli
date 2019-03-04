@@ -86,7 +86,6 @@ namespace DrCanoli
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 			//uncomment these when we can fully initialize player
-			//player = new Player()
 			//phys = new PhysManager(player, enemyList, GraphicsDevice.Viewport.Height); //change viewport to max resolution ingame
 			//drawables.Add(player);
 			foreach (Enemy e in enemyList)
@@ -141,10 +140,9 @@ namespace DrCanoli
 				case GameState.Options:
 					break;
 				case GameState.Game:
-                    if (player != null)
-                    {
-                        if (player.Hp <= 0)                 //changes state to gameover screen when player hp reaches 0
-                            gameState = GameState.GameOver;
+                    if (player.Alive == false)
+                    {               //changes state to gameover screen when player hp reaches 0
+                        gameState = GameState.GameOver;
                         player.Update();
                     }
                     break;
