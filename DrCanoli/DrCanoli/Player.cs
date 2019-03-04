@@ -50,9 +50,8 @@ namespace DrCanoli
 
         public override void Draw(SpriteBatch batch)	//has states for drawing character based on state
         {
-            //base.Draw(batch);
+            base.Draw(batch);
             animation.Draw(Box, batch);
-
             switch (fighterState)
 			{
 				case FighterState.IdleLeft:
