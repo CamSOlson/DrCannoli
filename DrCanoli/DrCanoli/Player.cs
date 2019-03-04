@@ -57,6 +57,11 @@ namespace DrCanoli
 		public override void Update()
 		{
             animation.Update();
+            if(hp <= 0)
+            {
+                alive = false;
+            }
+            base.Update();
 			KeyboardState kbState = Keyboard.GetState();
 			switch (fighterState)
 			{

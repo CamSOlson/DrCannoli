@@ -24,7 +24,7 @@ namespace DrCanoli
         private double elapsedTime; //every frame we call gameTime.ElapsedGameTime.TotalSeconds in game1 and call the property here
 
         //I needed to add this here so I could use it in my animations <3 -Love, Cam XOXOXOXO
-        public static int Unicorn
+        public static int Unicorns
         {
             get { return unicorns; }
         }
@@ -69,9 +69,9 @@ namespace DrCanoli
                 {
                     Rectangle intersect = Rectangle.Intersect(o.Box, player.Box);
                     if (player.Box.X < o.Box.X)
-                        Game1.CameraOffset -= intersect.Width;
+                        player.Box = new Rectangle(player.Box.X - intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
                     else
-                        Game1.CameraOffset += intersect.Width;
+                        player.Box = new Rectangle(player.Box.X + intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
                     if (player.Box.Y < o.Box.Y)
                         player.Box = new Rectangle(player.Box.X, player.Box.Y - intersect.Height, player.Box.Width, player.Box.Height);
                     else
