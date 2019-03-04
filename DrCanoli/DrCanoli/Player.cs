@@ -15,6 +15,7 @@ namespace DrCanoli
         private Weapon wep;
         private bool alive;
 		private FighterState fighterState;
+		private bool facingRight;	//true if last idle state was right, false if last idle state was left
 
         public Weapon Wep
         {
@@ -26,10 +27,15 @@ namespace DrCanoli
             get { return alive; }
             set { alive = value; }
         }
+		public FighterState FighterState
+		{
+			get { return fighterState; }
+			set { fighterState = value; }
+		}
 		//player specific fields
-		
 
-        public Player(Rectangle box, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.IdleRight): base(box, animSet)
+
+		public Player(Rectangle box, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.IdleRight, bool facingRight = true): base(box, animSet)
         {
             wep = weapon;
             //100 is just a placeholder value, subject to change
