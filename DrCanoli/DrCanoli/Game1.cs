@@ -101,10 +101,10 @@ namespace DrCanoli
 			font = Content.Load<SpriteFont>("placeholderText");
 
             //Test player
-            Animation playerIdle = new Animation();
-            playerIdle.Load(Animation.CANNOLI_IDLE, Content);
-            AnimationSet playerAnimSet = new AnimationSet(playerIdle);
-            player = new Player(new Rectangle(0, 0, 50, 100), playerAnimSet);
+            AnimationSet playerAnimSet = new AnimationSet(
+                Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
+            player = new Player(new Rectangle(0, 0, PhysManager.Unicorns, PhysManager.Unicorns * 2), playerAnimSet);
         }
 
         /// <summary>
