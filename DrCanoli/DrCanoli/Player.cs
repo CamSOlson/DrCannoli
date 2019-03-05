@@ -14,10 +14,9 @@ namespace DrCanoli
         private int hp;
         private Weapon wep;
         private bool alive;
-		private FighterState fighterState;
 		private bool facingRight;   //true if last idle state was right, false if last idle state was left
-		private bool movingUp;
-		private bool movingDown;
+        KeyboardState kbState, kbPrevious;
+        PhysManager phys;
 
         public Weapon Wep
         {
@@ -29,22 +28,18 @@ namespace DrCanoli
             get { return alive; }
             set { alive = value; }
         }
-		public FighterState FighterState
-		{
-			get { return fighterState; }
-			set { fighterState = value; }
-		}
 		//player specific fields
 
 
-		public Player(Rectangle box, int hp, int dmg, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.IdleRight, bool facingRight = true): base(box, hp, dmg, animSet)
+		public Player(Rectangle box, int hp, int dmg, AnimationSet animSet, PhysManager phys, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true): base(box, hp, dmg, animSet)
         {
             wep = weapon;
             //100 is just a placeholder value, subject to change
             hp = 100;
             alive = true;
+            this.phys = phys;
         }
-        public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet) : this(new Rectangle(x, y, width, height), hp, dmg, animSet) { }
+        public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys) : this(new Rectangle(x, y, width, height), hp, dmg, animSet, phys) { }
 
 		/// <summary>
 		/// used to update player's state based on input
@@ -56,7 +51,8 @@ namespace DrCanoli
                 alive = false;
             }
             base.Update();
-			KeyboardState kbState = Keyboard.GetState();
+            kbPrevious = kbState;
+			kbState = Keyboard.GetState();
 
             if (Wep != null)
             {
@@ -66,196 +62,76 @@ namespace DrCanoli
 
             //PLEASE CONDENSE THIS MESS PLEASE!!!!!! I'M ITALIAN BUT THIS IS TOO MUCH SPAGHETTI!
 
-            switch (fighterState)
+            switch (FighterState)
 			{
-				case FighterState.IdleLeft:				//IdleLeft state
-                    if (kbState.IsKeyDown(Keys.A))			//when A is pressed
-                        fighterState = FighterState.MoveLeft;
-                    else if (kbState.IsKeyDown(Keys.D))		//when D is pressed
+				case FighterState.Idle:				//IdleLeft state
+                    if (kbState.IsKeyDown(Keys.D) || kbState.IsKeyDown(Keys.W) || kbState.IsKeyDown(Keys.S) || kbState.IsKeyDown(Keys.A))		//when D is pressed
                     {
-                        fighterState = FighterState.IdleRight;
-                        facingRight = true;
+                        FighterState = FighterState.Move;
+                        if (kbState.IsKeyDown(Keys.D))
+                            facingRight = true;
+                        else
+                            facingRight = false;
                     }
-                    else if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
+                    if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
                     {
                         InitialY = Box.Y;
                         VelocityY = PhysManager.InitialYVelocity;
-                        fighterState = FighterState.Jump;
+                        FighterState = FighterState.Jump;
+                        break;
                     }
-                    else if (kbState.IsKeyDown(Keys.P))		//when P is pressed -- Attack state likely to be replaced with a bool
-                        fighterState = FighterState.Attack;
-                    else									//when nothing is pressed
-                    {
-                        fighterState = FighterState.IdleLeft;
+					break;
+				case FighterState.Move:             //MoveLeft State
+					if (kbState.IsKeyDown(Keys.A))          //when A is pressed
+					{
                         facingRight = false;
-                    }
-					if (kbState.IsKeyUp(Keys.W))			//when W is pressed
-						movingUp = false;
-					if (kbState.IsKeyDown(Keys.S))			//when S is pressed
-						movingDown = false;
-					break;
-				case FighterState.IdleRight:			//IdleRight state
-					if (kbState.IsKeyDown(Keys.A))			//when A is pressed
-					{
-						fighterState = FighterState.IdleLeft;
-						facingRight = false;
-					}
-					else if (kbState.IsKeyDown(Keys.D))		//when D is pressed
-						fighterState = FighterState.MoveRight;
-					else if (kbState.IsKeyDown(Keys.Space))	//When Space is pressed
-                    {
-                        InitialY = Box.Y;
-                        VelocityY = PhysManager.InitialYVelocity;
-                        fighterState = FighterState.Jump;
-                    }
-                    else if (kbState.IsKeyDown(Keys.P))     //When P is pressed -- Attack state likely to be replaced with a bool
-						fighterState = FighterState.Attack;
-					else									//When nothing is pressed
-					{
-						fighterState = FighterState.IdleRight;
-						facingRight = true;
-						movingUp = false;
-						movingDown = false;
-					}
-					if (kbState.IsKeyUp(Keys.W))			//when W is pressed
-						movingUp = false;
-					if (kbState.IsKeyDown(Keys.S))			//when S is pressed
-						movingDown = false;
-					break;
-				case FighterState.MoveLeft:             //MoveLeft State
-					if (kbState.IsKeyDown(Keys.A))          //when A is pressed
-					{
-						fighterState = FighterState.MoveLeft;
-						Box = new Rectangle(Box.X - PhysManager.Unicorns, Box.Y, Box.Width, Box.Height);
+						Box = new Rectangle(Box.X - PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
 					}
 					else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
 					{
-						fighterState = FighterState.IdleRight;
-						facingRight = true;
-					}
-					else if (kbState.IsKeyDown(Keys.Space)) //when Space is pressed
+                        facingRight = true;
+                        Box = new Rectangle(Box.X + PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
+                    }
+					if (kbState.IsKeyDown(Keys.Space)) //when Space is pressed
 					{
 						InitialY = Box.Y;
 						VelocityY = PhysManager.InitialYVelocity;
-						fighterState = FighterState.Jump;
+						FighterState = FighterState.Jump;
+                        break;
 					}
-					else if (kbState.IsKeyDown(Keys.P))     //When P is pressed -- Attack state likely to be replaced with a bool
-						fighterState = FighterState.Attack;
-					else                                    //when nothing is pressed
+					if (kbState.IsKeyUp(Keys.A) && kbState.IsKeyUp(Keys.W) && kbState.IsKeyUp(Keys.D) && kbState.IsKeyUp(Keys.S))
 					{
-						fighterState = FighterState.IdleLeft;
+						FighterState = FighterState.Idle;
 						facingRight = false;
 					}
-					if (kbState.IsKeyUp(Keys.W))			//when W is pressed
-						movingUp = false;
-					if (kbState.IsKeyDown(Keys.S))			//when S is pressed
-						movingDown = false;
-					break;
-				case FighterState.MoveRight:            //MoveRight State
-					if (kbState.IsKeyDown(Keys.A))          //when A is pressed
-					{
-						fighterState = FighterState.IdleLeft;
-						facingRight = false;
-					}
-					else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
-					{
-						fighterState = FighterState.MoveRight;
-						Box = new Rectangle(Box.X + PhysManager.Unicorns, Box.Y, Box.Width, Box.Height);
-					}
-					else if (kbState.IsKeyDown(Keys.Space)) //when Space is pressed
-					{
-						InitialY = Box.Y;
-						VelocityY = PhysManager.InitialYVelocity;
-						fighterState = FighterState.Jump;
-					}
-					else if (kbState.IsKeyDown(Keys.P))     //when P is pressed
-						fighterState = FighterState.Attack;
-					else                                    //when nothing is pressed
-					{
-						fighterState = FighterState.IdleRight;
-						facingRight = true;
-					}
-					if (kbState.IsKeyUp(Keys.W))			//when W is pressed
-						movingUp = false;
-					if (kbState.IsKeyDown(Keys.S))			//when S is pressed
-						movingDown = false;
-					break;
+					if (kbState.IsKeyUp(Keys.W))            //when W is pressed
+                        Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 60, Box.Width, Box.Height);
+                    if (kbState.IsKeyDown(Keys.S))          //when S is pressed
+                        Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns / 60, Box.Width, Box.Height);
+                    break;
 				case FighterState.Jump:					//Jump State
-					if (kbState.IsKeyDown(Keys.A))			//when A is pressed
-					{
-						fighterState = FighterState.IdleLeft;
-						facingRight = false;
-					}
-					else if (kbState.IsKeyDown(Keys.D))		//when D is pressed
-					{
-						fighterState = FighterState.IdleRight;
-						facingRight = true;
-					}
-					else if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
+                    if (!Stunned)
                     {
-                        InitialY = Box.Y;
-                        VelocityY = PhysManager.InitialYVelocity;
-                        fighterState = FighterState.Jump;
+                        if (kbState.IsKeyDown(Keys.A))          //when A is pressed
+                        {
+                            facingRight = false;
+                            Box = new Rectangle(Box.X - PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
+                        }
+                        else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
+                        {
+                            facingRight = true;
+                            Box = new Rectangle(Box.X + PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
+                        }
                     }
-                    else if (kbState.IsKeyDown(Keys.P))     //When P is pressed -- Attack state likely to be replaced with a bool
-						fighterState = FighterState.Attack;
-					else									//when nothing is pressed
-					{
-						if (facingRight == true)	//determines direction to face while jumping
-							fighterState = FighterState.IdleRight;
-						else
-							fighterState = FighterState.IdleLeft;
-					}
-					if (kbState.IsKeyUp(Keys.W))			//when W is pressed
-						movingUp = false;
-					if (kbState.IsKeyDown(Keys.S))			//when S is pressed
-						movingDown = false;
-					break;
-                    /* Ideally we shouldn't use this state, so the player can attack midair and while moving
-                     * 
-                case FighterState.Attack:
-					if (kbState.IsKeyDown(Keys.A))
-					{
-						fighterState = FighterState.IdleLeft;
-						facingRight = false;
-					}
-					else if (kbState.IsKeyDown(Keys.D))
-					{
-						fighterState = FighterState.IdleRight;
-						facingRight = true;
-					}
-					else if (kbState.IsKeyDown(Keys.W))
-						movingUp = true;
-					else if (kbState.IsKeyDown(Keys.S))
-						movingDown = true;
-					else if (kbState.IsKeyDown(Keys.Space))
-                    {
-                        InitialY = Box.Y;
-                        VelocityY = PhysManager.InitialYVelocity;
-                        fighterState = FighterState.Jump;
-                    }
-                    else if (kbState.IsKeyDown(Keys.P))
-						fighterState = FighterState.Attack;
-					else
-					{
-						if (facingRight == true)
-							fighterState = FighterState.IdleRight;
-						else
-							fighterState = FighterState.IdleLeft;
-					}
-					if (kbState.IsKeyUp(Keys.W))
-						movingUp = false;
-					if (kbState.IsKeyDown(Keys.S))
-						movingDown = false;
-					break;
-                    */
+                    else
+                        Box = new Rectangle(Box.X - PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
+                    bool done = phys.Jump(this);
+                    if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
+                        FighterState = FighterState.Move;
+                    else if (done)
+                        FighterState = FighterState.Idle;
+                    break;
 			}
-
-			//not in FSM so player can move up and down while also moving left or right
-			if(movingUp == true)		//moves player up if movingUp is true
-				Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns, Box.Width, Box.Height);
-			else if(movingDown == true)	//moves player down if movingDown is true
-				Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns, Box.Width, Box.Height);
 
 			base.Update();
 		}

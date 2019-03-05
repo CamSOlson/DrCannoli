@@ -25,7 +25,7 @@ namespace DrCanoli
         }
         // enemy specific fields
 
-        public Enemy(Rectangle box, int hp, int dmg, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.IdleRight, bool facingRight = true) : base(box, hp, dmg, animSet)
+        public Enemy(Rectangle box, int hp, int dmg, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true) : base(box, hp, dmg, animSet)
         {
             //100 is just a placeholder value, subject to change
             active = true;

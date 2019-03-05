@@ -115,7 +115,7 @@ namespace DrCanoli
         /// </summary>
         /// <param name="jumper">the fighter who is jumping</param>
         /// <returns>true if the fighter is now done jumping, false if not</returns>
-        private bool Jump(Fighter jumper)
+        public bool Jump(Fighter jumper)
         {
             //the player should have an double (probably 2 for x and y components?) for velocity and the Y coord they jumped from to properly track jumping and an int to track how much time they have been jumping for
             //this method will simply calculate and change their coordinates based on the stored values (and updates with new values)
@@ -152,15 +152,6 @@ namespace DrCanoli
                 wasHit.VelocityY = InitialYVelocity;
                 wasHit.FighterState = FighterState.Jump;
             }
-            if (Math.Abs(wasHit.VelocityX) < 1) //horizontal move speed
-            {
-                if (wasHit.VelocityX >= 0)
-                    wasHit.VelocityX = -1;
-                else
-                    wasHit.VelocityX = 1;
-            }
-            else
-                wasHit.VelocityX = -wasHit.VelocityX;
             wasHit.VelocityY /= 2;
             wasHit.Stunned = true;
             wasHit.StunTime = 0.2;
