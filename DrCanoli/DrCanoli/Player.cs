@@ -122,23 +122,26 @@ namespace DrCanoli
 					if (kbState.IsKeyDown(Keys.S))			//when S is pressed
 						movingDown = false;
 					break;
-				case FighterState.MoveLeft:				//MoveLeft State
-					if (kbState.IsKeyDown(Keys.A))			//when A is pressed
+				case FighterState.MoveLeft:             //MoveLeft State
+					if (kbState.IsKeyDown(Keys.A))          //when A is pressed
+					{
 						fighterState = FighterState.MoveLeft;
-					else if (kbState.IsKeyDown(Keys.D))		//when D is pressed
+						Box = new Rectangle(Box.X - PhysManager.Unicorns, Box.Y, Box.Width, Box.Height);
+					}
+					else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
 					{
 						fighterState = FighterState.IdleRight;
 						facingRight = true;
 					}
-					else if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
-                    {
-                        InitialY = Box.Y;
-                        VelocityY = PhysManager.InitialYVelocity;
-                        fighterState = FighterState.Jump;
-                    }
-                    else if (kbState.IsKeyDown(Keys.P))     //When P is pressed -- Attack state likely to be replaced with a bool
+					else if (kbState.IsKeyDown(Keys.Space)) //when Space is pressed
+					{
+						InitialY = Box.Y;
+						VelocityY = PhysManager.InitialYVelocity;
+						fighterState = FighterState.Jump;
+					}
+					else if (kbState.IsKeyDown(Keys.P))     //When P is pressed -- Attack state likely to be replaced with a bool
 						fighterState = FighterState.Attack;
-					else									//when nothing is pressed
+					else                                    //when nothing is pressed
 					{
 						fighterState = FighterState.IdleLeft;
 						facingRight = false;
@@ -148,23 +151,26 @@ namespace DrCanoli
 					if (kbState.IsKeyDown(Keys.S))			//when S is pressed
 						movingDown = false;
 					break;
-				case FighterState.MoveRight:			//MoveRight State
-					if (kbState.IsKeyDown(Keys.A))			//when A is pressed
+				case FighterState.MoveRight:            //MoveRight State
+					if (kbState.IsKeyDown(Keys.A))          //when A is pressed
 					{
 						fighterState = FighterState.IdleLeft;
 						facingRight = false;
 					}
-					else if (kbState.IsKeyDown(Keys.D))		//when D is pressed
+					else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
+					{
 						fighterState = FighterState.MoveRight;
-					else if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
-                    {
-                        InitialY = Box.Y;
-                        VelocityY = PhysManager.InitialYVelocity;
-                        fighterState = FighterState.Jump;
-                    }
-                    else if (kbState.IsKeyDown(Keys.P))		//when P is pressed
+						Box = new Rectangle(Box.X + PhysManager.Unicorns, Box.Y, Box.Width, Box.Height);
+					}
+					else if (kbState.IsKeyDown(Keys.Space)) //when Space is pressed
+					{
+						InitialY = Box.Y;
+						VelocityY = PhysManager.InitialYVelocity;
+						fighterState = FighterState.Jump;
+					}
+					else if (kbState.IsKeyDown(Keys.P))     //when P is pressed
 						fighterState = FighterState.Attack;
-					else									//when nothing is pressed
+					else                                    //when nothing is pressed
 					{
 						fighterState = FighterState.IdleRight;
 						facingRight = true;
@@ -245,7 +251,13 @@ namespace DrCanoli
                     */
 			}
 
-            base.Update();
+			//not in FSM so player can move up and down while also moving left or right
+			if(movingUp == true)		//moves player up if movingUp is true
+				Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns, Box.Width, Box.Height);
+			else if(movingDown == true)	//moves player down if movingDown is true
+				Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns, Box.Width, Box.Height);
+
+			base.Update();
 		}
 
         public override void Draw(SpriteBatch batch)	//has states for drawing character based on state
