@@ -16,7 +16,7 @@ namespace DrCanoli
         //fields
         private Rectangle box;
         private int initialY; //just used for jumps and knockback
-        private double velocityY, velocityX, stunTime; //intended for just jumping and knockback but if yall have a use for it have at it, could be good for tracking horizontal movement for a jump?
+        private double velocityY, stunTime; //intended for just jumping and knockback but if yall have a use for it have at it, could be good for tracking horizontal movement for a jump?
 		private FighterState fighterState;
         //actual stat fields here I haven't really put much thought into how we store and calculate them
         private bool stunned;
@@ -35,18 +35,18 @@ namespace DrCanoli
             get { return dmg; }
             set { dmg = value; }
         }
-        public Fighter(Rectangle box, int hp, int damage, AnimationSet animationSet)
+        public Fighter(Rectangle box, int hp, int damage, AnimationSet animationSet, FighterState fighterState)
         {
             this.box = box;
             this.animationSet = animationSet;
             this.animation = animationSet.Idle;
             initialY = 0;
             velocityY = 0;
-            velocityX = 0;
             stunned = false;
             stunTime = 0;
+            this.fighterState = fighterState;
         }
-        public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet): this(new Rectangle(x,y,width,height), hp, dmg, animationSet) { }
+        public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet, FighterState fighterState) : this(new Rectangle(x,y,width,height), hp, dmg, animationSet, fighterState) { }
 
         public virtual void Update()
         {
@@ -73,11 +73,6 @@ namespace DrCanoli
         {
             get { return initialY; }
             set { initialY = value; }
-        }
-        public double VelocityX
-        {
-            get { return velocityX; }
-            set { velocityX = value; }
         }
         public double VelocityY
         {

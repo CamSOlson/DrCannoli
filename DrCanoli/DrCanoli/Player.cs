@@ -11,7 +11,6 @@ namespace DrCanoli
 {
     class Player: Fighter
     {
-        private int hp;
         private Weapon wep;
         private bool alive;
 		private bool facingRight;   //true if last idle state was right, false if last idle state was left
@@ -31,12 +30,12 @@ namespace DrCanoli
 		//player specific fields
 
 
-		public Player(Rectangle box, int hp, int dmg, AnimationSet animSet, PhysManager phys, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true): base(box, hp, dmg, animSet)
+		public Player(Rectangle box, int hp, int dmg, AnimationSet animSet, PhysManager phys, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true): base(box, hp, dmg, animSet, fighterState)
         {
             wep = weapon;
             //100 is just a placeholder value, subject to change
-            hp = 100;
             alive = true;
+            this.facingRight = facingRight;
             this.phys = phys;
         }
         public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys) : this(new Rectangle(x, y, width, height), hp, dmg, animSet, phys) { }
@@ -46,7 +45,7 @@ namespace DrCanoli
 		/// </summary>
 		public override void Update()
 		{
-            if(hp <= 0)
+            if(Hp <= 0)
             {
                 alive = false;
             }
@@ -54,11 +53,13 @@ namespace DrCanoli
             kbPrevious = kbState;
 			kbState = Keyboard.GetState();
 
-            if (Wep != null)
+            if (Wep != null && facingRight)
             {
                 Wep.Box = new Rectangle(Box.X + Box.Width, Box.Y + Box.Height / 2, Wep.Box.Width, Wep.Box.Height);
 
             }
+            else if (Wep != null)
+                Wep.Box = new Rectangle(Box.X - Wep.Box.Width, Box.Y + Box.Height / 2, Wep.Box.Width, Wep.Box.Height);
 
             //PLEASE CONDENSE THIS MESS PLEASE!!!!!! I'M ITALIAN BUT THIS IS TOO MUCH SPAGHETTI!
 

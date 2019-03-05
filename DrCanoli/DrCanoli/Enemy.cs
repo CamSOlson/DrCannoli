@@ -11,8 +11,9 @@ namespace DrCanoli
 {
     class Enemy : Fighter
     {
-        private int speed;
+        private int speed; //should be in terms of unicorns per frame, if not just the same speed as the player
         private bool active;
+        private bool facingRight;
         public int Speed
         {
             get { return speed; }
@@ -25,9 +26,9 @@ namespace DrCanoli
         }
         // enemy specific fields
 
-        public Enemy(Rectangle box, int hp, int dmg, AnimationSet animSet, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true) : base(box, hp, dmg, animSet)
+        public Enemy(Rectangle box, int hp, int dmg, AnimationSet animSet, FighterState fighterState = FighterState.Idle, bool facingRight = true) : base(box, hp, dmg, animSet, fighterState)
         {
-            //100 is just a placeholder value, subject to change
+            this.facingRight = facingRight;
             active = true;
         }
         public Enemy(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet) : this(new Rectangle(x, y, width, height), hp, dmg, animSet) { }
