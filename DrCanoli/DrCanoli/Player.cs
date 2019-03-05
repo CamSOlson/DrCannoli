@@ -58,11 +58,15 @@ namespace DrCanoli
             base.Update();
 			KeyboardState kbState = Keyboard.GetState();
 
-            Wep.Box = new Rectangle(Box.X + Box.Width, Box.Y + Box.Height / 2, Wep.Box.Width, Wep.Box.Height);
+            if (Wep != null)
+            {
+                Wep.Box = new Rectangle(Box.X + Box.Width, Box.Y + Box.Height / 2, Wep.Box.Width, Wep.Box.Height);
+
+            }
 
             //PLEASE CONDENSE THIS MESS PLEASE!!!!!! I'M ITALIAN BUT THIS IS TOO MUCH SPAGHETTI!
-            
-			switch (fighterState)
+
+            switch (fighterState)
 			{
 				case FighterState.IdleLeft:
                     if (kbState.IsKeyDown(Keys.A))
