@@ -19,7 +19,8 @@ namespace DrCanoli
         //we could also give this a reference to the player
         private Player player;
         private static int unicorns; //standard unit for window height
-        private double frameSeconds, acceleration; //time between frames, acceleration in unicorns per frameSeconds squared
+        private double frameSeconds;
+        private static double acceleration; //time between frames, acceleration in unicorns per frameSeconds squared
         private const double JUMPUNICORNS = 2;
         private double elapsedTime; //every frame we call gameTime.ElapsedGameTime.TotalSeconds in game1 and call the property here
 
@@ -145,6 +146,12 @@ namespace DrCanoli
             //calling this should set the fighter's state to jumping
 
             //set player state machine to jumping
+            if (wasHit.FighterState != FighterState.Jump)
+            {
+                wasHit.InitialY = player.Box.Y;
+                wasHit.VelocityY = InitialYVelocity;
+                wasHit.FighterState = FighterState.Jump;
+            }
             if (Math.Abs(wasHit.VelocityX) < 1) //horizontal move speed
             {
                 if (wasHit.VelocityX >= 0)
@@ -162,7 +169,7 @@ namespace DrCanoli
         //players and enemies should have a method for dying, this manager should just detract health
         //the player should also have a state for running, jumping, attacking, stunned, etc.
 
-        public double InitialYVelocity
+        public static double InitialYVelocity
         {
             get
             {

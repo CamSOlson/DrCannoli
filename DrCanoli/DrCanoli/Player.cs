@@ -58,32 +58,37 @@ namespace DrCanoli
             base.Update();
 			KeyboardState kbState = Keyboard.GetState();
 
+            Wep.Box = new Rectangle(Box.X + Box.Width, Box.Y + Box.Height / 2, Wep.Box.Width, Wep.Box.Height);
 
             //PLEASE CONDENSE THIS MESS PLEASE!!!!!! I'M ITALIAN BUT THIS IS TOO MUCH SPAGHETTI!
             
 			switch (fighterState)
 			{
 				case FighterState.IdleLeft:
-					if (kbState.IsKeyDown(Keys.A))
-						fighterState = FighterState.MoveLeft;
-					else if (kbState.IsKeyDown(Keys.D))
-					{
-						fighterState = FighterState.IdleRight;
-						facingRight = true;
-					}
-					else if (kbState.IsKeyDown(Keys.W))
-						movingUp = true;
-					else if (kbState.IsKeyDown(Keys.S))
-						movingDown = true;
-					else if (kbState.IsKeyDown(Keys.Space))
-						fighterState = FighterState.Jump;
-					else if (kbState.IsKeyDown(Keys.P))
-						fighterState = FighterState.Attack;
-					else
-					{
-						fighterState = FighterState.IdleLeft;
-						facingRight = false;
-					}
+                    if (kbState.IsKeyDown(Keys.A))
+                        fighterState = FighterState.MoveLeft;
+                    else if (kbState.IsKeyDown(Keys.D))
+                    {
+                        fighterState = FighterState.IdleRight;
+                        facingRight = true;
+                    }
+                    else if (kbState.IsKeyDown(Keys.W))
+                        movingUp = true;
+                    else if (kbState.IsKeyDown(Keys.S))
+                        movingDown = true;
+                    else if (kbState.IsKeyDown(Keys.Space))
+                    {
+                        InitialY = Box.Y;
+                        VelocityY = PhysManager.InitialYVelocity;
+                        fighterState = FighterState.Jump;
+                    }
+                    else if (kbState.IsKeyDown(Keys.P))
+                        fighterState = FighterState.Attack;
+                    else
+                    {
+                        fighterState = FighterState.IdleLeft;
+                        facingRight = false;
+                    }
 					if (kbState.IsKeyUp(Keys.W))
 						movingUp = false;
 					if (kbState.IsKeyDown(Keys.S))
@@ -102,8 +107,12 @@ namespace DrCanoli
 					else if (kbState.IsKeyDown(Keys.S))
 						movingDown = true;
 					else if (kbState.IsKeyDown(Keys.Space))
-						fighterState = FighterState.Jump;
-					else if (kbState.IsKeyDown(Keys.P))
+                    {
+                        InitialY = Box.Y;
+                        VelocityY = PhysManager.InitialYVelocity;
+                        fighterState = FighterState.Jump;
+                    }
+                    else if (kbState.IsKeyDown(Keys.P))
 						fighterState = FighterState.Attack;
 					else
 					{
@@ -130,8 +139,12 @@ namespace DrCanoli
 					else if (kbState.IsKeyDown(Keys.S))
 						movingDown = true;
 					else if (kbState.IsKeyDown(Keys.Space))
-						fighterState = FighterState.Jump;
-					else if (kbState.IsKeyDown(Keys.P))
+                    {
+                        InitialY = Box.Y;
+                        VelocityY = PhysManager.InitialYVelocity;
+                        fighterState = FighterState.Jump;
+                    }
+                    else if (kbState.IsKeyDown(Keys.P))
 						fighterState = FighterState.Attack;
 					else
 					{
@@ -156,8 +169,12 @@ namespace DrCanoli
 					else if (kbState.IsKeyDown(Keys.S))
 						movingDown = true;
 					else if (kbState.IsKeyDown(Keys.Space))
-						fighterState = FighterState.Jump;
-					else if (kbState.IsKeyDown(Keys.P))
+                    {
+                        InitialY = Box.Y;
+                        VelocityY = PhysManager.InitialYVelocity;
+                        fighterState = FighterState.Jump;
+                    }
+                    else if (kbState.IsKeyDown(Keys.P))
 						fighterState = FighterState.Attack;
 					else
 					{
@@ -185,8 +202,12 @@ namespace DrCanoli
 					else if (kbState.IsKeyDown(Keys.S))
 						movingDown = true;
 					else if (kbState.IsKeyDown(Keys.Space))
-						fighterState = FighterState.Jump;
-					else if (kbState.IsKeyDown(Keys.P))
+                    {
+                        InitialY = Box.Y;
+                        VelocityY = PhysManager.InitialYVelocity;
+                        fighterState = FighterState.Jump;
+                    }
+                    else if (kbState.IsKeyDown(Keys.P))
 						fighterState = FighterState.Attack;
 					else
 					{
@@ -200,7 +221,9 @@ namespace DrCanoli
 					if (kbState.IsKeyDown(Keys.S))
 						movingDown = false;
 					break;
-				case FighterState.Attack:
+                    /* Ideally we shouldn't use this state, so the player can attack midair and while moving
+                     * 
+                case FighterState.Attack:
 					if (kbState.IsKeyDown(Keys.A))
 					{
 						fighterState = FighterState.IdleLeft;
@@ -216,8 +239,12 @@ namespace DrCanoli
 					else if (kbState.IsKeyDown(Keys.S))
 						movingDown = true;
 					else if (kbState.IsKeyDown(Keys.Space))
-						fighterState = FighterState.Jump;
-					else if (kbState.IsKeyDown(Keys.P))
+                    {
+                        InitialY = Box.Y;
+                        VelocityY = PhysManager.InitialYVelocity;
+                        fighterState = FighterState.Jump;
+                    }
+                    else if (kbState.IsKeyDown(Keys.P))
 						fighterState = FighterState.Attack;
 					else
 					{
@@ -231,6 +258,7 @@ namespace DrCanoli
 					if (kbState.IsKeyDown(Keys.S))
 						movingDown = false;
 					break;
+                    */
 			}
 
             base.Update();

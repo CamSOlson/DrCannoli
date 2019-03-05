@@ -12,8 +12,8 @@ namespace DrCanoli
     class Weapon : IDrawn
     {
         // Fields and properties
-        Rectangle box;
-        Texture2D sprite;
+        private Rectangle box;
+        private Texture2D sprite;
         protected int damage;
         private bool swinging;
         public int Damage
@@ -52,7 +52,7 @@ namespace DrCanoli
 
         public void Update()
         {
-
+            //any update code here
         }
 
         public virtual void Draw()
