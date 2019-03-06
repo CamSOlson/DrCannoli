@@ -74,11 +74,12 @@ namespace DrCanoli
                         else if(kbState.IsKeyDown(Keys.A))
 							facingRight = false;
                     }
-                    if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
+                    if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space))	//when Space is pressed
                     {
                         InitialY = Box.Y;
                         VelocityY = PhysManager.InitialYVelocity;
                         FighterState = FighterState.Jump;
+                        Box = new Rectangle(Box.X, Box.Y - 5, Box.Width, Box.Height);
                         break;
                     }
 					break;
@@ -86,28 +87,29 @@ namespace DrCanoli
 					if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
 					{
                         facingRight = false;
-						Box = new Rectangle(Box.X - PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
+						Box = new Rectangle(Box.X - PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
 					}
 					else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
 					{
                         facingRight = true;
-                        Box = new Rectangle(Box.X + PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X + PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
                     }
-					if (kbState.IsKeyDown(Keys.Space)) //when Space is pressed
+					if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space)) //when Space is pressed
 					{
 						InitialY = Box.Y;
 						VelocityY = PhysManager.InitialYVelocity;
 						FighterState = FighterState.Jump;
+                        Box = new Rectangle(Box.X, Box.Y - 5, Box.Width, Box.Height);
                         break;
 					}
 					if (kbState.IsKeyUp(Keys.A) && kbState.IsKeyUp(Keys.W) && kbState.IsKeyUp(Keys.D) && kbState.IsKeyUp(Keys.S))
 					{
 						FighterState = FighterState.Idle;
 					}
-					if (kbState.IsKeyDown(Keys.W) && Box.Y > PhysManager.Unicorns * 4.2)            //when W is pressed
-                        Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 10, Box.Width, Box.Height);
+					if (kbState.IsKeyDown(Keys.W) && Box.Y > PhysManager.Unicorns * 4.6)            //when W is pressed
+                        Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 20, Box.Width, Box.Height);
                     if (kbState.IsKeyDown(Keys.S) && Box.Y < PhysManager.Unicorns * 7)          //when S is pressed
-                        Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns / 10, Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns / 20, Box.Width, Box.Height);
                     break;
 				case FighterState.Jump:					//Jump State
                     if (!Stunned)
@@ -115,16 +117,16 @@ namespace DrCanoli
                         if (kbState.IsKeyDown(Keys.A))          //when A is pressed
                         {
                             facingRight = false;
-                            Box = new Rectangle(Box.X - PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
+                            Box = new Rectangle(Box.X - PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
                         }
                         else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
                         {
                             facingRight = true;
-                            Box = new Rectangle(Box.X + PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
+                            Box = new Rectangle(Box.X + PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
                         }
                     }
                     else
-                        Box = new Rectangle(Box.X - PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X - PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
                     bool done = phys.Jump(this);
                     if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
                         FighterState = FighterState.Move;
