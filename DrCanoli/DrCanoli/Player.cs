@@ -71,8 +71,8 @@ namespace DrCanoli
                         FighterState = FighterState.Move;
                         if (kbState.IsKeyDown(Keys.D))
                             facingRight = true;
-                        else if(kbState.IsKeyDown(Keys.S))
-							facingRight = false;
+                        else if (kbState.IsKeyDown(Keys.A))
+                            facingRight = false;
                     }
                     if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
                     {
