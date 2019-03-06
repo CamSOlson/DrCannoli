@@ -138,9 +138,8 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
                 );
-            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
+            player = new Player(new Rectangle(0, 0, PhysManager.Unicorns, PhysManager.Unicorns), 100, 100, playerAnimSet, phys);
 
-            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
             //Background
             background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
 
