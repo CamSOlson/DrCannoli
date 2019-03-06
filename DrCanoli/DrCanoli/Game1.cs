@@ -139,6 +139,7 @@ namespace DrCanoli
                 );
             player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
             LevelStart();
+
         }
 
         /// <summary>
