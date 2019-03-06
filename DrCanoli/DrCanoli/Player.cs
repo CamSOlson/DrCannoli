@@ -103,7 +103,6 @@ namespace DrCanoli
 					if (kbState.IsKeyUp(Keys.A) && kbState.IsKeyUp(Keys.W) && kbState.IsKeyUp(Keys.D) && kbState.IsKeyUp(Keys.S))
 					{
 						FighterState = FighterState.Idle;
-						facingRight = false;
 					}
 					if (kbState.IsKeyUp(Keys.W))            //when W is pressed
                         Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 60, Box.Width, Box.Height);
