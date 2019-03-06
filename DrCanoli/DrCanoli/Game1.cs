@@ -31,6 +31,7 @@ namespace DrCanoli
         private List<Obstacle> obstacles;
         private List<Enemy> enemyList;
         private Player player;
+        private Background background;
         private PhysManager phys;
         
 
@@ -83,6 +84,36 @@ namespace DrCanoli
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
+        private void LevelStart()
+        {
+            for (int c = 0; c < levelData.Count; c++)
+            {
+                for (int d = 0; d < levelData[c].Count; d++)
+                {
+                    int x = 10 * d;
+                    int y;
+                    if (c == 0)
+                    {
+                        y = 10;
+                    }
+                    else
+                    {
+                        y = GraphicsDevice.Viewport.Height / 6 * c;
+                    }
+                    if (levelData[c][d] == 'X')
+                    {
+                        player.Box = new Rectangle(x, y, 50, 100);
+                    }
+                    else if (levelData[c][d] == 'E')
+                    {
+                        AnimationSet animSet = new AnimationSet(
+                            Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
+                        enemyList.Add(new Enemy(new Rectangle(x, y, 50, 100), 50, 10, animSet));
+                    }
+                }
+            }
+        }
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -105,10 +136,15 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
                 );
-            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);		//player is made twice because phys
-			phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);   //needs a not null player in its
-			player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);		//contructor, and player needs a
-		}																							//not null phys
+            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);			//player made twice because phys needs
+			phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);		//non null player in constructor and
+			player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);			//player needs non null phys in constructor
+            //Background
+            background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
+
+            LevelStart();
+
+        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -151,7 +187,25 @@ namespace DrCanoli
 				case GameState.Game:
                     //ALWAYS update player, no ifs/elses about it
                     player.Update();
-
+                    foreach(Enemy e in enemyList)
+                    {
+                        if(e.Box.X - player.Box.X > 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X - 1, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                        else if(e.Box.X - player.Box.X < 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X + 1, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                        if(e.Box.Y - player.Box.Y > 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X, e.Box.Y - 1, e.Box.Width, e.Box.Height);
+                        }
+                        else if(e.Box.Y - player.Box.Y < 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X, e.Box.Y + 1, e.Box.Width, e.Box.Height);
+                        }
+                    }
                     //This borks the level
                     /*
                     if (!player.Alive)
@@ -160,36 +214,6 @@ namespace DrCanoli
 					}
                     */
 
-                    //This should not be in update. This will bork EVERYTHING
-                    /*
-                    for(int c = 0; c < levelData.Count; c++)
-                    {
-                        for(int d = 0; d < levelData[c].Count; d++)
-                        {
-                            int x = 10 * d;
-                            int y;
-                            if(c == 0)
-                            {
-                                y = 10;
-                            }
-                            else
-                            {
-                                y = GraphicsDevice.Viewport.Height / 6 * c;
-                            }
-                            if(levelData[c][d] == 'X')
-                            {
-                                player.Box = new Rectangle(x, y, 50, 100);
-                            }
-                            else if(levelData[c][d] == 'E')
-                            {
-                                AnimationSet animSet = new AnimationSet(
-                                    Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                                    Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
-                                enemyList.Add(new Enemy(new Rectangle(x, y, 50, 100), 50, 10, animSet));
-                            }
-                        }
-                    }
-                    */
                     break;
 				case GameState.GameOver:
 					break;
@@ -227,12 +251,16 @@ namespace DrCanoli
 						);
 					break;
 				case GameState.Game:
+
 					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
 
                     spriteBatch.DrawString(
 						font, "It's class time", new Vector2(10, 10), Color.White
 						);
-                    
+
+                    //Draw background
+                    background.Draw(spriteBatch);
+
                     if (player != null)
                     {
                         player.Draw(spriteBatch);
