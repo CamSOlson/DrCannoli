@@ -61,8 +61,6 @@ namespace DrCanoli
             else if (Wep != null)
                 Wep.Box = new Rectangle(Box.X - Wep.Box.Width, Box.Y + Box.Height / 2, Wep.Box.Width, Wep.Box.Height);
 
-            //PLEASE CONDENSE THIS MESS PLEASE!!!!!! I'M ITALIAN BUT THIS IS TOO MUCH SPAGHETTI!
-
             switch (FighterState)
 			{
 				case FighterState.Idle:				//IdleLeft state
@@ -76,7 +74,7 @@ namespace DrCanoli
                         {
                             facingRight = true;
                         }
-                        else if (kbState.IsKeyDown(Keys.S))
+                        else if (kbState.IsKeyDown(Keys.A))
                         {
                             facingRight = false;
                         }
