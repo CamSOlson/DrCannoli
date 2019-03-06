@@ -71,8 +71,8 @@ namespace DrCanoli
                         FighterState = FighterState.Move;
                         if (kbState.IsKeyDown(Keys.D))
                             facingRight = true;
-                        else
-                            facingRight = false;
+                        else if(kbState.IsKeyDown(Keys.S))
+							facingRight = false;
                     }
                     if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
                     {
@@ -103,7 +103,6 @@ namespace DrCanoli
 					if (kbState.IsKeyUp(Keys.A) && kbState.IsKeyUp(Keys.W) && kbState.IsKeyUp(Keys.D) && kbState.IsKeyUp(Keys.S))
 					{
 						FighterState = FighterState.Idle;
-						facingRight = false;
 					}
 					if (kbState.IsKeyDown(Keys.W) && Box.Y > PhysManager.Unicorns * 4.2)            //when W is pressed
                         Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 10, Box.Width, Box.Height);
