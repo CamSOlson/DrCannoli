@@ -103,7 +103,7 @@ namespace DrCanoli
                     }
                     if (levelData[c][d] == 'X')
                     {
-                        player.Box = new Rectangle(x, y, 50, 100);
+                        player.Box = new Rectangle(x, y, player.Box.Width, player.Box.Height);
                     }
                     else if (levelData[c][d] == 'E')
                     {
@@ -138,7 +138,7 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
                 );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
-            player = new Player(0, 0, 100, 200, 100, 100, playerAnimSet, phys);
+            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 100, playerAnimSet, phys);
             phys.Player = player;
 
             //Background
