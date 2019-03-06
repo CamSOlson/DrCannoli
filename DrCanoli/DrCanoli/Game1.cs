@@ -83,6 +83,36 @@ namespace DrCanoli
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
+        private void LevelStart()
+        {
+            for (int c = 0; c < levelData.Count; c++)
+            {
+                for (int d = 0; d < levelData[c].Count; d++)
+                {
+                    int x = 10 * d;
+                    int y;
+                    if (c == 0)
+                    {
+                        y = 10;
+                    }
+                    else
+                    {
+                        y = GraphicsDevice.Viewport.Height / 6 * c;
+                    }
+                    if (levelData[c][d] == 'X')
+                    {
+                        player.Box = new Rectangle(x, y, 50, 100);
+                    }
+                    else if (levelData[c][d] == 'E')
+                    {
+                        AnimationSet animSet = new AnimationSet(
+                            Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
+                        enemyList.Add(new Enemy(new Rectangle(x, y, 50, 100), 50, 10, animSet));
+                    }
+                }
+            }
+        }
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -107,7 +137,8 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
                 );
-            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet);
+            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
+            LevelStart();
         }
 
         /// <summary>
@@ -160,36 +191,6 @@ namespace DrCanoli
 					}
                     */
 
-                    //This should not be in update. This will bork EVERYTHING
-                    /*
-                    for(int c = 0; c < levelData.Count; c++)
-                    {
-                        for(int d = 0; d < levelData[c].Count; d++)
-                        {
-                            int x = 10 * d;
-                            int y;
-                            if(c == 0)
-                            {
-                                y = 10;
-                            }
-                            else
-                            {
-                                y = GraphicsDevice.Viewport.Height / 6 * c;
-                            }
-                            if(levelData[c][d] == 'X')
-                            {
-                                player.Box = new Rectangle(x, y, 50, 100);
-                            }
-                            else if(levelData[c][d] == 'E')
-                            {
-                                AnimationSet animSet = new AnimationSet(
-                                    Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                                    Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
-                                enemyList.Add(new Enemy(new Rectangle(x, y, 50, 100), 50, 10, animSet));
-                            }
-                        }
-                    }
-                    */
                     break;
 				case GameState.GameOver:
 					break;
