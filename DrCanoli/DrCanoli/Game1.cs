@@ -257,7 +257,13 @@ namespace DrCanoli
                     spriteBatch.DrawString(
 						font, "It's class time", new Vector2(10, 10), Color.White
 						);
-
+                    foreach(Enemy e in enemyList)
+                    {
+                        if (e.Active)
+                        {
+                            e.Draw(spriteBatch);
+                        }
+                    }
                     //Draw background
                     background.Draw(spriteBatch);
 
