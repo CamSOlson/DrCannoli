@@ -36,7 +36,7 @@ namespace DrCanoli
             enemyList = enemies;
             unicorns = screenHeight / 9;
             frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
-            acceleration = -30.81 * 2 * Math.Pow(frameSeconds, 2); //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
+            acceleration = -.981 * 2; //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
             elapsedTime = 0;
         }
 
@@ -119,16 +119,26 @@ namespace DrCanoli
             //the player should have an double (probably 2 for x and y components?) for velocity and the Y coord they jumped from to properly track jumping and an int to track how much time they have been jumping for
             //this method will simply calculate and change their coordinates based on the stored values (and updates with new values)
             //we could also store them here but then we'd need it for every player and enemy so it makes more sense to have them store it
+
+            /*
             int changeY = (int)((Math.Pow(jumper.VelocityY + acceleration * elapsedTime, 2) - Math.Pow(jumper.VelocityY, 2)) / 2 * acceleration);
-            jumper.Box = new Rectangle(jumper.Box.X, jumper.Box.Y + changeY, jumper.Box.Width, jumper.Box.Height);
+            jumper.Box = new Rectangle(jumper.Box.X, jumper.Box.Y - changeY, jumper.Box.Width, jumper.Box.Height);
             jumper.VelocityY += acceleration * elapsedTime;
+            */
+
+            jumper.Box = new Rectangle(jumper.Box.X, jumper.Box.Y - (int)jumper.VelocityY, jumper.Box.Width, jumper.Box.Height);
+            if (jumper.VelocityY > 2)
+                jumper.VelocityY -= jumper.VelocityY / 8;
+            else
+                jumper.VelocityY -= 1;
+
             if (player.Stunned)
             {
                 jumper.StunTime -= elapsedTime;
                 if (jumper.StunTime <= 0)
                     player.Stunned = false;
             }
-            if (jumper.Box.Y <= jumper.InitialY)
+            if (jumper.Box.Y >= jumper.InitialY)
             {
                 jumper.Box = new Rectangle(jumper.Box.X, jumper.InitialY, jumper.Box.Width, jumper.Box.Height);
                 jumper.Stunned = false;
