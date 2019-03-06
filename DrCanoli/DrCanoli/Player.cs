@@ -61,18 +61,23 @@ namespace DrCanoli
             else if (Wep != null)
                 Wep.Box = new Rectangle(Box.X - Wep.Box.Width, Box.Y + Box.Height / 2, Wep.Box.Width, Wep.Box.Height);
 
-            //PLEASE CONDENSE THIS MESS PLEASE!!!!!! I'M ITALIAN BUT THIS IS TOO MUCH SPAGHETTI!
-
             switch (FighterState)
 			{
 				case FighterState.Idle:				//IdleLeft state
                     if (kbState.IsKeyDown(Keys.D) || kbState.IsKeyDown(Keys.W) || kbState.IsKeyDown(Keys.S) || kbState.IsKeyDown(Keys.A))		//when D is pressed
                     {
                         FighterState = FighterState.Move;
+                        AnimationSet.Idle.Reset();
+                        animation = AnimationSet.Walking;
+
                         if (kbState.IsKeyDown(Keys.D))
+                        {
                             facingRight = true;
+                        }
                         else if (kbState.IsKeyDown(Keys.A))
+                        {
                             facingRight = false;
+                        }
                     }
                     if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
                     {
@@ -103,11 +108,17 @@ namespace DrCanoli
 					if (kbState.IsKeyUp(Keys.A) && kbState.IsKeyUp(Keys.W) && kbState.IsKeyUp(Keys.D) && kbState.IsKeyUp(Keys.S))
 					{
 						FighterState = FighterState.Idle;
+                        AnimationSet.Walking.Reset();
+                        animation = AnimationSet.Idle;
 					}
-					if (kbState.IsKeyDown(Keys.W) && Box.Y > PhysManager.Unicorns * 4.2)            //when W is pressed
+                    if (kbState.IsKeyDown(Keys.W) && Box.Y > PhysManager.Unicorns * 4.2)            //when W is pressed
+                    {
                         Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 10, Box.Width, Box.Height);
+                    }
                     if (kbState.IsKeyDown(Keys.S) && Box.Y < PhysManager.Unicorns * 7)          //when S is pressed
+                    {
                         Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns / 10, Box.Width, Box.Height);
+                    }
                     break;
 				case FighterState.Jump:					//Jump State
                     if (!Stunned)
