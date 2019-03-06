@@ -7,8 +7,10 @@ using System.IO;
 
 namespace DrCanoli
 {
+    // TextFile Class
     class TextFile
     {
+        // Field and property for name of file
         private string fileName;
         public string FileName
         {
@@ -21,8 +23,10 @@ namespace DrCanoli
                 fileName = value;
             }
         }
+        // List of characters that respresents level data
         private List<List<char>> positionList;
 
+        // Class constructor
         public TextFile(string fileName)
         {
             this.fileName = fileName;
@@ -32,10 +36,13 @@ namespace DrCanoli
         {
             try
             {
+                // Initialize stream reader, string variable, and char variable
                 StreamReader reader = new StreamReader(fileName);
                 string lineOfText = null;
                 string element = null;
+                // Create positionList
                 positionList = new List<List<char>>();
+                // Read in each line as a list of characters, then add this list to positionList
                 while ((lineOfText = reader.ReadLine()) != null)
                 {
                     List<char> row = new List<char>();
@@ -46,7 +53,8 @@ namespace DrCanoli
                     positionList.Add(row);
                 }
             }
-            catch(Exception e)
+            // Catch any file errors
+            catch (Exception e)
             {
                 Console.WriteLine("File error");
             }
