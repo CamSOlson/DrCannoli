@@ -110,7 +110,7 @@ namespace DrCanoli
                 //Read first line (texture directory)
                 string data = input.ReadLine();
                 //Load texture
-                texture = content.Load<Texture2D>("textures/sprites/cannoli/Idle");
+                texture = content.Load<Texture2D>(data);
 
                 //Read second line (frame times and mappings)
                 data = input.ReadLine();

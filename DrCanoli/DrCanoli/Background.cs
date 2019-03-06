@@ -33,12 +33,19 @@ namespace DrCanoli
         public void Draw(SpriteBatch sb)
         {
             //The x value of the last background
-            int lastBackgroundX = Game1.CameraOffset / width;
+            int lastBackgroundX = (int) (Game1.CameraOffset / width) * width;
             //The x value of the next background
-            int nextBackgroundX = Game1.CameraOffset / width + width;
+            int nextBackgroundX = (int) (Game1.CameraOffset / width + 1) * width;
 
-            sb.Draw(texture, new Rectangle(lastBackgroundX - Game1.CameraOffset, 0, width, GraphicsDeviceManager.DefaultBackBufferHeight),
-                Color.White);
+            Rectangle lastBkgBounds = new Rectangle(lastBackgroundX - Game1.CameraOffset, 0,
+                width, GraphicsDeviceManager.DefaultBackBufferHeight);
+
+            sb.Draw(texture, lastBkgBounds, Color.White);
+
+            Rectangle nextBkgBounds = new Rectangle(nextBackgroundX - Game1.CameraOffset, 0,
+                width, GraphicsDeviceManager.DefaultBackBufferHeight);
+
+            sb.Draw(texture, nextBkgBounds, Color.White);
 
         }
 
