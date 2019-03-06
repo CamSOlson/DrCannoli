@@ -140,9 +140,12 @@ namespace DrCanoli
                 );
             player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
 
+            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
             //Background
             background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
+
             LevelStart();
+
         }
 
         /// <summary>
