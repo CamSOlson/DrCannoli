@@ -36,7 +36,7 @@ namespace DrCanoli
             //100 is just a placeholder value, subject to change
             alive = true;
             this.facingRight = facingRight;
-            this.phys = phys;
+			this.phys = phys;
         }
         public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys) : this(new Rectangle(x, y, width, height), hp, dmg, animSet, phys) { }
 
@@ -71,8 +71,8 @@ namespace DrCanoli
                         FighterState = FighterState.Move;
                         if (kbState.IsKeyDown(Keys.D))
                             facingRight = true;
-                        else
-                            facingRight = false;
+                        else if(kbState.IsKeyDown(Keys.S))
+							facingRight = false;
                     }
                     if (kbState.IsKeyDown(Keys.Space))	//when Space is pressed
                     {
@@ -103,7 +103,6 @@ namespace DrCanoli
 					if (kbState.IsKeyUp(Keys.A) && kbState.IsKeyUp(Keys.W) && kbState.IsKeyUp(Keys.D) && kbState.IsKeyUp(Keys.S))
 					{
 						FighterState = FighterState.Idle;
-						facingRight = false;
 					}
 					if (kbState.IsKeyUp(Keys.W))            //when W is pressed
                         Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 60, Box.Width, Box.Height);

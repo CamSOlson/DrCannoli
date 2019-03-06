@@ -75,7 +75,7 @@ namespace DrCanoli
             // Get data from text file
             textFile = new TextFile("Content/positions.txt");
             levelData = textFile.Read();
-            
+			
             
             base.Initialize();
 		}
@@ -118,9 +118,7 @@ namespace DrCanoli
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-			//uncomment these when we can fully initialize player
-			//phys = new PhysManager(player, enemyList, GraphicsDevice.Viewport.Height); //change viewport to max resolution ingame
-			//drawables.Add(player);
+			drawables.Add(player);
 			foreach (Enemy e in enemyList)
 			{
 				drawables.Add(e);
@@ -138,9 +136,9 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
                 );
-            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
-
-            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
+            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);			//player made twice because phys needs
+			phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);		//non null player in constructor and
+			player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);			//player needs non null phys in constructor
             //Background
             background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
 
@@ -189,7 +187,25 @@ namespace DrCanoli
 				case GameState.Game:
                     //ALWAYS update player, no ifs/elses about it
                     player.Update();
-
+                    foreach(Enemy e in enemyList)
+                    {
+                        if(e.Box.X - player.Box.X > 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X - 1, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                        else if(e.Box.X - player.Box.X < 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X + 1, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                        if(e.Box.Y - player.Box.Y > 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X, e.Box.Y - 1, e.Box.Width, e.Box.Height);
+                        }
+                        else if(e.Box.Y - player.Box.Y < 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X, e.Box.Y + 1, e.Box.Width, e.Box.Height);
+                        }
+                    }
                     //This borks the level
                     /*
                     if (!player.Alive)
@@ -241,7 +257,13 @@ namespace DrCanoli
                     spriteBatch.DrawString(
 						font, "It's class time", new Vector2(10, 10), Color.White
 						);
-
+                    foreach(Enemy e in enemyList)
+                    {
+                        if (e.Active)
+                        {
+                            e.Draw(spriteBatch);
+                        }
+                    }
                     //Draw background
                     background.Draw(spriteBatch);
 
