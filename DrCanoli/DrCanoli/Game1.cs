@@ -67,6 +67,7 @@ namespace DrCanoli
 
             drawables = new List<IDrawn>();
             enemyList = new List<Enemy>();
+            obstacles = new List<Obstacle>();
 			//menu buttons
 			startButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 4 - 25, 100, 50);
 			optionsButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 5 - 25, 100, 50);
@@ -138,7 +139,9 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
                 );
-            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
+            phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
+            player = new Player(0, 0, 100, 200, 100, 100, playerAnimSet, phys);
+            phys.Player = player;
 
             //Background
             background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));

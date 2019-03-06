@@ -30,16 +30,16 @@ namespace DrCanoli
 		//player specific fields
 
 
-		public Player(Rectangle box, int hp, int dmg, AnimationSet animSet, PhysManager phys, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true): base(box, hp, dmg, animSet, fighterState)
+		public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true): base(new Rectangle(x, y, width, height), hp, dmg, animSet, fighterState)
         {
             wep = weapon;
             //100 is just a placeholder value, subject to change
             alive = true;
             this.facingRight = facingRight;
             this.phys = phys;
+            Stunned = false;
         }
-        public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys) : this(new Rectangle(x, y, width, height), hp, dmg, animSet, phys) { }
-
+      
 		/// <summary>
 		/// used to update player's state based on input
 		/// </summary>
@@ -83,15 +83,15 @@ namespace DrCanoli
                     }
 					break;
 				case FighterState.Move:             //MoveLeft State
-					if (kbState.IsKeyDown(Keys.A))          //when A is pressed
+					if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
 					{
                         facingRight = false;
-						Box = new Rectangle(Box.X - PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
+						Box = new Rectangle(Box.X - PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
 					}
 					else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
 					{
                         facingRight = true;
-                        Box = new Rectangle(Box.X + PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X + PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
                     }
 					if (kbState.IsKeyDown(Keys.Space)) //when Space is pressed
 					{
@@ -105,10 +105,10 @@ namespace DrCanoli
 						FighterState = FighterState.Idle;
 						facingRight = false;
 					}
-					if (kbState.IsKeyUp(Keys.W))            //when W is pressed
-                        Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 60, Box.Width, Box.Height);
-                    if (kbState.IsKeyDown(Keys.S))          //when S is pressed
-                        Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns / 60, Box.Width, Box.Height);
+					if (kbState.IsKeyDown(Keys.W) && Box.Y > PhysManager.Unicorns * 4.2)            //when W is pressed
+                        Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 10, Box.Width, Box.Height);
+                    if (kbState.IsKeyDown(Keys.S) && Box.Y < PhysManager.Unicorns * 7)          //when S is pressed
+                        Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns / 10, Box.Width, Box.Height);
                     break;
 				case FighterState.Jump:					//Jump State
                     if (!Stunned)
@@ -116,16 +116,16 @@ namespace DrCanoli
                         if (kbState.IsKeyDown(Keys.A))          //when A is pressed
                         {
                             facingRight = false;
-                            Box = new Rectangle(Box.X - PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
+                            Box = new Rectangle(Box.X - PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
                         }
                         else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
                         {
                             facingRight = true;
-                            Box = new Rectangle(Box.X + PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
+                            Box = new Rectangle(Box.X + PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
                         }
                     }
                     else
-                        Box = new Rectangle(Box.X - PhysManager.Unicorns / 60, Box.Y, Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X - PhysManager.Unicorns / 10, Box.Y, Box.Width, Box.Height);
                     bool done = phys.Jump(this);
                     if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
                         FighterState = FighterState.Move;

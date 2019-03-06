@@ -11,7 +11,6 @@ namespace DrCanoli
 {
     class PhysManager
     {
-        Game1 previousGame;
         //if this manages enemies as well, we shoud add a list for enemy references here
         private List<Enemy> enemyList;
         //any map obstacles should go here 
@@ -37,7 +36,7 @@ namespace DrCanoli
             enemyList = enemies;
             unicorns = screenHeight / 9;
             frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
-            acceleration = -9.81 * 2 * Math.Pow(frameSeconds, 2); //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
+            acceleration = -30.81 * 2 * Math.Pow(frameSeconds, 2); //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
             elapsedTime = 0;
         }
 
@@ -172,6 +171,12 @@ namespace DrCanoli
         {
             get { return elapsedTime; }
             set { elapsedTime = value; }
+        }
+
+        public Player Player
+        {
+            get { return player; }
+            set { player = value; }
         }
     }
 }
