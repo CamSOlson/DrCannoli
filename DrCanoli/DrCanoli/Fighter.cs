@@ -22,6 +22,7 @@ namespace DrCanoli
         private bool stunned;
         private int hp;
         private int dmg;
+        private double speed;
         protected Animation animation;
         protected AnimationSet animationSet;
 
@@ -34,6 +35,11 @@ namespace DrCanoli
         {
             get { return dmg; }
             set { dmg = value; }
+        }
+        public double Speed
+        {
+            get { return speed; }
+            set { speed = value; }
         }
         public Fighter(Rectangle box, int hp, int damage, AnimationSet animationSet, FighterState fighterState)
         {

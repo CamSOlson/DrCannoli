@@ -41,11 +41,17 @@ namespace DrCanoli
         private TextFile textFile;
 
         private static int cameraOffset; //Stores how far in the x direction the camera should be shifted. MUST be static to access in other classes
+        private static int floorTop; //Stores how far from the top of the screen the floor should be
 
         public static int CameraOffset
         {
             get { return cameraOffset; }
             set { cameraOffset = value; }
+        }
+        public static int FloorTop
+        {
+            get { return floorTop; }
+            set { floorTop = value; }
         }
 
         public Game1()
@@ -87,6 +93,9 @@ namespace DrCanoli
         /// </summary>
         private void LevelStart()
         {
+            //Set floor top value
+            floorTop = graphics.PreferredBackBufferHeight / 3 * 2;
+
             for (int c = 0; c < levelData.Count; c++)
             {
                 for (int d = 0; d < levelData[c].Count; d++)

@@ -38,6 +38,7 @@ namespace DrCanoli
             this.facingRight = facingRight;
             this.phys = phys;
             Stunned = false;
+            Speed = 7;
         }
       
 		/// <summary>
@@ -88,12 +89,12 @@ namespace DrCanoli
 					if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
 					{
                         facingRight = false;
-						Box = new Rectangle(Box.X - PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
+						Box = new Rectangle((int) (Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
 					}
 					else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
 					{
                         facingRight = true;
-                        Box = new Rectangle(Box.X + PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
+                        Box = new Rectangle((int) (Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
                     }
 					if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space)) //when Space is pressed
 					{
@@ -109,13 +110,13 @@ namespace DrCanoli
                         AnimationSet.Walking.Reset();
                         animation = AnimationSet.Idle;
 					}
-                    if (kbState.IsKeyDown(Keys.W) && Box.Y > PhysManager.Unicorns * 4.6)            //when W is pressed
+                    if (kbState.IsKeyDown(Keys.W) && Box.Y + Box.Height - Box.Height / 8 > Game1.FloorTop)            //when W is pressed
                     {
-                        Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 20, Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X, (int) (Box.Y - PhysManager.Unicorns / (60 / Speed * 2)), Box.Width, Box.Height);
                     }
-                    if (kbState.IsKeyDown(Keys.S) && Box.Y < PhysManager.Unicorns * 7)          //when S is pressed
+                    if (kbState.IsKeyDown(Keys.S) && Box.Y + Box.Height < GraphicsDeviceManager.DefaultBackBufferHeight)          //when S is pressed
                     {
-                        Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns / 20, Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X, (int) (Box.Y + PhysManager.Unicorns / (60 / Speed * 2)), Box.Width, Box.Height);
                     }
                     break;
 				case FighterState.Jump:					//Jump State
@@ -124,7 +125,7 @@ namespace DrCanoli
                         if (kbState.IsKeyDown(Keys.A))          //when A is pressed
                         {
                             facingRight = false;
-                            Box = new Rectangle(Box.X - PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
+                            Box = new Rectangle((int) (Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
                             if (kbPrevious.IsKeyUp(Keys.A))
                             {
                                 AnimationSet.Idle.Reset();
@@ -134,7 +135,7 @@ namespace DrCanoli
                         else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
                         {
                             facingRight = true;
-                            Box = new Rectangle(Box.X + PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
+                            Box = new Rectangle((int) (Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
                             if (kbPrevious.IsKeyUp(Keys.D))
                             {
                                 AnimationSet.Idle.Reset();
@@ -149,22 +150,23 @@ namespace DrCanoli
                     }
                     else
                     {
-                        Box = new Rectangle(Box.X - PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
+                        Box = new Rectangle((int) (Box.X - PhysManager.Unicorns / (60 / Speed * 2)), Box.Y, Box.Width, Box.Height);
                     }
                     if (kbState.IsKeyDown(Keys.W))            //when W is pressed
                     {
-                        InitialY -= PhysManager.Unicorns / 20;
-                        if (InitialY < PhysManager.Unicorns * 4.6)
+                        InitialY -= (int) (PhysManager.Unicorns / (60 / Speed * 2));
+                        //Box.Y + Box.Height - Box.Height / 8 > Game1.FloorTop
+                        if (InitialY + Box.Height - Box.Height / 8 < Game1.FloorTop)
                         {
-                            InitialY = (int)(PhysManager.Unicorns * 4.6);
+                            InitialY = (int)(Game1.FloorTop + Box.Height / 8 - Box.Height);
                         }
                     }
-                    if (kbState.IsKeyDown(Keys.S) && Box.Y < PhysManager.Unicorns * 7)          //when S is pressed
+                    if (kbState.IsKeyDown(Keys.S))          //when S is pressed
                     {
-                        InitialY += PhysManager.Unicorns / 20;
-                        if(InitialY > PhysManager.Unicorns * 7)
+                        InitialY += (int) (PhysManager.Unicorns / (60 / Speed * 2));
+                        if(InitialY + Box.Height > GraphicsDeviceManager.DefaultBackBufferHeight)
                         {
-                            InitialY = PhysManager.Unicorns * 7;
+                            InitialY = GraphicsDeviceManager.DefaultBackBufferHeight - Box.Height;
                         }
                     }
                     bool done = phys.Jump(this);
