@@ -187,7 +187,25 @@ namespace DrCanoli
 				case GameState.Game:
                     //ALWAYS update player, no ifs/elses about it
                     player.Update();
-
+                    foreach(Enemy e in enemyList)
+                    {
+                        if(e.Box.X - player.Box.X > 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X - 1, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                        else if(e.Box.X - player.Box.X < 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X + 1, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                        if(e.Box.Y - player.Box.Y > 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X, e.Box.Y - 1, e.Box.Width, e.Box.Height);
+                        }
+                        else if(e.Box.Y - player.Box.Y < 0)
+                        {
+                            e.Box = new Rectangle(e.Box.X, e.Box.Y + 1, e.Box.Width, e.Box.Height);
+                        }
+                    }
                     //This borks the level
                     /*
                     if (!player.Alive)
