@@ -162,6 +162,10 @@ namespace DrCanoli
                     if (kbState.IsKeyDown(Keys.S) && Box.Y < PhysManager.Unicorns * 7)          //when S is pressed
                     {
                         InitialY += PhysManager.Unicorns / 20;
+                        if(InitialY > PhysManager.Unicorns * 7)
+                        {
+                            InitialY = PhysManager.Unicorns * 7;
+                        }
                     }
                     bool done = phys.Jump(this);
                     if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
