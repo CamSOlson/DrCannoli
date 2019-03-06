@@ -31,6 +31,7 @@ namespace DrCanoli
         private List<Obstacle> obstacles;
         private List<Enemy> enemyList;
         private Player player;
+        private Background background;
         private PhysManager phys;
         
 
@@ -107,7 +108,10 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
                 );
-            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet);
+            player = new Player(new Rectangle(0, 0, 100, 200), 100, 100, playerAnimSet, phys);
+
+            //Background
+            background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
         }
 
         /// <summary>
@@ -227,12 +231,16 @@ namespace DrCanoli
 						);
 					break;
 				case GameState.Game:
+
 					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
 
                     spriteBatch.DrawString(
 						font, "It's class time", new Vector2(10, 10), Color.White
 						);
-                    
+
+                    //Draw background
+                    background.Draw(spriteBatch);
+
                     if (player != null)
                     {
                         player.Draw(spriteBatch);

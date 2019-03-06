@@ -134,6 +134,8 @@ namespace DrCanoli
                     break;
 			}
 
+            animation.FacingRight = facingRight;
+
 			base.Update();
 		}
 
