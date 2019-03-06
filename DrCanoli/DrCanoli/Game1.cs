@@ -193,6 +193,11 @@ namespace DrCanoli
                     //Update camera
                     cameraOffset = player.Box.X - graphics.PreferredBackBufferWidth / 2 + player.Box.Width / 2;
 
+                    if (cameraOffset < 0)
+                    {
+                        cameraOffset = 0;
+                    }
+
                     foreach(Enemy e in enemyList)
                     {
                         if(e.Box.X - player.Box.X > 0)
