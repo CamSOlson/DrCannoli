@@ -109,9 +109,12 @@ namespace DrCanoli
                         AnimationSet.Walking.Reset();
                         animation = AnimationSet.Idle;
 					}
-					if (kbState.IsKeyDown(Keys.W) && Box.Y > PhysManager.Unicorns * 4.6)            //when W is pressed
+                    if (kbState.IsKeyDown(Keys.W) && Box.Y > PhysManager.Unicorns * 4.6)            //when W is pressed
+                    {
                         Box = new Rectangle(Box.X, Box.Y - PhysManager.Unicorns / 20, Box.Width, Box.Height);
+                    }
                     if (kbState.IsKeyDown(Keys.S) && Box.Y < PhysManager.Unicorns * 7)          //when S is pressed
+                    {
                         Box = new Rectangle(Box.X, Box.Y + PhysManager.Unicorns / 20, Box.Width, Box.Height);
                     }
                     break;
@@ -122,20 +125,57 @@ namespace DrCanoli
                         {
                             facingRight = false;
                             Box = new Rectangle(Box.X - PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
+                            if (kbPrevious.IsKeyUp(Keys.A))
+                            {
+                                AnimationSet.Idle.Reset();
+                                animation = AnimationSet.Walking;
+                            }
                         }
                         else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
                         {
                             facingRight = true;
                             Box = new Rectangle(Box.X + PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
+                            if (kbPrevious.IsKeyUp(Keys.D))
+                            {
+                                AnimationSet.Idle.Reset();
+                                animation = AnimationSet.Walking;
+                            }
+                        }
+                        else
+                        {
+                            AnimationSet.Walking.Reset();
+                            animation = AnimationSet.Idle;
                         }
                     }
                     else
+                    {
                         Box = new Rectangle(Box.X - PhysManager.Unicorns / 20, Box.Y, Box.Width, Box.Height);
+                    }
+                    if (kbState.IsKeyDown(Keys.W))            //when W is pressed
+                    {
+                        InitialY -= PhysManager.Unicorns / 20;
+                        if (InitialY < PhysManager.Unicorns * 4.6)
+                        {
+                            InitialY = (int)(PhysManager.Unicorns * 4.6);
+                        }
+                    }
+                    if (kbState.IsKeyDown(Keys.S) && Box.Y < PhysManager.Unicorns * 7)          //when S is pressed
+                    {
+                        InitialY += PhysManager.Unicorns / 20;
+                    }
                     bool done = phys.Jump(this);
                     if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
+                    {
                         FighterState = FighterState.Move;
+                        AnimationSet.Idle.Reset();
+                        animation = AnimationSet.Walking;
+                    }
                     else if (done)
+                    {
                         FighterState = FighterState.Idle;
+                        AnimationSet.Walking.Reset();
+                        animation = AnimationSet.Idle;
+                    }
                     break;
 			}
 
