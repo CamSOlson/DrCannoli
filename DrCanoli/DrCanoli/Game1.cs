@@ -119,7 +119,7 @@ namespace DrCanoli
                         AnimationSet animSet = new AnimationSet(
                             Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                             Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
-                        enemyList.Add(new Enemy(new Rectangle(x, y, 50, 100), 50, 10, animSet));
+                        enemyList.Add(new Enemy(x, y, 50, 100, 50, 10, animSet, phys));
                     }
                 }
             }
@@ -198,6 +198,10 @@ namespace DrCanoli
 				case GameState.Game:
                     //ALWAYS update player, no ifs/elses about it
                     player.Update();
+                    foreach (Enemy e in enemyList)
+                    {
+                        e.Update();
+                    }
 
                     //Update camera
                     cameraOffset = player.Box.X - graphics.PreferredBackBufferWidth / 2 + player.Box.Width / 2;
@@ -207,25 +211,7 @@ namespace DrCanoli
                         cameraOffset = 0;
                     }
 
-                    foreach(Enemy e in enemyList)
-                    {
-                        if(e.Box.X - player.Box.X > 0)
-                        {
-                            e.Box = new Rectangle(e.Box.X - 1, e.Box.Y, e.Box.Width, e.Box.Height);
-                        }
-                        else if(e.Box.X - player.Box.X < 0)
-                        {
-                            e.Box = new Rectangle(e.Box.X + 1, e.Box.Y, e.Box.Width, e.Box.Height);
-                        }
-                        if(e.Box.Y - player.Box.Y > 0)
-                        {
-                            e.Box = new Rectangle(e.Box.X, e.Box.Y - 1, e.Box.Width, e.Box.Height);
-                        }
-                        else if(e.Box.Y - player.Box.Y < 0)
-                        {
-                            e.Box = new Rectangle(e.Box.X, e.Box.Y + 1, e.Box.Width, e.Box.Height);
-                        }
-                    }
+                    
                     //This borks the level
                     /*
                     if (!player.Alive)
