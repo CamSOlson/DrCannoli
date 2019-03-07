@@ -15,6 +15,7 @@ namespace DrCanoli
         private bool alive;
 		private bool facingRight;   //true if last idle state was right, false if last idle state was left
         KeyboardState kbState, kbPrevious;
+        MouseState mState, mStatePrev;
         PhysManager phys;
 
         public Weapon Wep
@@ -39,6 +40,10 @@ namespace DrCanoli
             this.phys = phys;
             Stunned = false;
             Speed = 7;
+
+            //Initialize keyboard and mouse states
+            kbState = Keyboard.GetState();
+            mState = Mouse.GetState();
         }
       
 		/// <summary>
@@ -51,8 +56,13 @@ namespace DrCanoli
                 alive = false;
             }
             base.Update();
+
+            //Will eventually make an input manager in polishing stage for better control over input
             kbPrevious = kbState;
 			kbState = Keyboard.GetState();
+
+            mStatePrev = mState;
+            mState = Mouse.GetState();
 
             if (Wep != null && facingRight)
             {
@@ -188,7 +198,8 @@ namespace DrCanoli
                             Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed * 2)), Box.Y, Box.Width, Box.Height);
                         }
                     }
-                    if (kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P))
+                    if ((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
+                        (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)))
                     {
                         Wep.Swinging = true;
                     }
