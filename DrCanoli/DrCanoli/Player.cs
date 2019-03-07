@@ -75,6 +75,12 @@ namespace DrCanoli
             switch (FighterState)
 			{
 				case FighterState.Idle:				//IdleLeft state
+                    if (Invulnerable)
+                    {
+                        InvulnTime -= Game1.ElapsedTime;
+                        if (InvulnTime <= 0)
+                            Invulnerable = false;
+                    }
                     if (kbState.IsKeyDown(Keys.D) || kbState.IsKeyDown(Keys.W) || kbState.IsKeyDown(Keys.S) || kbState.IsKeyDown(Keys.A))		//when D is pressed
                     {
                         FighterState = FighterState.Move;
@@ -104,6 +110,12 @@ namespace DrCanoli
                     }
 					break;
 				case FighterState.Move:             //MoveLeft State
+                    if (Invulnerable)
+                    {
+                        InvulnTime -= Game1.ElapsedTime;
+                        if (InvulnTime <= 0)
+                            Invulnerable = false;
+                    }
 					if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
 					{
                         facingRight = false;
@@ -148,7 +160,7 @@ namespace DrCanoli
 				case FighterState.Jump:					//Jump State
                     if (!Stunned)
                     {
-                        if (kbState.IsKeyDown(Keys.A))          //when A is pressed
+                        if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
                         {
                             facingRight = false;
                             Box = new Rectangle((int) (Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);

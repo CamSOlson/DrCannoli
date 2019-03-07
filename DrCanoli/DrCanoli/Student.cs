@@ -15,23 +15,11 @@ namespace DrCanoli
         Rectangle box;
         Texture2D sprite;
         protected int dmg;
-        protected int speed;
-        public int Speed
-        {
-            get
-            {
-                return speed;
-            }
-            set
-            {
-                speed = value;
-            }
-        }
 
         // Class constructor
         public Student(int x, int y, int width, int height, AnimationSet animSet, int hp, int dmg, PhysManager phys) : base(x, y, width, height, hp, dmg, animSet, phys)
         {
-            this.speed = 3;
+            Speed = 3;
         }
 
         

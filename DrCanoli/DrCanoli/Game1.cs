@@ -34,6 +34,8 @@ namespace DrCanoli
         private Player player;
         private Background background;
         private PhysManager phys;
+
+        private static double elapsedTime;
         
 
         // List of enemy positions
@@ -53,6 +55,11 @@ namespace DrCanoli
         {
             get { return floorTop; }
             set { floorTop = value; }
+        }
+        public static double ElapsedTime
+        {
+            get { return elapsedTime; }
+            set { elapsedTime = value; }
         }
 
         public Game1()
@@ -184,6 +191,7 @@ namespace DrCanoli
                 Exit();
 
 			// TODO: Add your update logic here
+
 			switch (gameState)	//used for transitioning between gameStates
 			{
 				case GameState.Menu:
@@ -204,6 +212,7 @@ namespace DrCanoli
 					break;
 				case GameState.Game:
                     //ALWAYS update player, no ifs/elses about it
+                    elapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
                     player.Update();
                     foreach (Enemy e in enemyList)
                     {
