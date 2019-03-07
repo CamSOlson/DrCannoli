@@ -51,6 +51,7 @@ namespace DrCanoli
             stunned = false;
             stunTime = 0;
             this.fighterState = fighterState;
+            this.hp = hp;
         }
         public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet, FighterState fighterState) : this(new Rectangle(x,y,width,height), hp, dmg, animationSet, fighterState) { }
 

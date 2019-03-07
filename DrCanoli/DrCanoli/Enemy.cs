@@ -24,7 +24,7 @@ namespace DrCanoli
         public bool Active
         {
             get { return active; }
-            set { Active = value; }
+            set { active = value; }
         }
         // enemy specific fields
 
@@ -136,26 +136,29 @@ namespace DrCanoli
                             AnimationSet.Walking.Reset();
                             animation = AnimationSet.Idle;
                         }
+                        if (Box.Y > phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2)            //when W is pressed
+                        {
+                            InitialY -= (int)(PhysManager.Unicorns / (60 / Speed * 2));
+                            //Box.Y + Box.Height - Box.Height / 8 > Game1.FloorTop
+                            if (InitialY + Box.Height - Box.Height / 8 < Game1.FloorTop)
+                            {
+                                InitialY = (int)(Game1.FloorTop + Box.Height / 8 - Box.Height);
+                            }
+                        }
+                        if (Box.Y < phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2)          //when S is pressed
+                        {
+                            InitialY += (int)(PhysManager.Unicorns / (60 / Speed * 2));
+                            if (InitialY + Box.Height > GraphicsDeviceManager.DefaultBackBufferHeight)
+                            {
+                                InitialY = GraphicsDeviceManager.DefaultBackBufferHeight - Box.Height;
+                            }
+                        }
                     }
                     else
                     {
-                        Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed * 2)), Box.Y, Box.Width, Box.Height);
-                    }
-                    if (Box.Y > phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2)            //when W is pressed
-                    {
-                        InitialY -= (int)(PhysManager.Unicorns / (60 / Speed * 2));
-                        //Box.Y + Box.Height - Box.Height / 8 > Game1.FloorTop
-                        if (InitialY + Box.Height - Box.Height / 8 < Game1.FloorTop)
+                        if (Box.X > 0)
                         {
-                            InitialY = (int)(Game1.FloorTop + Box.Height / 8 - Box.Height);
-                        }
-                    }
-                    if (Box.Y < phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2)          //when S is pressed
-                    {
-                        InitialY += (int)(PhysManager.Unicorns / (60 / Speed * 2));
-                        if (InitialY + Box.Height > GraphicsDeviceManager.DefaultBackBufferHeight)
-                        {
-                            InitialY = GraphicsDeviceManager.DefaultBackBufferHeight - Box.Height;
+                            Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed * 2)), Box.Y, Box.Width, Box.Height);
                         }
                     }
                     bool done = phys.Jump(this);

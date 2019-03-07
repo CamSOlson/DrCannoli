@@ -202,6 +202,7 @@ namespace DrCanoli
                     {
                         e.Update();
                     }
+                    phys.CheckCollisions();
 
                     //Update camera
                     cameraOffset = player.Box.X - graphics.PreferredBackBufferWidth / 2 + player.Box.Width / 2;

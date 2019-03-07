@@ -40,12 +40,12 @@ namespace DrCanoli
             elapsedTime = 0;
         }
 
-        private void CheckCollisions()
+        public void CheckCollisions()
         {
             //CHECK WEAPON COLLISIONS WITH ENEMIES, calls Hit() with proper entities
             foreach (Enemy e in enemyList)
             {
-                if (player.Wep.Swinging && e.Box.Intersects(player.Wep.Box))
+                if (player.Wep.Swinging && e.Box.Intersects(player.Wep.Box) && e.Active)
                 {
                     if (!e.Stunned)
                         Hit(player, e);
@@ -55,10 +55,15 @@ namespace DrCanoli
             //CHECK ENEMY COLLISIONS WITH PLAYER, also calls Hit() with proper entities
             foreach (Enemy e in enemyList)
             {
-                if (e.Box.Intersects(player.Box))
+                if (e.Box.Intersects(player.Box) && e.Active)
                 {
                     if (!player.Stunned)
                         Hit(e, player);
+                    Rectangle intersect = Rectangle.Intersect(e.Box, player.Box);
+                    if (player.Box.X < e.Box.X)
+                        e.Box = new Rectangle(e.Box.X + intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
+                    else
+                        e.Box = new Rectangle(e.Box.X - intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
                 }
             }
 
@@ -86,7 +91,7 @@ namespace DrCanoli
             Target.Hp -= Hitter.Dmg;
             if (Hitter is Player)
             {
-                Player player0 = (Player)Target;
+                Player player0 = (Player)Hitter;
                 Target.Hp -= player0.Wep.Damage;
             }
 
