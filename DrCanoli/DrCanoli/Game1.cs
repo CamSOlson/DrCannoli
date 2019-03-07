@@ -147,7 +147,7 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
                 );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
-            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 100, playerAnimSet, phys);
+            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 100, playerAnimSet, phys, new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), Content.Load<Texture2D>("tempWep"), 10, 1));
             phys.Player = player;
 
             //Background
@@ -274,6 +274,14 @@ namespace DrCanoli
 
 					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
 
+                    background.Draw(spriteBatch);
+
+                    if (player != null)
+                    {
+                        player.Draw(spriteBatch);
+                        if (player.Wep != null)
+                            player.Wep.Draw(spriteBatch);
+                    }
                     spriteBatch.DrawString(
 						font, "It's class time", new Vector2(10, 10), Color.White
 						);
@@ -283,13 +291,6 @@ namespace DrCanoli
                         {
                             e.Draw(spriteBatch);
                         }
-                    }
-                    //Draw background
-                    background.Draw(spriteBatch);
-
-                    if (player != null)
-                    {
-                        player.Draw(spriteBatch);
                     }
 					break;
 				case GameState.GameOver:

@@ -56,11 +56,11 @@ namespace DrCanoli
 
             if (Wep != null && facingRight)
             {
-                Wep.Box = new Rectangle(Box.X + Box.Width, Box.Y + Box.Height / 2, Wep.Box.Width, Wep.Box.Height);
+                Wep.Box = new Rectangle(Box.X + Box.Width - 5 - Game1.CameraOffset, Box.Y + Box.Height / 2 + 20, Wep.Box.Width, Wep.Box.Height);
 
             }
             else if (Wep != null)
-                Wep.Box = new Rectangle(Box.X - Wep.Box.Width, Box.Y + Box.Height / 2, Wep.Box.Width, Wep.Box.Height);
+                Wep.Box = new Rectangle(Box.X - Wep.Box.Width + 5 - Game1.CameraOffset, Box.Y + Box.Height / 2 + 20, Wep.Box.Width, Wep.Box.Height);
 
             switch (FighterState)
 			{

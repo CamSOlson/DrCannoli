@@ -36,7 +36,7 @@ namespace DrCanoli
         public override void Draw(SpriteBatch batch)
         {
             if(active)
-            base.Draw(batch);
+                base.Draw(batch);
         }
     }
 }
