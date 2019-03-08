@@ -21,7 +21,6 @@ namespace DrCanoli
         private double frameSeconds;
         private static double acceleration; //time between frames, acceleration in unicorns per frameSeconds squared
         private const double JUMPUNICORNS = 2;
-        private double elapsedTime; //every frame we call gameTime.ElapsedGameTime.TotalSeconds in game1 and call the property here
 
         //I needed to add this here so I could use it in my animations <3 -Love, Cam XOXOXOXO
         public static int Unicorns
@@ -37,7 +36,6 @@ namespace DrCanoli
             unicorns = screenHeight / 9;
             frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
             acceleration = -.981 * 2; //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
-            elapsedTime = 0;
         }
 
         public void CheckCollisions()
@@ -57,7 +55,7 @@ namespace DrCanoli
             {
                 if (e.Box.Intersects(player.Box) && e.Active)
                 {
-                    if (!player.Stunned)
+                    if (!player.Invulnerable)
                         Hit(e, player);
                     Rectangle intersect = Rectangle.Intersect(e.Box, player.Box);
                     if (player.Box.X < e.Box.X)
@@ -137,11 +135,17 @@ namespace DrCanoli
             else
                 jumper.VelocityY -= 1;
 
-            if (player.Stunned)
+            if (jumper.Stunned)
             {
-                jumper.StunTime -= elapsedTime;
+                jumper.StunTime -= Game1.ElapsedTime;
                 if (jumper.StunTime <= 0)
                     player.Stunned = false;
+            }
+            if (jumper is Player && jumper.Invulnerable)
+            {
+                jumper.InvulnTime -= Game1.ElapsedTime;
+                if (jumper.InvulnTime <= 0)
+                    jumper.Invulnerable = false;
             }
             if (jumper.Box.Y >= jumper.InitialY)
             {
@@ -169,6 +173,11 @@ namespace DrCanoli
             wasHit.VelocityY /= 2;
             wasHit.Stunned = true;
             wasHit.StunTime = 0.2;
+            if (wasHit is Player)
+            {
+                wasHit.Invulnerable = true;
+                wasHit.InvulnTime = 1;
+            }
         }
 
         //players and enemies should have a method for dying, this manager should just detract health
@@ -181,13 +190,6 @@ namespace DrCanoli
                 return Math.Sqrt(-2 * acceleration * unicorns * JUMPUNICORNS);
             }
         }
-
-        public double ElapsedTime
-        {
-            get { return elapsedTime; }
-            set { elapsedTime = value; }
-        }
-
         public Player Player
         {
             get { return player; }

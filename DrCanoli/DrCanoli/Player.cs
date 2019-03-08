@@ -15,6 +15,7 @@ namespace DrCanoli
         private bool alive;
 		private bool facingRight;   //true if last idle state was right, false if last idle state was left
         KeyboardState kbState, kbPrevious;
+        MouseState mState, mStatePrev;
         PhysManager phys;
 
         public Weapon Wep
@@ -39,6 +40,10 @@ namespace DrCanoli
             this.phys = phys;
             Stunned = false;
             Speed = 7;
+
+            //Initialize keyboard and mouse states
+            kbState = Keyboard.GetState();
+            mState = Mouse.GetState();
         }
       
 		/// <summary>
@@ -51,8 +56,13 @@ namespace DrCanoli
                 alive = false;
             }
             base.Update();
+
+            //Will eventually make an input manager in polishing stage for better control over input
             kbPrevious = kbState;
 			kbState = Keyboard.GetState();
+
+            mStatePrev = mState;
+            mState = Mouse.GetState();
 
             if (Wep != null && facingRight)
             {
@@ -65,6 +75,12 @@ namespace DrCanoli
             switch (FighterState)
 			{
 				case FighterState.Idle:				//IdleLeft state
+                    if (Invulnerable)
+                    {
+                        InvulnTime -= Game1.ElapsedTime;
+                        if (InvulnTime <= 0)
+                            Invulnerable = false;
+                    }
                     if (kbState.IsKeyDown(Keys.D) || kbState.IsKeyDown(Keys.W) || kbState.IsKeyDown(Keys.S) || kbState.IsKeyDown(Keys.A))		//when D is pressed
                     {
                         FighterState = FighterState.Move;
@@ -94,6 +110,12 @@ namespace DrCanoli
                     }
 					break;
 				case FighterState.Move:             //MoveLeft State
+                    if (Invulnerable)
+                    {
+                        InvulnTime -= Game1.ElapsedTime;
+                        if (InvulnTime <= 0)
+                            Invulnerable = false;
+                    }
 					if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
 					{
                         facingRight = false;
@@ -138,7 +160,7 @@ namespace DrCanoli
 				case FighterState.Jump:					//Jump State
                     if (!Stunned)
                     {
-                        if (kbState.IsKeyDown(Keys.A))          //when A is pressed
+                        if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
                         {
                             facingRight = false;
                             Box = new Rectangle((int) (Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
@@ -188,7 +210,9 @@ namespace DrCanoli
                             Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed * 2)), Box.Y, Box.Width, Box.Height);
                         }
                     }
-                    if (kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P))
+
+                    if ((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
+                        (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)))
                     {
                         Wep.Swinging = true;
                     }
@@ -196,6 +220,7 @@ namespace DrCanoli
                     {
                         wep.Swinging = false;
                     }
+
                     bool done = phys.Jump(this);
                     if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
                     {
@@ -213,6 +238,12 @@ namespace DrCanoli
 			}
 
             animation.FacingRight = facingRight;
+
+            //Damage tester
+            if (kbState.IsKeyDown(Keys.H) && kbPrevious.IsKeyUp(Keys.H))
+            {
+                Hp = Hp - 10;
+            }
 
 			base.Update();
 		}

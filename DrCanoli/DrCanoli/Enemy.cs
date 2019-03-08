@@ -11,16 +11,10 @@ namespace DrCanoli
 {
     class Enemy : Fighter
     {
-        private int speed; //should be in terms of unicorns per frame, if not just the same speed as the player
         private bool active;
         private bool facingRight;
         private PhysManager phys;
         private KeyboardState kbState, kbPrevious;
-        public int Speed
-        {
-            get { return speed; }
-            set { speed = value; }
-        }
         public bool Active
         {
             get { return active; }
@@ -34,7 +28,7 @@ namespace DrCanoli
             active = true;
             kbState = Keyboard.GetState();
             this.phys = phys;
-            speed = 3;
+            Speed = 3;
         }
 
         public override void Draw(SpriteBatch batch)
@@ -111,7 +105,7 @@ namespace DrCanoli
                 case FighterState.Jump:					//Jump State
                     if (!Stunned)
                     {
-                        if (Box.X > phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2)          //when A is pressed
+                        if (Box.X > phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2 && Box.X > 0)          //when A is pressed
                         {
                             facingRight = false;
                             Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
@@ -158,7 +152,7 @@ namespace DrCanoli
                     {
                         if (Box.X > 0)
                         {
-                            Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed * 2)), Box.Y, Box.Width, Box.Height);
+                            Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed + 10 * 2)), Box.Y, Box.Width, Box.Height);
                         }
                     }
                     bool done = phys.Jump(this);

@@ -29,10 +29,16 @@ namespace DrCanoli
 
 		private List<IDrawn> drawables;
         private List<Obstacle> obstacles;
+        private List<Fighter> entities;
         private List<Enemy> enemyList;
         private Player player;
         private Background background;
         private PhysManager phys;
+
+        private Texture2D healthBackground;
+        private Texture2D healthBar;
+
+        private static double elapsedTime;
         
 
         // List of enemy positions
@@ -52,6 +58,11 @@ namespace DrCanoli
         {
             get { return floorTop; }
             set { floorTop = value; }
+        }
+        public static double ElapsedTime
+        {
+            get { return elapsedTime; }
+            set { elapsedTime = value; }
         }
 
         public Game1()
@@ -96,6 +107,9 @@ namespace DrCanoli
             //Set floor top value
             floorTop = graphics.PreferredBackBufferHeight / 3 * 2;
 
+            //Initialize entity list
+            entities = new List<Fighter>();
+
             for (int c = 0; c < levelData.Count; c++)
             {
                 for (int d = 0; d < levelData[c].Count; d++)
@@ -113,13 +127,16 @@ namespace DrCanoli
                     if (levelData[c][d] == 'X')
                     {
                         player.Box = new Rectangle(x, y, player.Box.Width, player.Box.Height);
+                        entities.Add(player);
                     }
                     else if (levelData[c][d] == 'E')
                     {
                         AnimationSet animSet = new AnimationSet(
                             Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                             Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
-                        enemyList.Add(new Enemy(x, y, 50, 100, 50, 10, animSet, phys));
+                        Enemy enemy = new Enemy(x, y, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 50, 10, animSet, phys);
+                        enemyList.Add(enemy);
+                        entities.Add(enemy);
                     }
                 }
             }
@@ -153,6 +170,23 @@ namespace DrCanoli
             //Background
             background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
 
+            //Health bar
+            healthBackground = new Texture2D(graphics.GraphicsDevice, PhysManager.Unicorns * 4, PhysManager.Unicorns / 2);
+            Color[] data = new Color[healthBackground.Width * healthBackground.Height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = Color.DarkGray;
+            }
+            healthBackground.SetData(data);
+
+            healthBar = new Texture2D(graphics.GraphicsDevice, healthBackground.Width, healthBackground.Height);
+            data = new Color[healthBar.Width * healthBar.Height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = Color.IndianRed;
+            }
+            healthBar.SetData(data);
+
             LevelStart();
 
         }
@@ -177,6 +211,7 @@ namespace DrCanoli
                 Exit();
 
 			// TODO: Add your update logic here
+
 			switch (gameState)	//used for transitioning between gameStates
 			{
 				case GameState.Menu:
@@ -197,6 +232,7 @@ namespace DrCanoli
 					break;
 				case GameState.Game:
                     //ALWAYS update player, no ifs/elses about it
+                    elapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
                     player.Update();
                     foreach (Enemy e in enemyList)
                     {
@@ -212,6 +248,9 @@ namespace DrCanoli
                         cameraOffset = 0;
                     }
 
+                    //Sort entities
+                    SortEntities();
+                    
                     
 
                     if (!player.Alive)
@@ -227,6 +266,34 @@ namespace DrCanoli
             //phys.ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
 
             base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Sort the entity list to order the player/enemies so they are layered correctly
+        /// </summary>
+        private void SortEntities()
+        {
+            entities.Sort(EntityComparator);
+        }
+        /// <summary>
+        /// The Comparaison<Fighter> that compares entities for sorting purposes
+        /// </summary>
+        /// <param name="e1"></param>
+        /// <param name="e2"></param>
+        /// <returns></returns>
+        private static int EntityComparator(Fighter e1, Fighter e2)
+        {
+            if (e1.Box.Y + e1.Box.Height > e2.Box.Y + e2.Box.Height)
+            {
+                //e1 is in front of e2, so must be rendered later
+                return 1;
+            }
+            else if (e1.Box.Y + e1.Box.Height < e2.Box.Y + e2.Box.Height)
+            {
+                //e1 is behind e2, so must be rendered earlier
+                return -1;
+            }
+            return 0;
         }
 
         /// <summary>
@@ -261,23 +328,34 @@ namespace DrCanoli
 
                     background.Draw(spriteBatch);
 
-                    if (player != null)
+                    //Entities (enemies and player)
+                    foreach (Fighter ent in entities)
                     {
-                        player.Draw(spriteBatch);
-                        if (player.Wep != null)
-                            player.Wep.Draw(spriteBatch);
-                    }
-                    spriteBatch.DrawString(
-						font, "It's class time", new Vector2(10, 10), Color.White
-						);
-                    foreach(Enemy e in enemyList)
-                    {
-                        if (e.Active)
+                        if (ent is Enemy && ((Enemy) ent).Active)
                         {
-                            e.Draw(spriteBatch);
+                            ent.Draw(spriteBatch);
+                        }
+                        else if (ent is Player)
+                        {
+                            ent.Draw(spriteBatch);
+                            //This will be moved into player eventually, and removed when the animation is finished
+                            if (player.Wep != null)
+                                player.Wep.Draw(spriteBatch);
                         }
                     }
-					break;
+
+                    //GUI
+                    //Health bar
+                    spriteBatch.Draw(healthBackground,
+                        new Rectangle(PhysManager.Unicorns / 2, PhysManager.Unicorns / 2, healthBackground.Width, healthBackground.Height),
+                        Color.White);
+                    int healthBarWidth = (int) ((double) healthBackground.Width * ((double) player.Hp / (double) player.MaxHp));
+                    spriteBatch.Draw(healthBar,
+                        new Rectangle(PhysManager.Unicorns / 2, PhysManager.Unicorns / 2, healthBarWidth, healthBar.Height),
+                        Color.White);
+
+
+                    break;
 				case GameState.GameOver:
 					GraphicsDevice.Clear(Color.Black);          //placeholder color for testing
 					spriteBatch.DrawString(
