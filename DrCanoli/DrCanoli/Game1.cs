@@ -341,6 +341,11 @@ namespace DrCanoli
                         }
                     }
 
+                    if(player.Alive == false)
+                    {
+                        gameState = GameState.GameOver;
+                    }
+
 					break;
 				case GameState.GameOver:
 					GraphicsDevice.Clear(Color.Black);          //placeholder color for testing

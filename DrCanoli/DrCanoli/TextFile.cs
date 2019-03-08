@@ -39,7 +39,6 @@ namespace DrCanoli
                 // Initialize stream reader, string variable, and char variable
                 StreamReader reader = new StreamReader(fileName);
                 string lineOfText = null;
-                string element = null;
                 // Create positionList
                 positionList = new List<List<char>>();
                 // Read in each line as a list of characters, then add this list to positionList
