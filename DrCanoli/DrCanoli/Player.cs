@@ -211,6 +211,7 @@ namespace DrCanoli
                             Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed * 2)), Box.Y, Box.Width, Box.Height);
                         }
                     }
+
                     if ((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
                         (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)))
                     {
@@ -220,6 +221,7 @@ namespace DrCanoli
                     {
                         wep.Swinging = false;
                     }
+
                     bool done = phys.Jump(this);
                     if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
                     {
@@ -237,6 +239,12 @@ namespace DrCanoli
 			}
 
             animation.FacingRight = facingRight;
+
+            //Damage tester
+            if (kbState.IsKeyDown(Keys.H) && kbPrevious.IsKeyUp(Keys.H))
+            {
+                Hp = Hp - 10;
+            }
 
 			base.Update();
 		}
