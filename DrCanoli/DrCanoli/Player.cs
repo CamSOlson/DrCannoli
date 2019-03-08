@@ -242,7 +242,7 @@ namespace DrCanoli
             //Damage tester
             if (kbState.IsKeyDown(Keys.H) && kbPrevious.IsKeyUp(Keys.H))
             {
-                Hp = Hp - 1;
+                Hp = Hp - 10;
             }
 
 			base.Update();
