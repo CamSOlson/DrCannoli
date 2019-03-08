@@ -35,6 +35,9 @@ namespace DrCanoli
         private Background background;
         private PhysManager phys;
 
+        private Texture2D healthBackground;
+        private Texture2D healthBar;
+
         private static double elapsedTime;
         
 
@@ -166,6 +169,23 @@ namespace DrCanoli
 
             //Background
             background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
+
+            //Health bar
+            healthBackground = new Texture2D(graphics.GraphicsDevice, PhysManager.Unicorns * 4, PhysManager.Unicorns / 2);
+            Color[] data = new Color[healthBackground.Width * healthBackground.Height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = Color.DarkGray;
+            }
+            healthBackground.SetData(data);
+
+            healthBar = new Texture2D(graphics.GraphicsDevice, healthBackground.Width, healthBackground.Height);
+            data = new Color[healthBar.Width * healthBar.Height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = Color.IndianRed;
+            }
+            healthBar.SetData(data);
 
             LevelStart();
 
@@ -309,23 +329,7 @@ namespace DrCanoli
 
                     background.Draw(spriteBatch);
 
-                    /*
-                    if (player != null)
-                    {
-                        player.Draw(spriteBatch);
-                        if (player.Wep != null)
-                            player.Wep.Draw(spriteBatch);
-                    }
-
-                    foreach(Enemy e in enemyList)
-                    {
-                        if (e.Active)
-                        {
-                            e.Draw(spriteBatch);
-                        }
-                    }
-                    */
-
+                    //Entities (enemies and player)
                     foreach (Fighter ent in entities)
                     {
                         if (ent is Enemy && ((Enemy) ent).Active)
@@ -341,7 +345,18 @@ namespace DrCanoli
                         }
                     }
 
-					break;
+                    //GUI
+                    //Health bar
+                    spriteBatch.Draw(healthBackground,
+                        new Rectangle(PhysManager.Unicorns / 2, PhysManager.Unicorns / 2, healthBackground.Width, healthBackground.Height),
+                        Color.White);
+                    int healthBarWidth = (int) ((double) healthBackground.Width * ((double) player.Hp / (double) player.MaxHp));
+                    spriteBatch.Draw(healthBar,
+                        new Rectangle(PhysManager.Unicorns / 2, PhysManager.Unicorns / 2, healthBarWidth, healthBar.Height),
+                        Color.White);
+
+
+                    break;
 				case GameState.GameOver:
 					GraphicsDevice.Clear(Color.Black);          //placeholder color for testing
 					spriteBatch.DrawString(

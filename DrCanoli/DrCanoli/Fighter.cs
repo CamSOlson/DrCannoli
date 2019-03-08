@@ -21,6 +21,7 @@ namespace DrCanoli
         //actual stat fields here I haven't really put much thought into how we store and calculate them
         private bool stunned, invuln;
         private int hp;
+        private int maxHp;
         private int dmg;
         private double speed;
         protected Animation animation;
@@ -30,6 +31,10 @@ namespace DrCanoli
         {
             get { return hp; }
             set { hp = value; }
+        }
+        public int MaxHp
+        {
+            get { return maxHp; }
         }
         public int Dmg
         {
@@ -52,6 +57,7 @@ namespace DrCanoli
             stunTime = 0;
             this.fighterState = fighterState;
             this.hp = hp;
+            this.maxHp = hp;
         }
         public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet, FighterState fighterState) : this(new Rectangle(x,y,width,height), hp, dmg, animationSet, fighterState) { }
 
