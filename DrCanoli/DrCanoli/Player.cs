@@ -28,6 +28,7 @@ namespace DrCanoli
             get { return alive; }
             set { alive = value; }
         }
+
 		//player specific fields
 
 

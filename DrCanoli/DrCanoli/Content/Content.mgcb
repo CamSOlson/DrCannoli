@@ -71,6 +71,9 @@
 /processorParam:TextureFormat=Color
 /build:tempWep.png
 
+#begin test.txt
+/copy:test.txt
+
 #begin textures/backgrounds/Classroom.png
 /importer:TextureImporter
 /processor:TextureProcessor
