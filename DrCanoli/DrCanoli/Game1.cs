@@ -251,14 +251,10 @@ namespace DrCanoli
                     //Sort entities
                     SortEntities();
                     
-                    //This borks the level
-                    /*
                     if (!player.Alive)
 					{               //changes state to gameover screen when player hp reaches 0
 						gameState = GameState.GameOver;
 					}
-                    */
-
                     break;
 				case GameState.GameOver:
 					break;
