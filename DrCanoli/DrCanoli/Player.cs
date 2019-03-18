@@ -208,16 +208,6 @@ namespace DrCanoli
                         animation = AnimationSet.Falling;
                     }
 
-                    if ((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
-                        (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)))
-                    {
-                        Wep.Swinging = true;
-                    }
-                    else
-                    {
-                        wep.Swinging = false;
-                    }
-
                     bool done = phys.Jump(this);
                     if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
                     {
