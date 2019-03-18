@@ -265,7 +265,7 @@ namespace LevelEditorHWK
             // Variable for file explorer
             loadFile = new OpenFileDialog();
             loadFile.Title = "Open a level file.";
-            loadFile.Filter = "Level Files|*.level";
+            loadFile.Filter = "Level Files|*.txt";
             // Result of file explorer
             DialogResult dialogResult = loadFile.ShowDialog();
 
@@ -278,51 +278,73 @@ namespace LevelEditorHWK
                 {
                     // Open designated file
                     reader = new StreamReader(loadFile.FileName);
-                    // Update title
                     this.Text = "Level Editor - " + Path.GetFileName(loadFile.FileName);
-                    // Create list of colors and counter for list
+                    // Create list and counter for picture box colors
                     colorList = new List<String>();
                     int colorCount = 0;
                     // Read data from the file
                     string lineOfText = null;
-                    // Set the width and height to the values specified in the value
-                    loadedWidth = int.Parse(reader.ReadLine());
-                    loadedHeight = int.Parse(reader.ReadLine());
-                    if (loadedWidth > width)
-                    {
-                        // Extend the window based on width and height
-                        this.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
-                        box = this.mapBox;
-                        box.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
-                    }
-                    // add the color values to the list
+
+                    // Extend the window based on width and height
+                    this.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
+                    box = this.mapBox;
+                    box.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
+                    // Convert data from the text file to the list of colors
                     while ((lineOfText = reader.ReadLine()) != null)
                     {
                         colorList.Add(lineOfText);
                     }
 
+                    // Initialize stream reader, string variable, and char variable
+                    // Create positionList
+                    List<List<char>> positionList = new List<List<char>>();
+                    // Read in each line as a list of characters, then add this list to positionList
+                    while ((lineOfText = reader.ReadLine()) != null)
+                    {
+                        List<char> row = new List<char>();
+                        foreach (char ch in lineOfText)
+                        {
+                            row.Add(ch);
+                        }
+                        positionList.Add(row);
+                    }
+
                     // Close the stream
                     reader.Close();
-
-                    // Clear the group box of picture boxes
+                    // Clear the group box
                     mapBox.Controls.Clear();
                     // Generate picture boxes for map tiles
-                    for (int i = 0; i < loadedWidth; i++)
+                    for (int i = 0; i < positionList.Count; i++)
                     {
-                        for (int j = 0; j < loadedHeight; j++)
+
+                        for (int j = 0; j < positionList[0].Count; j++)
                         {
                             PictureBox pictureBox = new PictureBox();
-                            pictureBox.Location = new Point((i * (500 / loadedHeight)), (j * (500 / loadedHeight)));
-                            pictureBox.Size = new Size((500 / loadedHeight), (500 / loadedHeight));
-                            pictureBox.BackColor = Color.FromArgb(int.Parse(colorList[colorCount]));
+                            pictureBox.Location = new Point((j * (500 / positionList.Count)), (i * (500 / positionList.Count)));
+                            pictureBox.Size = new Size((500 / positionList.Count), (500 / positionList.Count));
+                            if (positionList[i][j] == '-')
+                            {
+                                pictureBox.BackColor = Color.Black;
+                            }
+                            if (positionList[i][j] == 'X')
+                            {
+                                pictureBox.BackColor = Color.Lime;
+                            }
+                            if (positionList[i][j] == 'E')
+                            {
+                                pictureBox.BackColor = Color.Black;
+                            }
                             mapBox.Controls.Add(pictureBox);
                             pictureBox.MouseClick += ChangeColor;
                             // Add the picture box to the list of picture boxes and increment the color count
                             boxList.Add(pictureBox);
                             colorCount++;
                         }
+                        totalList.Add(boxList);
+                        boxList = new List<PictureBox>();
                     }
 
+                    // Give feedback if level loads sucessfully
                     MessageBox.Show("Level successfully loaded!");
                 }
                 catch (Exception f)
