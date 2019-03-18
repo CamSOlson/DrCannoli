@@ -10,6 +10,7 @@ namespace DrCanoli
     {
         private Animation idle;
         private Animation walking;
+        private Animation falling;
 
         public Animation Idle
         {
@@ -21,11 +22,17 @@ namespace DrCanoli
             get { return walking; }
             set { walking = value; }
         }
+        public Animation Falling
+        {
+            get { return falling; }
+            set { falling = value; }
+        }
 
-        public AnimationSet(Animation idle = null, Animation walking = null)
+        public AnimationSet(Animation idle = null, Animation walking = null, Animation falling = null)
         {
             this.idle = idle;
             this.walking = walking;
+            this.falling = falling;
         }
     }
 }

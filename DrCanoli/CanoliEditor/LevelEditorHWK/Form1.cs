@@ -23,6 +23,7 @@ namespace LevelEditorHWK
         public Form1()
         {
             InitializeComponent();
+            this.Text = "Map Editor";
         }
 
         // Create new map
