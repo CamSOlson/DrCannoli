@@ -161,7 +161,8 @@ namespace DrCanoli
             //Test player
             AnimationSet playerAnimSet = new AnimationSet(
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content)
+                Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content)
                 );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
             player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 100, playerAnimSet, phys, new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), Content.Load<Texture2D>("tempWep"), 10, 1));

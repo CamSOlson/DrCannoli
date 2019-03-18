@@ -212,6 +212,12 @@ namespace DrCanoli
                         }
                     }
 
+                    //Falling
+                    if (VelocityY < 0)
+                    {
+                        animation = AnimationSet.Falling;
+                    }
+
                     if ((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
                         (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)))
                     {
