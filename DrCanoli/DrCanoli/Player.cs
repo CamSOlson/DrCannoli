@@ -120,7 +120,7 @@ namespace DrCanoli
                         facingRight = false;
                         Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
                     }
-                    else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
+                    if (kbState.IsKeyDown(Keys.D))     //when D is pressed
                     {
                         facingRight = true;
                         Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
@@ -151,7 +151,7 @@ namespace DrCanoli
                 case FighterState.Jump:					//Jump State
                     if (!Stunned)
                     {
-                        if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
+                        if (kbState.IsKeyDown(Keys.A) && kbState.IsKeyUp(Keys.D) && Box.X > 0)          //when A is pressed
                         {
                             facingRight = false;
                             Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
@@ -161,7 +161,7 @@ namespace DrCanoli
                                 animation = AnimationSet.Walking;
                             }
                         }
-                        else if (kbState.IsKeyDown(Keys.D))     //when D is pressed
+                        if (kbState.IsKeyDown(Keys.D) && kbState.IsKeyUp(Keys.A))     //when D is pressed
                         {
                             facingRight = true;
                             Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
