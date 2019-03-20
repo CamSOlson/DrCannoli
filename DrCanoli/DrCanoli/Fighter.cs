@@ -58,6 +58,7 @@ namespace DrCanoli
             this.fighterState = fighterState;
             this.hp = hp;
             this.maxHp = hp;
+            dmg = damage;
         }
         public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet, FighterState fighterState) : this(new Rectangle(x,y,width,height), hp, dmg, animationSet, fighterState) { }
 
