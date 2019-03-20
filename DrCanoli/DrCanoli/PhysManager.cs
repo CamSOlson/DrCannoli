@@ -87,11 +87,11 @@ namespace DrCanoli
         {
             //If a hit lands on anyone, this method will be called
             Target.Hp -= Hitter.Dmg;
-            if (Hitter is Player)
-            {
-                Player player0 = (Player)Hitter;
-                Target.Hp -= player0.Wep.Damage;
-            }
+			if (Hitter is Player)
+			{
+				Player player0 = (Player)Hitter;
+				Target.Hp -= player0.Wep.Damage;
+			}
 
             if (Target.Hp > 0)
             {
