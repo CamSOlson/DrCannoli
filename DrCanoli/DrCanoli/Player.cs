@@ -101,7 +101,7 @@ namespace DrCanoli
                         Box = new Rectangle(Box.X, Box.Y - 5, Box.Width, Box.Height);
                         break;
                     }
-                    if (kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P))
+                    if (kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P))	//triggers attack on P press
                     {
                         Wep.Swinging = true;
                     }
