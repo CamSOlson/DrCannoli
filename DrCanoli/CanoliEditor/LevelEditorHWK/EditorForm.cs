@@ -134,7 +134,7 @@ namespace LevelEditorHWK
                             }
                             if (positionList[i][j] == 'E')
                             {
-                                pictureBox.BackColor = Color.Black;
+                                pictureBox.BackColor = Color.Red;
                             }
                             mapBox.Controls.Add(pictureBox);
                             pictureBox.MouseClick += ChangeColor;
