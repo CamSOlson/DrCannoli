@@ -20,8 +20,10 @@ namespace DrCanoli
     {
         //Some basic animation directories for quick loading
         //public static string CANNOLI_IDLE = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "/Content/animations/cannoli/Idle.anim";
-        public static string CANNOLI_IDLE = AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\..\Content\animations\cannoli\Idle.anim";
-        public static string CANNOLI_WALKING = AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\..\Content\animations\cannoli\Walking.anim";
+        public static string BASE = AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\..\";
+        public static string CANNOLI_IDLE = BASE + @"Content\animations\cannoli\Idle.anim";
+        public static string CANNOLI_WALKING = BASE + @"Content\animations\cannoli\Walking.anim";
+        public static string CANNOLI_FALLING = BASE + @"Content\animations\cannoli\Falling.anim";
 
         private Texture2D texture;
         private Rectangle[] frameBounds;
