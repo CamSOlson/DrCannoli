@@ -124,21 +124,26 @@ namespace DrCanoli
                     {
                         y = GraphicsDevice.Viewport.Height / 6 * c;
                     }
-                    if (levelData[c][d] == 'X')
-                    {
-                        player.Box = new Rectangle(x, y, player.Box.Width, player.Box.Height);
-                        entities.Add(player);
-                    }
-                    else if (levelData[c][d] == 'E')
-                    {
-                        AnimationSet animSet = new AnimationSet(
-                            Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
-                        Enemy enemy = new Enemy(x, y, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 50, 10, animSet, phys);
-                        enemyList.Add(enemy);
-                        entities.Add(enemy);
-                    }
-                }
+					if (levelData[c][d] == 'X')
+					{
+						player.Box = new Rectangle(x, y, player.Box.Width, player.Box.Height);
+						entities.Add(player);
+					}
+					else if (levelData[c][d] == 'E')
+					{
+						AnimationSet animSet = new AnimationSet(
+							Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+							Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
+						Enemy enemy = new Enemy(x, y, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 50, 10, animSet, phys);
+						enemyList.Add(enemy);
+						entities.Add(enemy);
+					}
+					else if (levelData[c][d] == 'O')
+					{
+						Obstacle obstacle = new Obstacle(x, y, PhysManager.Unicorns, PhysManager.Unicorns, startTexture);
+						obstacles.Add(obstacle);
+					}
+				}
             }
         }
         protected override void LoadContent()
@@ -158,14 +163,16 @@ namespace DrCanoli
 			menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
 			font = Content.Load<SpriteFont>("placeholderText");
 
-            //Test player
-            AnimationSet playerAnimSet = new AnimationSet(
+			
+
+			//Test player
+			AnimationSet playerAnimSet = new AnimationSet(
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content)
                 );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
-            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 100, playerAnimSet, phys, new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), Content.Load<Texture2D>("tempWep"), 10, 1));
+            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), Content.Load<Texture2D>("tempWep"), 10, 1));
             phys.Player = player;
 
             //Background
