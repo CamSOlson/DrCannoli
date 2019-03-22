@@ -21,6 +21,7 @@ namespace DrCanoli
 		private Texture2D startTexture;
 		private Texture2D optionsTexture;   //place-holder textures for menu buttons
 		private Texture2D exitTexture;
+        private Texture2D obstacleTexture; // texture for obstacle
 		private Rectangle startButton;
 		private Rectangle optionsButton;    //positions for menu buttons
 		private Rectangle exitButton;
@@ -140,7 +141,7 @@ namespace DrCanoli
 					}
 					else if (levelData[c][d] == 'O')
 					{
-						Obstacle obstacle = new Obstacle(x, y, PhysManager.Unicorns, PhysManager.Unicorns, startTexture);
+						Obstacle obstacle = new Obstacle(x, y, PhysManager.Unicorns, PhysManager.Unicorns, obstacleTexture);
 						obstacles.Add(obstacle);
 					}
 				}
@@ -160,6 +161,7 @@ namespace DrCanoli
 			startTexture = Content.Load<Texture2D>("start");
 			optionsTexture = Content.Load<Texture2D>("options");	//loads button textures
 			exitTexture = Content.Load<Texture2D>("exit");
+            obstacleTexture = Content.Load<Texture2D>("obstacle");
 			menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
 			font = Content.Load<SpriteFont>("placeholderText");
 
