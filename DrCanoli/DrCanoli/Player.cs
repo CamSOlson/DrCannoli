@@ -46,6 +46,11 @@ namespace DrCanoli
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
         }
+
+        public KeyboardState KBState
+        {
+            get { return kbState; }
+        }
       
 		/// <summary>
 		/// used to update player's state based on input
@@ -155,7 +160,7 @@ namespace DrCanoli
                         {
                             facingRight = false;
                             Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
-                            if (kbPrevious.IsKeyUp(Keys.A))
+                            if (kbPrevious.IsKeyUp(Keys.A) && VelocityY > 0)
                             {
                                 AnimationSet.Idle.Reset();
                                 animation = AnimationSet.Walking;
@@ -165,13 +170,13 @@ namespace DrCanoli
                         {
                             facingRight = true;
                             Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
-                            if (kbPrevious.IsKeyUp(Keys.D))
+                            if (kbPrevious.IsKeyUp(Keys.D) && VelocityY > 0)
                             {
                                 AnimationSet.Idle.Reset();
                                 animation = AnimationSet.Walking;
                             }
                         }
-                        else
+                        else if (kbState.IsKeyUp(Keys.A) && VelocityY > 0)
                         {
                             AnimationSet.Walking.Reset();
                             animation = AnimationSet.Idle;
