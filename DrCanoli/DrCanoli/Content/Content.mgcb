@@ -25,6 +25,9 @@
 /processorParam:TextureFormat=Color
 /build:exit.png
 
+#begin obstacles.txt
+/copy:obstacles.txt
+
 #begin options.png
 /importer:TextureImporter
 /processor:TextureProcessor
