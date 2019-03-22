@@ -225,6 +225,10 @@ namespace LevelEditorHWK
                             {
                                 writer.Write('-');
                             }
+                            if(box.BackColor == Color.Orange)
+                            {
+                                writer.Write('O');
+                            }
                         }
                         if(i!= totalList.Count - 1)
                         {

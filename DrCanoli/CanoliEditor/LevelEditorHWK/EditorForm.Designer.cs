@@ -40,12 +40,16 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.mapBox = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.tileBox.SuspendLayout();
             this.currentTileBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // tileBox
             // 
+            this.tileBox.Controls.Add(this.label4);
+            this.tileBox.Controls.Add(this.button2);
             this.tileBox.Controls.Add(this.label3);
             this.tileBox.Controls.Add(this.label2);
             this.tileBox.Controls.Add(this.label1);
@@ -167,6 +171,25 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.loadButton_Click);
             // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.Orange;
+            this.button2.Location = new System.Drawing.Point(67, 89);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(44, 44);
+            this.button2.TabIndex = 7;
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.greenButton_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(65, 136);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(49, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Obstacle";
+            // 
             // EditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -201,5 +224,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label4;
     }
 }
