@@ -120,15 +120,16 @@ namespace DrCanoli
                         if (InvulnTime <= 0)
                             Invulnerable = false;
                     }
+
                     if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
                     {
                         facingRight = false;
-                        Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
+                        Box = new Rectangle((int) Math.Round(Box.X - (PhysManager.Unicorns / (60d / Speed))), Box.Y, Box.Width, Box.Height);
                     }
                     if (kbState.IsKeyDown(Keys.D))     //when D is pressed
                     {
                         facingRight = true;
-                        Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
+                        Box = new Rectangle((int) Math.Round(Box.X + (PhysManager.Unicorns / (60d / Speed))), Box.Y, Box.Width, Box.Height);
                     }
                     if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space)) //when Space is pressed
                     {
@@ -146,11 +147,11 @@ namespace DrCanoli
                     }
                     if (kbState.IsKeyDown(Keys.W) && Box.Y + Box.Height - Box.Height / 8 > Game1.FloorTop)            //when W is pressed
                     {
-                        Box = new Rectangle(Box.X, (int)(Box.Y - PhysManager.Unicorns / (60 / Speed * 2)), Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X, (int) Math.Round(Box.Y - PhysManager.Unicorns / (60d / Speed * 2d)), Box.Width, Box.Height);
                     }
                     if (kbState.IsKeyDown(Keys.S) && Box.Y + Box.Height < GraphicsDeviceManager.DefaultBackBufferHeight)          //when S is pressed
                     {
-                        Box = new Rectangle(Box.X, (int)(Box.Y + PhysManager.Unicorns / (60 / Speed * 2)), Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X, (int) Math.Round(Box.Y + PhysManager.Unicorns / (60d / Speed * 2d)), Box.Width, Box.Height);
                     }
                     break;
                 case FighterState.Jump:					//Jump State
