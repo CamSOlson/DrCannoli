@@ -32,7 +32,8 @@ namespace DrCanoli
 		//player specific fields
 
 
-		public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true): base(new Rectangle(x, y, width, height), hp, dmg, animSet, fighterState)
+		public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys, Texture2D shadow, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true)
+            : base(new Rectangle(x, y, width, height), hp, dmg, animSet, fighterState, shadow)
         {
             wep = weapon;
             //100 is just a placeholder value, subject to change
@@ -209,9 +210,13 @@ namespace DrCanoli
                     }
 
                     //Falling
-                    if (VelocityY < 0)
+                    if (VelocityY <= 0)
                     {
                         animation = AnimationSet.Falling;
+                    }
+                    else
+                    {
+                        animation = AnimationSet.Jumping;
                     }
 
                     bool done = phys.Jump(this);
@@ -259,5 +264,7 @@ namespace DrCanoli
             base.Draw(batch);
 
         }
+
+
     }
 }
