@@ -34,6 +34,7 @@ namespace DrCanoli
         private Player player;
         private Background background;
         private PhysManager phys;
+		private Texture2D obstacleTexture;
 
         private Texture2D healthBackground;
         private Texture2D healthBar;
@@ -140,7 +141,7 @@ namespace DrCanoli
 					}
 					else if (levelData[c][d] == 'O')
 					{
-						Obstacle obstacle = new Obstacle(x, y, PhysManager.Unicorns, PhysManager.Unicorns, startTexture);
+						Obstacle obstacle = new Obstacle(x, y, PhysManager.Unicorns, PhysManager.Unicorns, obstacleTexture);
 						obstacles.Add(obstacle);
 					}
 				}
@@ -162,7 +163,6 @@ namespace DrCanoli
 			exitTexture = Content.Load<Texture2D>("exit");
 			menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
 			font = Content.Load<SpriteFont>("placeholderText");
-
 			
 
 			//Test player
@@ -177,6 +177,8 @@ namespace DrCanoli
 
             //Background
             background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
+			//obstacle texture
+			obstacleTexture = Content.Load<Texture2D>("obstacle");
 
             //Health bar
             healthBackground = new Texture2D(graphics.GraphicsDevice, PhysManager.Unicorns * 4, PhysManager.Unicorns / 2);
