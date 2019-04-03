@@ -154,6 +154,12 @@ namespace DrCanoli
             return false;
         }
 
+        public int DownShift(Fighter jumper)
+        {
+            jumper.Box = new Rectangle(jumper.Box.X, jumper.Box.Y + 1, jumper.Box.Width, jumper.Box.Height);
+            return jumper.Box.Y;
+        }
+
         //called once when hit, sets washit's state machine to jumping (which sets an initial y and passes the player an ititial y velocity
         private void Knockback(Fighter wasHit)
         {

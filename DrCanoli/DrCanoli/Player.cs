@@ -17,6 +17,7 @@ namespace DrCanoli
         KeyboardState kbState, kbPrevious;
         MouseState mState, mStatePrev;
         PhysManager phys;
+        private int suspendedPrevious;
 
         public Weapon Wep
         {
@@ -145,7 +146,7 @@ namespace DrCanoli
                         InitialY = Box.Y;
                         VelocityY = PhysManager.InitialYVelocity;
                         FighterState = FighterState.Jump;
-                        Box = new Rectangle(Box.X, Box.Y - 5, Box.Width, Box.Height);
+                        Box = new Rectangle(Box.X, Box.Y, Box.Width, Box.Height);
                         break;
                     }
                     if (kbState.IsKeyUp(Keys.A) && kbState.IsKeyUp(Keys.W) && kbState.IsKeyUp(Keys.D) && kbState.IsKeyUp(Keys.S))
@@ -166,7 +167,7 @@ namespace DrCanoli
                 case FighterState.Jump:					//Jump State
                     if (!Stunned)
                     {
-                        if (kbState.IsKeyDown(Keys.A) && kbState.IsKeyUp(Keys.D) && Box.X > 0)          //when A is pressed
+                        if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
                         {
                             facingRight = false;
                             Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
@@ -176,7 +177,7 @@ namespace DrCanoli
                                 animation = AnimationSet.Walking;
                             }
                         }
-                        if (kbState.IsKeyDown(Keys.D) && kbState.IsKeyUp(Keys.A))     //when D is pressed
+                        if (kbState.IsKeyDown(Keys.D))     //when D is pressed
                         {
                             facingRight = true;
                             Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
@@ -217,29 +218,89 @@ namespace DrCanoli
                         }
                     }
 
-                    //Falling
-                    if (VelocityY <= 0)
+                    if (VelocityY <= 0) //suspended jump
                     {
-                        animation = AnimationSet.Falling;
-                    }
-                    else
-                    {
-                        animation = AnimationSet.Jumping;
+                        if (suspendedPrevious > Box.Y)
+                        {
+                            VelocityY = 0;
+                            FighterState = FighterState.SusJump;
+                        }
                     }
 
-                    bool done = phys.Jump(this);
-                    if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
+                    if (FighterState == FighterState.Jump)
                     {
-                        FighterState = FighterState.Move;
-                        AnimationSet.Idle.Reset();
-                        animation = AnimationSet.Walking;
+                        bool done = phys.Jump(this); //IMPORTANT: moving the suspendPrevious update before this line or the suspend jump check after this line will BREAK jumping lol
+
+                        //Falling
+                        if (VelocityY <= 0)
+                        {
+                            animation = AnimationSet.Falling;
+
+                            suspendedPrevious = Box.Y;
+
+                            if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D)))
+                            {
+                                FighterState = FighterState.Move;
+                                AnimationSet.Idle.Reset();
+                                animation = AnimationSet.Walking;
+                            }
+                            else if (done)
+                            {
+                                FighterState = FighterState.Idle;
+                                AnimationSet.Walking.Reset();
+                                animation = AnimationSet.Idle;
+                            }
+                        }
+                        else
+                        {
+                            animation = AnimationSet.Jumping;
+                        }
                     }
-                    else if (done)
+                    break;
+                case FighterState.SusJump:					//Suspended Jump State
+                    if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
                     {
-                        FighterState = FighterState.Idle;
+                        facingRight = false;
+                        Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
+                        if (kbPrevious.IsKeyUp(Keys.A) && VelocityY > 0)
+                        {
+                            AnimationSet.Idle.Reset();
+                            animation = AnimationSet.Walking;
+                        }
+                    }
+                    if (kbState.IsKeyDown(Keys.D))     //when D is pressed
+                    {
+                        facingRight = true;
+                        Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
+                        if (kbPrevious.IsKeyUp(Keys.D) && VelocityY > 0)
+                        {
+                            AnimationSet.Idle.Reset();
+                            animation = AnimationSet.Walking;
+                        }
+                    }
+                    else if (kbState.IsKeyUp(Keys.A) && VelocityY > 0)
+                    {
                         AnimationSet.Walking.Reset();
                         animation = AnimationSet.Idle;
                     }
+                    if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space)) //when Space is pressed
+                    {
+                        InitialY = Box.Y;
+                        VelocityY = PhysManager.InitialYVelocity;
+                        FighterState = FighterState.Jump;
+                        Box = new Rectangle(Box.X, Box.Y, Box.Width, Box.Height);
+                        break;
+                    }
+                    else
+                    {
+                        phys.DownShift(this);
+                        if (suspendedPrevious < Box.Y)
+                        {
+                            FighterState = FighterState.Jump;
+                        }
+                        else suspendedPrevious = Box.Y;
+                    }
+
                     break;
             }
 

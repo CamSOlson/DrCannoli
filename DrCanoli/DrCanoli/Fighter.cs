@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 namespace DrCanoli
 {
 
-	enum FighterState {Idle, Move, Jump }
+	enum FighterState {Idle, Move, Jump, SusJump}
     class Fighter: IDrawn
     {
         //fields
