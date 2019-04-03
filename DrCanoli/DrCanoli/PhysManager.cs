@@ -138,11 +138,16 @@ namespace DrCanoli
             {
                 jumper.InvulnTime -= Game1.ElapsedTime;
                 if (jumper.InvulnTime <= 0)
+                {
                     jumper.Invulnerable = false;
+                    //jumper.Color = Color.White;
+                }
             }
             if (jumper.Box.Y >= jumper.InitialY)
             {
                 jumper.Box = new Rectangle(jumper.Box.X, jumper.InitialY, jumper.Box.Width, jumper.Box.Height);
+                //if (jumper.Stunned)
+                 //   jumper.Color = Color.White;
                 jumper.Stunned = false;
                 return true;
             }
@@ -165,6 +170,7 @@ namespace DrCanoli
             }
             wasHit.VelocityY /= 2;
             wasHit.Stunned = true;
+            //wasHit.Color = Color.Yellow; //colors for testing
             if (wasHit is Player)
             {
                 wasHit.Invulnerable = true;

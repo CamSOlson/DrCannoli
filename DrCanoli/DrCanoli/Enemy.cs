@@ -153,7 +153,7 @@ namespace DrCanoli
                     {
                         if (Box.X > 0)
                         {
-                            Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed * 40)), Box.Y, Box.Width, Box.Height);
+                            Box = new Rectangle((int)(Box.X + PhysManager.Unicorns * Speed / 60 ), Box.Y, Box.Width+5, Box.Height);
                         }
                     }
                     bool done = phys.Jump(this);

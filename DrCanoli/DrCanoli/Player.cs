@@ -89,9 +89,13 @@ namespace DrCanoli
                 case FighterState.Idle:				//Idle state
                     if (Invulnerable)
                     {
+                        //Color = Color.Blue;
                         InvulnTime -= Game1.ElapsedTime;
                         if (InvulnTime <= 0)
+                        {
                             Invulnerable = false;
+                            //Color = Color.White;
+                        }
                     }
                     if (kbState.IsKeyDown(Keys.D) || kbState.IsKeyDown(Keys.W) || kbState.IsKeyDown(Keys.S) || kbState.IsKeyDown(Keys.A))		//when D is pressed
                     {
@@ -117,9 +121,13 @@ namespace DrCanoli
                 case FighterState.Move:             //MoveLeft State
                     if (Invulnerable)
                     {
+                        //Color = Color.Blue;
                         InvulnTime -= Game1.ElapsedTime;
                         if (InvulnTime <= 0)
+                        {
                             Invulnerable = false;
+                            //Color = Color.White;
+                        }
                     }
 
                     if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
