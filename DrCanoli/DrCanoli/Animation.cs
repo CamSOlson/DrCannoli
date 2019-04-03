@@ -24,6 +24,7 @@ namespace DrCanoli
         public static string CANNOLI_IDLE = BASE + @"Content\animations\cannoli\Idle.anim";
         public static string CANNOLI_WALKING = BASE + @"Content\animations\cannoli\Walking.anim";
         public static string CANNOLI_FALLING = BASE + @"Content\animations\cannoli\Falling.anim";
+        public static string CANNOLI_JUMPING = BASE + @"Content\animations\cannoli\Jumping.anim";
 
         private Texture2D texture;
         private Rectangle[] frameBounds;

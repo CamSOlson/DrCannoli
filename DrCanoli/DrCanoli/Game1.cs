@@ -21,6 +21,7 @@ namespace DrCanoli
 		private Texture2D startTexture;
 		private Texture2D optionsTexture;   //place-holder textures for menu buttons
 		private Texture2D exitTexture;
+        private Texture2D obstacleTexture; // texture for obstacle
 		private Rectangle startButton;
 		private Rectangle optionsButton;    //positions for menu buttons
 		private Rectangle exitButton;
@@ -34,7 +35,7 @@ namespace DrCanoli
         private Player player;
         private Background background;
         private PhysManager phys;
-		private Texture2D obstacleTexture;
+        private Texture2D shadowTexture;
 
         private Texture2D healthBackground;
         private Texture2D healthBar;
@@ -103,6 +104,60 @@ namespace DrCanoli
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+			drawables.Add(player);
+			foreach (Enemy e in enemyList)
+			{
+				drawables.Add(e);
+			}
+
+			// TODO: use this.Content to load your game content here
+			startTexture = Content.Load<Texture2D>("start");
+			optionsTexture = Content.Load<Texture2D>("options");	//loads button textures
+			exitTexture = Content.Load<Texture2D>("exit");
+            obstacleTexture = Content.Load<Texture2D>("obstacle");
+            shadowTexture = Content.Load<Texture2D>("textures/sprites/Shadow");
+            menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
+			font = Content.Load<SpriteFont>("placeholderText");
+
+			//Test player
+			AnimationSet playerAnimSet = new AnimationSet(
+                Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
+            );
+            phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
+            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), Content.Load<Texture2D>("tempWep"), 10, 1));
+            phys.Player = player;
+
+            //Background
+            background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
+
+            //Health bar
+            healthBackground = new Texture2D(graphics.GraphicsDevice, PhysManager.Unicorns * 4, PhysManager.Unicorns / 2);
+            Color[] data = new Color[healthBackground.Width * healthBackground.Height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = Color.DarkGray;
+            }
+            healthBackground.SetData(data);
+
+            healthBar = new Texture2D(graphics.GraphicsDevice, healthBackground.Width, healthBackground.Height);
+            data = new Color[healthBar.Width * healthBar.Height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = Color.IndianRed;
+            }
+            healthBar.SetData(data);
+
+            LevelStart();
+
+        }
+
         private void LevelStart()
         {
             //Set floor top value
@@ -125,81 +180,32 @@ namespace DrCanoli
                     {
                         y = GraphicsDevice.Viewport.Height / 6 * c;
                     }
-					if (levelData[c][d] == 'X')
-					{
-						player.Box = new Rectangle(x, y, player.Box.Width, player.Box.Height);
-						entities.Add(player);
-					}
-					else if (levelData[c][d] == 'E')
-					{
-						AnimationSet animSet = new AnimationSet(
-							Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-							Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content));
-						Enemy enemy = new Enemy(x, y, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 50, 10, animSet, phys);
-						enemyList.Add(enemy);
-						entities.Add(enemy);
-					}
-					else if (levelData[c][d] == 'O')
-					{
-						Obstacle obstacle = new Obstacle(x, y, PhysManager.Unicorns, PhysManager.Unicorns, obstacleTexture);
-						obstacles.Add(obstacle);
-					}
-				}
+                    if (levelData[c][d] == 'X')
+                    {
+                        player.Box = new Rectangle(x, y, player.Box.Width, player.Box.Height);
+                        entities.Add(player);
+                    }
+                    else if (levelData[c][d] == 'E')
+                    {
+                        AnimationSet animSet = new AnimationSet(
+                            Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
+                        );
+                        Enemy enemy = new Enemy(x, y, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 50, 10, animSet, phys, shadowTexture);
+                        enemyList.Add(enemy);
+                        entities.Add(enemy);
+                    }
+                    else if (levelData[c][d] == 'O')
+                    {
+                        Obstacle obstacle = new Obstacle(x, y, PhysManager.Unicorns, PhysManager.Unicorns, obstacleTexture);
+                        obstacles.Add(obstacle);
+                    }
+                }
             }
         }
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-			drawables.Add(player);
-			foreach (Enemy e in enemyList)
-			{
-				drawables.Add(e);
-			}
 
-			// TODO: use this.Content to load your game content here
-			startTexture = Content.Load<Texture2D>("start");
-			optionsTexture = Content.Load<Texture2D>("options");	//loads button textures
-			exitTexture = Content.Load<Texture2D>("exit");
-			menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
-			font = Content.Load<SpriteFont>("placeholderText");
-			
-
-			//Test player
-			AnimationSet playerAnimSet = new AnimationSet(
-                Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content)
-                );
-            phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
-            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), Content.Load<Texture2D>("tempWep"), 10, 1));
-            phys.Player = player;
-
-            //Background
-            background = new Background(Content.Load<Texture2D>("textures/backgrounds/Classroom"));
-			//obstacle texture
-			obstacleTexture = Content.Load<Texture2D>("obstacle");
-
-            //Health bar
-            healthBackground = new Texture2D(graphics.GraphicsDevice, PhysManager.Unicorns * 4, PhysManager.Unicorns / 2);
-            Color[] data = new Color[healthBackground.Width * healthBackground.Height];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = Color.DarkGray;
-            }
-            healthBackground.SetData(data);
-
-            healthBar = new Texture2D(graphics.GraphicsDevice, healthBackground.Width, healthBackground.Height);
-            data = new Color[healthBar.Width * healthBar.Height];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = Color.IndianRed;
-            }
-            healthBar.SetData(data);
-
-            LevelStart();
-
-        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -333,8 +339,9 @@ namespace DrCanoli
 					break;
 				case GameState.Game:
 
-					GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
+					//GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
 
+                    //This does the clearing, no need to waste time with redundant clears
                     background.Draw(spriteBatch);
 
                     //Entities (enemies and player)
@@ -342,10 +349,12 @@ namespace DrCanoli
                     {
                         if (ent is Enemy && ((Enemy) ent).Active)
                         {
+                            ent.DrawShadow(spriteBatch);
                             ent.Draw(spriteBatch);
                         }
                         else if (ent is Player)
                         {
+                            ent.DrawShadow(spriteBatch);
                             ent.Draw(spriteBatch);
                             //This will be moved into player eventually, and removed when the animation is finished
                             if (player.Wep != null)

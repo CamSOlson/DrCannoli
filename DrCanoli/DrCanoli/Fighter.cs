@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -26,6 +27,7 @@ namespace DrCanoli
         private double speed;
         protected Animation animation;
         protected AnimationSet animationSet;
+        protected Texture2D shadow;
 
         public int Hp
         {
@@ -46,7 +48,7 @@ namespace DrCanoli
             get { return speed; }
             set { speed = value; }
         }
-        public Fighter(Rectangle box, int hp, int damage, AnimationSet animationSet, FighterState fighterState)
+        public Fighter(Rectangle box, int hp, int damage, AnimationSet animationSet, FighterState fighterState, Texture2D shadow)
         {
             this.box = box;
             this.animationSet = animationSet;
@@ -59,8 +61,10 @@ namespace DrCanoli
             this.hp = hp;
             this.maxHp = hp;
             dmg = damage;
+            this.shadow = shadow;
         }
-        public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet, FighterState fighterState) : this(new Rectangle(x,y,width,height), hp, dmg, animationSet, fighterState) { }
+        public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet, FighterState fighterState, Texture2D shadow)
+            : this(new Rectangle(x,y,width,height), hp, dmg, animationSet, fighterState, shadow) { }
 
         public virtual void Update()
         {
@@ -70,6 +74,24 @@ namespace DrCanoli
         public virtual void Draw(SpriteBatch batch)
         {
             animation.Draw(box, batch);
+        }
+
+        public virtual void DrawShadow(SpriteBatch batch)
+        {
+            if (fighterState == FighterState.Jump)
+            {
+                batch.Draw(shadow,
+                    destinationRectangle: new Rectangle(box.X - Game1.CameraOffset, initialY + box.Height - box.Width / 8,
+                        box.Width, box.Width / 4),
+                    color: Color.White);
+            }
+            else
+            {
+                batch.Draw(shadow,
+                    destinationRectangle: new Rectangle(box.X - Game1.CameraOffset, box.Y + box.Height - box.Width / 8,
+                        box.Width, box.Width / 4),
+                    color: Color.White);
+            }
         }
 
         public bool Stunned
