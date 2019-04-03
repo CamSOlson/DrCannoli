@@ -88,12 +88,12 @@ namespace DrCanoli
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="sb"></param>
-        public void Draw(Rectangle bounds, SpriteBatch sb)
+        public void Draw(Rectangle bounds, SpriteBatch sb, Color drawColor)
         {
             sb.Draw(texture,
                 sourceRectangle: frameBounds[currentFrame],
                 destinationRectangle: new Rectangle(bounds.X - Game1.CameraOffset, bounds.Y, bounds.Width, bounds.Height),
-                color: Color.White,
+                color: drawColor,
                 effects: spriteEffects);
         }
 

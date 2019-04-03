@@ -274,6 +274,7 @@ namespace DrCanoli
                     SortEntities();
                     
                     
+
                     if (!player.Alive)
 					{               //changes state to gameover screen when player hp reaches 0
 						gameState = GameState.GameOver;

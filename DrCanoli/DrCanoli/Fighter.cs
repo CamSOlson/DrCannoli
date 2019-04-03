@@ -28,6 +28,13 @@ namespace DrCanoli
         protected Animation animation;
         protected AnimationSet animationSet;
         protected Texture2D shadow;
+        private Color currentColor;
+
+        public Color Color
+        {
+            get { return currentColor; }
+            set { currentColor = value; }
+        }
 
         public int Hp
         {
@@ -62,6 +69,7 @@ namespace DrCanoli
             this.maxHp = hp;
             dmg = damage;
             this.shadow = shadow;
+            currentColor = Color.White;
         }
         public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet, FighterState fighterState, Texture2D shadow)
             : this(new Rectangle(x,y,width,height), hp, dmg, animationSet, fighterState, shadow) { }
@@ -73,7 +81,7 @@ namespace DrCanoli
 
         public virtual void Draw(SpriteBatch batch)
         {
-            animation.Draw(box, batch);
+            animation.Draw(box, batch, currentColor);
         }
 
         public virtual void DrawShadow(SpriteBatch batch)
