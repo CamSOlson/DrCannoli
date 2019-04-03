@@ -22,7 +22,8 @@ namespace DrCanoli
         }
         // enemy specific fields
 
-        public Enemy(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys, FighterState fighterState = FighterState.Idle, bool facingRight = true) : base(x, y, width, height, hp, dmg, animSet, fighterState)
+        public Enemy(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys, Texture2D shadow, FighterState fighterState = FighterState.Idle, bool facingRight = true)
+            : base(x, y, width, height, hp, dmg, animSet, fighterState, shadow)
         {
             this.facingRight = facingRight;
             active = true;
@@ -152,7 +153,7 @@ namespace DrCanoli
                     {
                         if (Box.X > 0)
                         {
-                            Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed + 10 * 2)), Box.Y, Box.Width, Box.Height);
+                            Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed * 40)), Box.Y, Box.Width, Box.Height);
                         }
                     }
                     bool done = phys.Jump(this);

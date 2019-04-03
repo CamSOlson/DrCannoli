@@ -14,23 +14,26 @@ namespace DrCanoli
         private Rectangle box;
         private Texture2D sprite;
 
-        public Obstacle(Rectangle box, Texture2D sprite)
+		public Obstacle(Rectangle box, Texture2D sprite)
         {
             this.box = box;
             this.sprite = sprite;
         }
 
-        public Obstacle(int x, int y, int width, int height, Texture2D sprite) : this(new Rectangle(x, y, width, height), sprite) { }
+        public Obstacle(int x, int y, int width, int height, Texture2D sprite) : this(new Rectangle(x, y, width, height), sprite)
+		{
+			this.sprite = sprite;
+		}
 
         public void Update()
         {
-
+			box.X -= Game1.CameraOffset;
         }
 
         public void Draw(SpriteBatch batch)
         {
-            //draw method
-        }
+			batch.Draw(sprite, box, Color.White);
+		}
 
         public Rectangle Box
         {

@@ -71,13 +71,13 @@ namespace DrCanoli
                 if (o.Box.Intersects(player.Box))
                 {
                     Rectangle intersect = Rectangle.Intersect(o.Box, player.Box);
-                    if (player.Box.X < o.Box.X)
+                    if (player.Box.X < o.Box.X && player.KBState.IsKeyDown(Keys.D))
                         player.Box = new Rectangle(player.Box.X - intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
-                    else
+                    else if (player.KBState.IsKeyDown(Keys.A))
                         player.Box = new Rectangle(player.Box.X + intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
-                    if (player.Box.Y < o.Box.Y)
+                    else if (player.Box.Y < o.Box.Y && player.KBState.IsKeyDown(Keys.S))
                         player.Box = new Rectangle(player.Box.X, player.Box.Y - intersect.Height, player.Box.Width, player.Box.Height);
-                    else
+                    else if (player.KBState.IsKeyDown(Keys.W))
                         player.Box = new Rectangle(player.Box.X, player.Box.Y + intersect.Height, player.Box.Width, player.Box.Height);
                 }
             }
@@ -87,11 +87,11 @@ namespace DrCanoli
         {
             //If a hit lands on anyone, this method will be called
             Target.Hp -= Hitter.Dmg;
-            if (Hitter is Player)
-            {
-                Player player0 = (Player)Hitter;
-                Target.Hp -= player0.Wep.Damage;
-            }
+			if (Hitter is Player)
+			{
+				Player player0 = (Player)Hitter;
+				Target.Hp -= player0.Wep.Damage;
+			}
 
             if (Target.Hp > 0)
             {
@@ -134,13 +134,6 @@ namespace DrCanoli
                 jumper.VelocityY -= jumper.VelocityY / 8;
             else
                 jumper.VelocityY -= 1;
-
-            if (jumper.Stunned)
-            {
-                jumper.StunTime -= Game1.ElapsedTime;
-                if (jumper.StunTime <= 0)
-                    player.Stunned = false;
-            }
             if (jumper is Player && jumper.Invulnerable)
             {
                 jumper.InvulnTime -= Game1.ElapsedTime;
@@ -172,7 +165,6 @@ namespace DrCanoli
             }
             wasHit.VelocityY /= 2;
             wasHit.Stunned = true;
-            wasHit.StunTime = 0.2;
             if (wasHit is Player)
             {
                 wasHit.Invulnerable = true;

@@ -12,7 +12,7 @@ namespace DrCanoli
     class Weapon : IDrawn
     {
         // Fields and properties
-        private Rectangle box;
+        private Rectangle box, drawBox;
         private Texture2D sprite;
         protected int damage;
         private bool swinging;
@@ -48,22 +48,18 @@ namespace DrCanoli
             this.damage = damage;
             this.fireRate = fireRate;
             swinging = false;
+            drawBox = box;
         }
 
         public void Update()
         {
-            //any update code here
-        }
-
-        public virtual void Draw()
-        {
-            //animation.Update();
+            drawBox = new Rectangle(box.X - Game1.CameraOffset, box.Y, box.Width, box.Height);
         }
 
         // Draw weapon
         public virtual void Draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, box, Color.White);
+            batch.Draw(sprite, drawBox, Color.White);
         }
 
         public void Swing(int fireRate)
