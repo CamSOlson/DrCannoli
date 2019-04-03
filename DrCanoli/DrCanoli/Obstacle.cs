@@ -25,14 +25,14 @@ namespace DrCanoli
 			this.sprite = sprite;
 		}
 
-        public void Update()
-        {
-			box.X -= Game1.CameraOffset;
-        }
+		public void Update()
+		{
+			
+		}
 
-        public void Draw(SpriteBatch batch)
+		public void Draw(SpriteBatch batch)
         {
-			batch.Draw(sprite, box, Color.White);
+			batch.Draw(sprite, new Rectangle(box.X - Game1.CameraOffset, box.Y, box.Width, box.Height), Color.White);
 		}
 
         public Rectangle Box

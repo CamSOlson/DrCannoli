@@ -264,6 +264,12 @@ namespace DrCanoli
                         cameraOffset = 0;
                     }
 
+					//
+					foreach (Obstacle obstacle in obstacles)
+					{
+						obstacle.Update();
+					}
+
                     //Sort entities
                     SortEntities();
                     
@@ -361,6 +367,12 @@ namespace DrCanoli
                                 player.Wep.Draw(spriteBatch);
                         }
                     }
+
+					//draws the obstacles
+					foreach (Obstacle obstacle in obstacles)
+					{
+						obstacle.Draw(spriteBatch);
+					}
 
                     //GUI
                     //Health bar
