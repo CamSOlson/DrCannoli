@@ -15,6 +15,7 @@ namespace DrCanoli
         private bool alive;
 		private bool facingRight;   //true if last idle state was right, false if last idle state was left
         KeyboardState kbState, kbPrevious;
+        GamePadState gpState, gpPrevious;
         MouseState mState, mStatePrev;
         PhysManager phys;
         private int suspendedPrevious;
@@ -44,9 +45,10 @@ namespace DrCanoli
             Stunned = false;
             Speed = 7;
 
-            //Initialize keyboard and mouse states
+            //Initialize keyboard and mouse, and gamepad states
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
+            gpState = GamePad.GetState(PlayerIndex.One);
         }
 
         public KeyboardState KBState
@@ -71,6 +73,9 @@ namespace DrCanoli
 
             mStatePrev = mState;
             mState = Mouse.GetState();
+
+            gpPrevious = gpState;
+            gpState = GamePad.GetState(PlayerIndex.One);
 
             if (Wep != null && facingRight)
             {
@@ -306,7 +311,7 @@ namespace DrCanoli
 
             //attacking
             if ((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
-                (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)))
+                (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)) || gpState.Buttons.X == ButtonState.Pressed)
             {
                 Wep.Swinging = true;
             }
