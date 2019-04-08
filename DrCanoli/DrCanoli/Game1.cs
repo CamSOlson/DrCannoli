@@ -272,7 +272,7 @@ namespace DrCanoli
 
                     //Sort entities
                     SortEntities();
-                    
+                    phys.UpdateClosest();
                     
 
                     if (!player.Alive)

@@ -199,5 +199,23 @@ namespace DrCanoli
             get { return player; }
             set { player = value; }
         }
+
+        public void UpdateClosest()
+        {
+            double smallDist = int.MaxValue;
+            int ind = -1;
+            foreach (Enemy e in enemyList)
+                e.Closest = false;
+            for (int i = 0; i < enemyList.Count; i++)
+            {
+                if (enemyList[i].DistanceTo(player) < smallDist && enemyList[i].Active)
+                {
+                    smallDist = enemyList[i].DistanceTo(player);
+                    ind = i;
+                }
+            }
+            if (ind != -1)
+                enemyList[ind].Closest = true;
+        }
     }
 }

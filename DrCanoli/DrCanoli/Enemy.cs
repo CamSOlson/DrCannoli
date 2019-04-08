@@ -11,7 +11,7 @@ namespace DrCanoli
 {
     class Enemy : Fighter
     {
-        private bool active;
+        private bool active, closest;
         private bool facingRight;
         private PhysManager phys;
         private KeyboardState kbState, kbPrevious;
@@ -30,12 +30,18 @@ namespace DrCanoli
             kbState = Keyboard.GetState();
             this.phys = phys;
             Speed = 3;
+            closest = false;
         }
 
         public override void Draw(SpriteBatch batch)
         {
             if(active)
                 base.Draw(batch);
+        }
+        public bool Closest
+        {
+            get { return closest; }
+            set { closest = value; }
         }
 
         public override void Update()
@@ -45,7 +51,7 @@ namespace DrCanoli
             switch (FighterState)
             {
                 case FighterState.Idle:				//IdleLeft state
-                    if (Box.X != phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2 || Box.Y != phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2)	
+                    if (closest)	
                     {
                         FighterState = FighterState.Move;
                         AnimationSet.Idle.Reset();
@@ -68,39 +74,48 @@ namespace DrCanoli
                     */
                     break;
                 case FighterState.Move:             //MoveLeft State
-                    if (Box.X > phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2 && Box.X > 0)          
+                    if (!closest)
                     {
-                        facingRight = false;
-                        Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
-                    }
-                    else if (Box.X < phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2)   
-                    {
-                        facingRight = true;
-                        Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
-                    }
-                    /* edit when enemies can jump
-                    if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space)) //when Space is pressed
-                    {
-                        InitialY = Box.Y;
-                        VelocityY = PhysManager.InitialYVelocity;
-                        FighterState = FighterState.Jump;
-                        Box = new Rectangle(Box.X, Box.Y - 5, Box.Width, Box.Height);
-                        break;
-                    }
-                    */
-                    if (Box.X == phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2 && Box.Y == phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2)
-                    {
-                        FighterState = FighterState.Idle;
+                        FighterState = FighterState.Move;
                         AnimationSet.Walking.Reset();
                         animation = AnimationSet.Idle;
                     }
-                    if (Box.Y > phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2 && Box.Y + Box.Height - Box.Height / 8 > Game1.FloorTop)            //when W is pressed
+                    else
                     {
-                        Box = new Rectangle(Box.X, (int)(Box.Y - PhysManager.Unicorns / (60 / Speed * 2)), Box.Width, Box.Height);
-                    }
-                    if (Box.Y < phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2 && Box.Y + Box.Height < GraphicsDeviceManager.DefaultBackBufferHeight)          //when S is pressed
-                    {
-                        Box = new Rectangle(Box.X, (int)(Box.Y + PhysManager.Unicorns / (60 / Speed * 2)), Box.Width, Box.Height);
+                        if (Box.X > phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2 && Box.X > 0)
+                        {
+                            facingRight = false;
+                            Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
+                        }
+                        else if (Box.X < phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2)
+                        {
+                            facingRight = true;
+                            Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
+                        }
+                        /* edit when enemies can jump
+                        if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space)) //when Space is pressed
+                        {
+                            InitialY = Box.Y;
+                            VelocityY = PhysManager.InitialYVelocity;
+                            FighterState = FighterState.Jump;
+                            Box = new Rectangle(Box.X, Box.Y - 5, Box.Width, Box.Height);
+                            break;
+                        }
+                        */
+                        if (Box.X == phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2 && Box.Y == phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2)
+                        {
+                            FighterState = FighterState.Idle;
+                            AnimationSet.Walking.Reset();
+                            animation = AnimationSet.Idle;
+                        }
+                        if (Box.Y > phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2 && Box.Y + Box.Height - Box.Height / 8 > Game1.FloorTop)            //when W is pressed
+                        {
+                            Box = new Rectangle(Box.X, (int)(Box.Y - PhysManager.Unicorns / (60 / Speed * 2)), Box.Width, Box.Height);
+                        }
+                        if (Box.Y < phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2 && Box.Y + Box.Height < GraphicsDeviceManager.DefaultBackBufferHeight)          //when S is pressed
+                        {
+                            Box = new Rectangle(Box.X, (int)(Box.Y + PhysManager.Unicorns / (60 / Speed * 2)), Box.Width, Box.Height);
+                        }
                     }
                     break;
                 case FighterState.Jump:					//Jump State
