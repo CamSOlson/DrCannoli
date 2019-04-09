@@ -137,18 +137,6 @@
 /processorParam:TextureFormat=Color
 /build:textures/sprites/cannoli/Jumping.png
 
-#begin textures/sprites/cannoli/Jumping.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/sprites/cannoli/Jumping.png
-
 #begin textures/sprites/cannoli/Walking.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -172,4 +160,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textures/sprites/Shadow.png
+
+#begin Woosh-Mark_DiAngelo-4778593.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Woosh-Mark_DiAngelo-4778593.wav;woosh.wav
 

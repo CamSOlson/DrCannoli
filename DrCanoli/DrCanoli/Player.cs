@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace DrCanoli
 {
@@ -18,6 +20,7 @@ namespace DrCanoli
         GamePadState gpState, gpPrevious;
         MouseState mState, mStatePrev;
         PhysManager phys;
+        SoundEffect hit;
         private int suspendedPrevious;
 
         public Weapon Wep
@@ -34,7 +37,7 @@ namespace DrCanoli
 		//player specific fields
 
 
-		public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys, Texture2D shadow, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true)
+		public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys, Texture2D shadow, SoundEffect hit, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true)
             : base(new Rectangle(x, y, width, height), hp, dmg, animSet, fighterState, shadow)
         {
             wep = weapon;
@@ -49,6 +52,9 @@ namespace DrCanoli
             kbState = Keyboard.GetState();
             mState = Mouse.GetState();
             gpState = GamePad.GetState(PlayerIndex.One);
+
+            // Initialize sound effects
+            this.hit = hit;
         }
 
         public KeyboardState KBState
@@ -314,6 +320,7 @@ namespace DrCanoli
                 (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)) || gpState.Buttons.X == ButtonState.Pressed)
             {
                 Wep.Swinging = true;
+                hit.Play();
             }
             else
             {
