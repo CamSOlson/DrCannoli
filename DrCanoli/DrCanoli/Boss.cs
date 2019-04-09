@@ -30,7 +30,9 @@ namespace DrCanoli
         private Player player;
         private BossStates state;
         private int timer;
-        public Boss(int x, int y, int width, int height, AnimationSet animSet, int hp, int dmg, PhysManager phys, Texture2D shadow, Texture2D healthBar, Player player)
+        private List<Bullet> list;
+        private Texture2D bulletTexture;
+        public Boss(int x, int y, int width, int height, AnimationSet animSet, int hp, int dmg, PhysManager phys, Texture2D shadow, Texture2D healthBar, Player player, Texture2D bulletTexture)
             : base(x, y, width, height, hp, dmg, animSet, phys, shadow)
         {
             this.healthBar = healthBar;
@@ -38,6 +40,8 @@ namespace DrCanoli
             this.health = maxHp;
             this.player = player;
             state = BossStates.Top;
+            list = new List<Bullet>();
+            this.bulletTexture = bulletTexture;
         }
 
         public void DrawHealthbar(SpriteBatch batch)
@@ -45,6 +49,22 @@ namespace DrCanoli
             //The rectangle values are just temporary, draws a boss' healthbar
             batch.Draw(healthBar, new Rectangle(0, 50, 600, 50), Color.White);
             batch.Draw(healthBar, new Rectangle(0, 50, (health / maxHp) * 600, 50), Color.Red);
+        }
+        public void UpdateBullets(SpriteBatch batch)
+        {
+            foreach(Bullet b in list)
+            {
+                if (b.Active)
+                {
+                    b.Update();
+                    b.Draw(batch);
+                    if (b.Rect.Intersects(player.Box))
+                    {
+                        player.Hp -= 10;
+                        b.Active = false;
+                    }
+                }
+            }
         }
         public override void Update()
         {
@@ -58,7 +78,22 @@ namespace DrCanoli
                     }
                     else
                     {
-
+                        if(timer % 30 == 0)
+                        {
+                            list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Down));
+                        }
+                        else if(timer % 15 == 0)
+                        {
+                            if(player.Box.X > Box.X)
+                            {
+                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Right));
+                            }
+                            else if(player.Box.X < Box.X)
+                            {
+                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Left));
+                            }
+                        }
+                        timer++;
                     }
                     break;
                 case BossStates.MovingDown:
