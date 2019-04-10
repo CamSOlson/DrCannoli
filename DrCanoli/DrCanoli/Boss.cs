@@ -137,7 +137,7 @@ namespace DrCanoli
                     if (Box.Y <= PhysManager.Unicorns * 6)
                     {
                         Box = new Rectangle(Box.X, PhysManager.Unicorns * 6, Box.Width, Box.Height);
-                        state = BossStates.Bottom;
+                        state = BossStates.Top;
                     }
                     break;
                 default:
