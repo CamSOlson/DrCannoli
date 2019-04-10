@@ -47,21 +47,23 @@ namespace DrCanoli
         public void DrawHealthbar(SpriteBatch batch)
         {
             //The rectangle values are just temporary, draws a boss' healthbar
-            batch.Draw(healthBar, new Rectangle(0, 50, 600, 50), Color.White);
-            batch.Draw(healthBar, new Rectangle(0, 50, (health / maxHp) * 600, 50), Color.Red);
+            batch.Draw(healthBar, new Rectangle(PhysManager.Unicorns * 5, 50, PhysManager.Unicorns * 6, 50), Color.White);
+            batch.Draw(healthBar, new Rectangle(PhysManager.Unicorns * 5, 50, (health / maxHp) * (PhysManager.Unicorns * 6), 50), Color.Red);
         }
         public void UpdateBullets(SpriteBatch batch)
         {
-            foreach(Bullet b in list)
+            for(int c = 0; c < list.Count; c++)
             {
-                if (b.Active)
+                if (list[c].Active)
                 {
-                    b.Update();
-                    b.Draw(batch);
-                    if (b.Rect.Intersects(player.Box))
+                    list[c].Update();
+                    list[c].Draw(batch);
+                    if (list[c].Rect.Intersects(player.Box))
                     {
                         player.Hp -= 10;
-                        b.Active = false;
+                        list[c].Active = false;
+                        list.Remove(list[c]);
+                        c--;
                     }
                 }
             }
@@ -78,11 +80,11 @@ namespace DrCanoli
                     }
                     else
                     {
-                        if(timer % 30 == 0)
+                        if(timer % 100 == 0)
                         {
                             list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Down));
                         }
-                        else if(timer % 15 == 0)
+                        else if(timer % 50 == 0)
                         {
                             if(player.Box.X > Box.X)
                             {
@@ -97,13 +99,46 @@ namespace DrCanoli
                     }
                     break;
                 case BossStates.MovingDown:
-
+                    Box = new Rectangle(Box.X, Box.Y + 5, Box.Width, Box.Height);
+                    if (Box.Y >= (PhysManager.Unicorns * 9) - Box.Height)
+                    {
+                        Box = new Rectangle(Box.X, (PhysManager.Unicorns * 9) - Box.Height, Box.Width, Box.Height);
+                        state = BossStates.Bottom;
+                    }
                     break;
                 case BossStates.Bottom:
-
+                    if (timer >= 300)
+                    {
+                        timer = 0;
+                        state = BossStates.MovingUp;
+                    }
+                    else
+                    {
+                        if (timer % 100 == 0)
+                        {
+                            list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Up));
+                        }
+                        else if (timer % 50 == 0)
+                        {
+                            if (player.Box.X > Box.X)
+                            {
+                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Right));
+                            }
+                            else if (player.Box.X < Box.X)
+                            {
+                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Left));
+                            }
+                        }
+                        timer++;
+                    }
                     break;
                 case BossStates.MovingUp:
-
+                    Box = new Rectangle(Box.X, Box.Y - 5, Box.Width, Box.Height);
+                    if (Box.Y <= PhysManager.Unicorns * 6)
+                    {
+                        Box = new Rectangle(Box.X, PhysManager.Unicorns * 6, Box.Width, Box.Height);
+                        state = BossStates.Bottom;
+                    }
                     break;
                 default:
                     break;

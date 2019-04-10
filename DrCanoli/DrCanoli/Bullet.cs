@@ -13,6 +13,7 @@ namespace DrCanoli
         private Rectangle rect;
         private Direction dir;
         private bool active;
+        private int startX;
         public bool Active
         {
             get { return active; }
@@ -28,6 +29,7 @@ namespace DrCanoli
             this.rect = rect;
             this.dir = dir;
             active = true;
+            startX = rect.X;
         }
         public void Update()
         {
@@ -48,7 +50,7 @@ namespace DrCanoli
                     default:
                         break;
                 }
-            if (rect.Y > 900 || rect.Y < 0 || rect.X > 1600 || rect.X < 0)
+            if (rect.Y > 900 || rect.Y < 0 || rect.X > startX + 1600 || rect.X < 0)
             {
                 active = false;
             }
