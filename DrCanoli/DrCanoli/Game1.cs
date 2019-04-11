@@ -311,10 +311,10 @@ namespace DrCanoli
                     break;
 				case GameState.GameOver:
 					gameOverCount++;
-					if (gameOverCount > 180)
+					if (gameOverCount > 180)		//counts to 3 seconds then restarts level
 					{
 						gameOverCount = 0;
-						LevelStart();
+						LevelStart();			//resets player and enemies when level is restarted
 						gameState = GameState.Menu;
 					}
 					break;
