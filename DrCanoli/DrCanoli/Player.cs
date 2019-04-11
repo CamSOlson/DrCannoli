@@ -15,7 +15,6 @@ namespace DrCanoli
     {
         private Weapon wep;
         private bool alive;
-		private bool facingRight;   //true if last idle state was right, false if last idle state was left
         KeyboardState kbState, kbPrevious;
         GamePadState gpState, gpPrevious;
         MouseState mState, mStatePrev;
@@ -88,12 +87,12 @@ namespace DrCanoli
             if (Wep != null && facingRight)
             {
                 Wep.Box = new Rectangle(Box.X + Box.Width - 5, Box.Y + Box.Height / 2 + 20, Wep.Box.Width, Wep.Box.Height);
-                Wep.Update();
+                Wep.Update(this);
             }
             else if (Wep != null)
             {
                 Wep.Box = new Rectangle(Box.X - Wep.Box.Width + 5, Box.Y + Box.Height / 2 + 20, Wep.Box.Width, Wep.Box.Height);
-                Wep.Update();
+                Wep.Update(this);
             }
 
 

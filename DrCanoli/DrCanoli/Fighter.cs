@@ -29,6 +29,7 @@ namespace DrCanoli
         protected AnimationSet animationSet;
         protected Texture2D shadow;
         private Color currentColor;
+        protected bool facingRight;   //true if last idle state was right, false if last idle state was left
 
         public Color Color
         {
@@ -54,6 +55,11 @@ namespace DrCanoli
         {
             get { return speed; }
             set { speed = value; }
+        }
+        public bool FacingRight
+        {
+            get { return facingRight; }
+            set { facingRight = value; }
         }
         public Fighter(Rectangle box, int hp, int damage, AnimationSet animationSet, FighterState fighterState, Texture2D shadow)
         {

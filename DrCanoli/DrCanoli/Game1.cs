@@ -156,7 +156,8 @@ namespace DrCanoli
             );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height, boss);
             player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, hit, jump,
-                new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), 
+                new Weapon(
+                    new Rectangle(PhysManager.Unicorns * 2, PhysManager.Unicorns * 4 - PhysManager.Unicorns / 2, PhysManager.Unicorns, PhysManager.Unicorns / 2), 
                 Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content), 10, 1));
             phys.Player = player;
 
@@ -404,9 +405,6 @@ namespace DrCanoli
                         {
                             ent.DrawShadow(spriteBatch);
                             ent.Draw(spriteBatch);
-                            //This will be moved into player eventually, and removed when the animation is finished
-                            if (player.Wep != null)
-                                player.Wep.Draw(spriteBatch);
                         }
                     }
 

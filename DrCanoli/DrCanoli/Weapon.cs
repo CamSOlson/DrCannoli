@@ -9,10 +9,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DrCanoli
 {
-    class Weapon : IDrawn
+    class Weapon
     {
         // Fields and properties
-        private Rectangle box;
+        private Rectangle box, initialBox;
         private Animation attackAnimation;
         protected int damage;
         private bool swinging;
@@ -61,21 +61,21 @@ namespace DrCanoli
         public Weapon(Rectangle box, Animation attackAnimation, int damage, int fireRate)
         {
             this.box = box;
+            this.initialBox = new Rectangle(box.X, box.Y, box.Width, box.Height);
             this.damage = damage;
             this.fireRate = fireRate;
             this.attackAnimation = attackAnimation;
             swinging = false;
         }
 
-        public void Update()
+        public void Update(Fighter user)
         {
-            box = new Rectangle(box.X - Game1.CameraOffset, box.Y, box.Width, box.Height);
-        }
+            box = new Rectangle(user.Box.X + initialBox.X, user.Box.Y + initialBox.Y, initialBox.Width, initialBox.Height);
 
-        // Draw weapon
-        public virtual void Draw(SpriteBatch batch)
-        {
-
+            if (!user.FacingRight)
+            {
+                box.X -= initialBox.X + user.Box.Width;
+            }
         }
 
         public void Swing(int fireRate)
