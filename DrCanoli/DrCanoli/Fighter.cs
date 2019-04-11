@@ -125,6 +125,7 @@ namespace DrCanoli
             get { return box; }
             set { box = value; }
         }
+        //oof
         public Rectangle Hitbox
         {
             get { return new Rectangle(box.X, box.Y + box.Height - box.Width / 4, box.Width, box.Width / 4); }
