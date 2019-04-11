@@ -102,10 +102,18 @@ namespace DrCanoli
         {
             double scale = (double) bounds.Height / (double) texture.Height;
 
+            Rectangle dest = new Rectangle(bounds.X - Game1.CameraOffset, bounds.Y,
+                    (int)Math.Round(frameBounds[currentFrame].Width * scale), bounds.Height);
+
+            if (!facingRight)
+            {
+                dest.X -= (int)Math.Round(frameBounds[currentFrame].Width * scale);
+                dest.X += bounds.Width;
+            }
+
             sb.Draw(texture,
                 sourceRectangle: frameBounds[currentFrame],
-                destinationRectangle: new Rectangle(bounds.X - Game1.CameraOffset, bounds.Y,
-                    (int) Math.Round(frameBounds[currentFrame].Width * scale), bounds.Height),
+                destinationRectangle: dest,
                 color: drawColor,
                 effects: spriteEffects);
         }
