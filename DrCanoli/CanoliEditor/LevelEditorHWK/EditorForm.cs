@@ -226,6 +226,8 @@ namespace LevelEditorHWK
 
         private void LoadLevel(string fileName)
         {
+            totalList.Clear();
+            boxList.Clear();
             // Streams for file reading
             StreamReader reader = null;
             try
@@ -233,25 +235,27 @@ namespace LevelEditorHWK
                 // Open designated file
                 reader = new StreamReader(fileName);
                 this.Text = "Level Editor - " + Path.GetFileName(fileName);
-                // Create list and counter for picture box colors
-                colorList = new List<String>();
-                int colorCount = 0;
                 // Read data from the file
                 string lineOfText = null;
 
+                lineOfText = reader.ReadLine();
+
+                loadedWidth = lineOfText.Length;
+                lineOfText = null;
+
+                reader = new StreamReader(fileName);
+
+                InitializeComponent();
+
                 // Extend the window based on width and height
-                this.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
+                this.Width += (loadedWidth - 6) * (500 / 6);
                 box = this.mapBox;
-                box.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
-                // Convert data from the text file to the list of colors
-                while ((lineOfText = reader.ReadLine()) != null)
-                {
-                    colorList.Add(lineOfText);
-                }
+                box.Width += (loadedWidth - 6) * (500 / 6); 
 
                 // Initialize stream reader, string variable, and char variable
                 // Create positionList
                 List<List<char>> positionList = new List<List<char>>();
+
                 // Read in each line as a list of characters, then add this list to positionList
                 while ((lineOfText = reader.ReadLine()) != null)
                 {
@@ -271,11 +275,11 @@ namespace LevelEditorHWK
                 for (int i = 0; i < positionList.Count; i++)
                 {
 
-                    for (int j = 0; j < positionList[0].Count; j++)
+                    for (int j = 0; j < positionList[i].Count; j++)
                     {
                         PictureBox pictureBox = new PictureBox();
-                        pictureBox.Location = new Point((j * (500 / positionList.Count)), (i * (500 / positionList.Count)));
-                        pictureBox.Size = new Size((500 / positionList.Count), (500 / positionList.Count));
+                        pictureBox.Location = new Point((j * (500 / 6)), (i * (500 / 6)));
+                        pictureBox.Size = new Size((500 / 6), (500 / 6));
                         if (positionList[i][j] == '-')
                         {
                             pictureBox.BackColor = Color.Black;
@@ -292,7 +296,6 @@ namespace LevelEditorHWK
                         pictureBox.MouseClick += ChangeColor;
                         // Add the picture box to the list of picture boxes and increment the color count
                         boxList.Add(pictureBox);
-                        colorCount++;
                     }
                     totalList.Add(boxList);
                     boxList = new List<PictureBox>();
