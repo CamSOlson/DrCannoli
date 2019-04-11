@@ -50,14 +50,14 @@ namespace DrCanoli
             batch.Draw(healthBar, new Rectangle(PhysManager.Unicorns * 5, 50, PhysManager.Unicorns * 6, 50), Color.White);
             batch.Draw(healthBar, new Rectangle(PhysManager.Unicorns * 5, 50, (health / maxHp) * (PhysManager.Unicorns * 6), 50), Color.Red);
         }
-        public void UpdateBullets(SpriteBatch batch)
+        public void UpdateBullets()
         {
             for(int c = 0; c < list.Count; c++)
             {
                 if (list[c].Active)
                 {
                     list[c].Update();
-                    list[c].Draw(batch);
+                    
                     if (list[c].Rect.Intersects(player.Box))
                     {
                         player.Hp -= 10;
@@ -65,6 +65,16 @@ namespace DrCanoli
                         list.Remove(list[c]);
                         c--;
                     }
+                }
+            }
+        }
+        public void DrawBullets(SpriteBatch batch)
+        {
+            foreach (Bullet b in list)
+            {
+                if (b.Active)
+                {
+                    b.Draw(batch);
                 }
             }
         }

@@ -264,7 +264,7 @@ namespace DrCanoli
                     elapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
                     player.Update();
                     boss.Update();
-                    boss.UpdateBullets(spriteBatch);
+                    boss.UpdateBullets();
                     foreach (Enemy e in enemyList)
                     {
                         e.Update();
@@ -361,11 +361,12 @@ namespace DrCanoli
 				case GameState.Game:
 
 					//GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
-
+                    
                     //This does the clearing, no need to waste time with redundant clears
                     background.Draw(spriteBatch);
                     boss.Draw(spriteBatch);
                     boss.DrawHealthbar(spriteBatch);
+                    boss.DrawBullets(spriteBatch);
                     //Entities (enemies and player)
                     foreach (Fighter ent in entities)
                     {
