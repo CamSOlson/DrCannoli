@@ -218,7 +218,7 @@ namespace DrCanoli
                     }
                     else if (levelData[c][d] == 'O')
                     {
-                        Obstacle obstacle = new Obstacle(x, y, PhysManager.Unicorns, PhysManager.Unicorns, obstacleTexture);
+                        Obstacle obstacle = new Obstacle(x, y + 6 * PhysManager.Unicorns, PhysManager.Unicorns, PhysManager.Unicorns, obstacleTexture);
                         obstacles.Add(obstacle);
                     }
                 }
