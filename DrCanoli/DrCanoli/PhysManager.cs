@@ -132,6 +132,10 @@ namespace DrCanoli
         {
             //If a hit lands on anyone, this method will be called
             Target.Hp -= Hitter.Dmg;
+            if (Hitter.Box.X < Target.Box.X)
+                Target.FacingRight = false;
+            else
+                Target.FacingRight = true;
 			if (Hitter is Player)
 			{
 				Player player0 = (Player)Hitter;
