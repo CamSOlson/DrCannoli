@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 
@@ -22,6 +24,7 @@ namespace DrCanoli
 		private Texture2D optionsTexture;   //place-holder textures for menu buttons
 		private Texture2D exitTexture;
         private Texture2D obstacleTexture; // texture for obstacle
+        private Texture2D bulletTexture;
 		private Rectangle startButton;
 		private Rectangle optionsButton;    //positions for menu buttons
 		private Rectangle exitButton;
@@ -32,6 +35,7 @@ namespace DrCanoli
         private List<Obstacle> obstacles;
         private List<Fighter> entities;
         private List<Enemy> enemyList;
+        private Boss boss;
         private Player player;
         private Background background;
         private PhysManager phys;
@@ -39,6 +43,9 @@ namespace DrCanoli
 
         private Texture2D healthBackground;
         private Texture2D healthBar;
+
+        // Sound effects
+        private SoundEffect hit;
 
         private static double elapsedTime;
         
@@ -95,8 +102,6 @@ namespace DrCanoli
             // Get data from text file
             textFile = new TextFile("Content/obstacles.txt");
             levelData = textFile.Read();
-			
-            
             base.Initialize();
 		}
 
@@ -120,8 +125,10 @@ namespace DrCanoli
 			exitTexture = Content.Load<Texture2D>("exit");
             obstacleTexture = Content.Load<Texture2D>("obstacle");
             shadowTexture = Content.Load<Texture2D>("textures/sprites/Shadow");
+            bulletTexture = Content.Load<Texture2D>("Bullet");
             menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
 			font = Content.Load<SpriteFont>("placeholderText");
+            hit = Content.Load<SoundEffect>("woosh");
 
 			//Test player
 			AnimationSet playerAnimSet = new AnimationSet(
@@ -132,6 +139,12 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_HIT, Content)
             );
+            AnimationSet animSet = new AnimationSet(
+                            Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
+                        );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
             player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture,
                 new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), 
@@ -157,7 +170,7 @@ namespace DrCanoli
                 data[i] = Color.IndianRed;
             }
             healthBar.SetData(data);
-
+            boss = new Boss(PhysManager.Unicorns * 16, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, animSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
             LevelStart();
 
         }
@@ -256,6 +269,8 @@ namespace DrCanoli
                     //ALWAYS update player, no ifs/elses about it
                     elapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
                     player.Update();
+                    boss.Update();
+                    boss.UpdateBullets();
                     foreach (Enemy e in enemyList)
                     {
                         e.Update();
@@ -278,7 +293,7 @@ namespace DrCanoli
 
                     //Sort entities
                     SortEntities();
-                    
+                    phys.UpdateClosest();
                     
 
                     if (!player.Alive)
@@ -334,8 +349,7 @@ namespace DrCanoli
 
 			// TODO: Add your drawing code here
 			spriteBatch.Begin();
-
-
+            
             //Eventually, all of these should/will be moved to individual class files to make it more organized
 
 
@@ -353,10 +367,12 @@ namespace DrCanoli
 				case GameState.Game:
 
 					//GraphicsDevice.Clear(Color.MonoGameOrange); //placeholder color for testing
-
+                    
                     //This does the clearing, no need to waste time with redundant clears
                     background.Draw(spriteBatch);
-
+                    boss.Draw(spriteBatch);
+                    boss.DrawHealthbar(spriteBatch);
+                    boss.DrawBullets(spriteBatch);
                     //Entities (enemies and player)
                     foreach (Fighter ent in entities)
                     {

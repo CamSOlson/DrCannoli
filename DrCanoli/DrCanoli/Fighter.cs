@@ -157,5 +157,11 @@ namespace DrCanoli
 			get { return fighterState; }
 			set { fighterState = value; }
 		}
+
+        public double DistanceTo(Fighter f)
+        {
+            double step = Math.Pow(f.Box.X - box.X, 2) + Math.Pow(f.Box.Y - box.Y, 2);
+            return Math.Sqrt(step);
+        }
     }
 }
