@@ -43,7 +43,7 @@ namespace DrCanoli
             //CHECK WEAPON COLLISIONS WITH ENEMIES, calls Hit() with proper entities
             foreach (Enemy e in enemyList)
             {
-                if (player.Wep.Swinging && e.Box.Intersects(player.Wep.Box) && e.Active)
+                if (player.Wep.Swinging && e.Hitbox.Intersects(player.Wep.Box) && e.Active)
                 {
                     if (!e.Stunned)
                         Hit(player, e);
@@ -53,11 +53,11 @@ namespace DrCanoli
             //CHECK ENEMY COLLISIONS WITH PLAYER, also calls Hit() with proper entities
             foreach (Enemy e in enemyList)
             {
-                if (e.Box.Intersects(player.Box) && e.Active)
+                if (e.Hitbox.Intersects(player.Hitbox) && e.Active)
                 {
                     if (!player.Invulnerable)
                         Hit(e, player);
-                    Rectangle intersect = Rectangle.Intersect(e.Box, player.Box);
+                    Rectangle intersect = Rectangle.Intersect(e.Hitbox, player.Hitbox);
                     if (player.Box.X < e.Box.X)
                         e.Box = new Rectangle(e.Box.X + intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
                     else
@@ -68,9 +68,9 @@ namespace DrCanoli
             //CHECK AND ADJUST COLLISONS THAT DON'T PERMIT MOVEMENT
             foreach (Obstacle o in obstacles)
             {
-                if (o.Box.Intersects(player.Box))
+                if (o.Box.Intersects(player.Hitbox))
                 {
-                    Rectangle intersect = Rectangle.Intersect(o.Box, player.Box);
+                    Rectangle intersect = Rectangle.Intersect(o.Box, player.Hitbox);
                     if (player.Box.X < o.Box.X && player.KBState.IsKeyDown(Keys.D))
                         player.Box = new Rectangle(player.Box.X - intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
                     else if (player.KBState.IsKeyDown(Keys.A))
