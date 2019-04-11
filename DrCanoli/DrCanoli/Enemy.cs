@@ -184,6 +184,11 @@ namespace DrCanoli
                         AnimationSet.Walking.Reset();
                         animation = AnimationSet.Idle;
                     }
+
+                    if (Stunned)
+                    {
+                        animation = AnimationSet.Knockback;
+                    }
                     break;
             }
 
