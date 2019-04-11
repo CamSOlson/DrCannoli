@@ -30,7 +30,7 @@ namespace DrCanoli
 		private Rectangle exitButton;
 		private Menu menu;                  //draws menu
 		private SpriteFont font;	//just a placeholder font until we get an actual font
-
+            
 		private List<IDrawn> drawables;
         private List<Obstacle> obstacles;
         private List<Fighter> entities;
@@ -129,9 +129,9 @@ namespace DrCanoli
             menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
 			font = Content.Load<SpriteFont>("placeholderText");
             hit = Content.Load<SoundEffect>("woosh");
-
-			//Test player
-			AnimationSet playerAnimSet = new AnimationSet(
+            phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height, boss);
+            //Test player
+            AnimationSet playerAnimSet = new AnimationSet(
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
@@ -143,8 +143,9 @@ namespace DrCanoli
                             Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
                             Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
                         );
-            phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
+            
             player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 500, 0, playerAnimSet, phys, shadowTexture, hit, new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), Content.Load<Texture2D>("tempWep"), 10, 1));
+            
             phys.Player = player;
 
             //Background
@@ -166,7 +167,8 @@ namespace DrCanoli
                 data[i] = Color.IndianRed;
             }
             healthBar.SetData(data);
-            boss = new Boss(PhysManager.Unicorns * 16, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, animSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
+            boss = new Boss(PhysManager.Unicorns * 5, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, animSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
+            phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height, boss);
             LevelStart();
 
         }
@@ -270,7 +272,6 @@ namespace DrCanoli
                         e.Update();
                     }
                     phys.CheckCollisions();
-
                     //Update camera
                     cameraOffset = player.Box.X - graphics.PreferredBackBufferWidth / 2 + player.Box.Width / 2;
 

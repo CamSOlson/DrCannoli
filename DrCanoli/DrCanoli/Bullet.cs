@@ -50,7 +50,7 @@ namespace DrCanoli
                     default:
                         break;
                 }
-            if (rect.Y > 900 || rect.Y < 0 || rect.X > startX + 1600 || rect.X < 0)
+            if (rect.Y > PhysManager.Unicorns * 9 || rect.Y < 0 || rect.X > startX + (PhysManager.Unicorns * 16) || rect.X < 0)
             {
                 active = false;
             }
