@@ -12,10 +12,12 @@ namespace DrCanoli
     class Weapon : IDrawn
     {
         // Fields and properties
-        private Rectangle box, drawBox;
-        private Texture2D sprite;
+        private Rectangle box;
+        private Animation attackAnimation;
         protected int damage;
         private bool swinging;
+        protected int fireRate;
+
         public int Damage
         {
             get
@@ -27,7 +29,6 @@ namespace DrCanoli
                 damage = value;
             }
         }
-        protected int fireRate;
         public int FireRate
         {
             get
@@ -39,34 +40,11 @@ namespace DrCanoli
                 fireRate = value;
             }
         }
-
-        // Class constructor
-        public Weapon(Rectangle box, Texture2D sprite, int damage, int fireRate)
+        public Animation AttackAnimation
         {
-            this.box = box;
-            this.sprite = sprite;
-            this.damage = damage;
-            this.fireRate = fireRate;
-            swinging = false;
-            drawBox = box;
+            get { return attackAnimation; }
+            set { attackAnimation = value; }
         }
-
-        public void Update()
-        {
-            drawBox = new Rectangle(box.X - Game1.CameraOffset, box.Y, box.Width, box.Height);
-        }
-
-        // Draw weapon
-        public virtual void Draw(SpriteBatch batch)
-        {
-            batch.Draw(sprite, drawBox, Color.White);
-        }
-
-        public void Swing(int fireRate)
-        {
-            // Put swing animation code here
-        }
-
         public bool Swinging
         {
             get { return swinging; }
@@ -78,5 +56,33 @@ namespace DrCanoli
             get { return box; }
             set { box = value; }
         }
+
+        // Class constructor
+        public Weapon(Rectangle box, Animation attackAnimation, int damage, int fireRate)
+        {
+            this.box = box;
+            this.damage = damage;
+            this.fireRate = fireRate;
+            this.attackAnimation = attackAnimation;
+            swinging = false;
+        }
+
+        public void Update()
+        {
+            box = new Rectangle(box.X - Game1.CameraOffset, box.Y, box.Width, box.Height);
+        }
+
+        // Draw weapon
+        public virtual void Draw(SpriteBatch batch)
+        {
+
+        }
+
+        public void Swing(int fireRate)
+        {
+            // Put swing animation code here
+        }
+
+
     }
 }
