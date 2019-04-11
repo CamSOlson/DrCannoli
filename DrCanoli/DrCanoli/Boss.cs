@@ -83,8 +83,6 @@ namespace DrCanoli
         }
         public override void Update()
         {
-            if (Math.Abs(player.Box.X - Box.X) < PhysManager.Unicorns * 16)
-            {
                 switch (state)
                 {
                     case BossStates.Top:
@@ -158,7 +156,7 @@ namespace DrCanoli
                     default:
                         break;
                 }
-            }
+            
         }
     }
 }

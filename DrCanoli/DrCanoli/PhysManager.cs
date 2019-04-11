@@ -33,7 +33,6 @@ namespace DrCanoli
             this.player = player;
             obstacles = obs;
             enemyList = enemies;
-            enemies.Add(boss);
             unicorns = screenHeight / 9;
             frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
             acceleration = -.981 * 2; //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
@@ -53,11 +52,7 @@ namespace DrCanoli
             //CHECK ENEMY COLLISIONS WITH PLAYER, also calls Hit() with proper entities
             foreach (Enemy e in enemyList)
             {
-                if(e is Boss)
-                {
-
-                }
-                else if (e.Box.Intersects(player.Box) && e.Active)
+                if (e.Box.Intersects(player.Box) && e.Active)
                 {
                     if (!player.Invulnerable)
                         Hit(e, player);
