@@ -226,9 +226,13 @@ namespace DrCanoli
                     }
                     else
                     {
-                        if (Box.X > 0)
+                        if (Box.X > 0 && facingRight)
                         {
                             Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed * 2)), Box.Y, Box.Width, Box.Height);
+                        }
+                        else if (Box.X > 0)
+                        {
+                            Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed * 2)), Box.Y, Box.Width, Box.Height);
                         }
                     }
 
