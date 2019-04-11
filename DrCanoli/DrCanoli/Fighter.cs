@@ -127,7 +127,7 @@ namespace DrCanoli
         }
         public Rectangle Hitbox
         {
-            get { return new Rectangle(box.Height - box.Width / 4, 0, box.Width, box.Width / 4); }
+            get { return new Rectangle(0, box.Height - box.Width / 4, box.Width, box.Width / 4); }
         }
         public int InitialY
         {
