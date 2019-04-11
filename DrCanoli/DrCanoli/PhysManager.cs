@@ -54,13 +54,59 @@ namespace DrCanoli
             {
                 if (e.Hitbox.Intersects(player.Hitbox) && e.Active)
                 {
-                    if (!player.Invulnerable)
-                        Hit(e, player);
                     Rectangle intersect = Rectangle.Intersect(e.Hitbox, player.Hitbox);
-                    if (player.Box.X < e.Box.X)
-                        e.Box = new Rectangle(e.Box.X + intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
+
+
+                    if (intersect.Width < intersect.Height)
+                    {
+                        //enemy is coming from sides
+                        if (!player.Invulnerable)
+                            Hit(e, player);
+
+                        if (player.Box.X < e.Box.X)
+                        {
+                            //From left
+                            e.Box = new Rectangle(e.Box.X + intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                        else
+                        {
+                            //From right
+                            e.Box = new Rectangle(e.Box.X - intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                    }
                     else
-                        e.Box = new Rectangle(e.Box.X - intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
+                    {
+                        Rectangle newBox = e.Box;
+                        //Enemy is coming from top/bottom
+                        if (player.Box.Y < e.Box.Y)
+                        {
+                            //From bottom
+                            newBox = new Rectangle(e.Box.X, e.Box.Y + intersect.Height, e.Box.Width, e.Box.Height);
+                        }
+                        else
+                        {
+                            //From top
+                            newBox = new Rectangle(e.Box.X, e.Box.Y - intersect.Height, e.Box.Width, e.Box.Height);
+                        }
+
+                        //Move to start finding place to hit
+                        if (player.Box.X < e.Box.X)
+                        {
+                            //Right side of player is closer, begin moving to the right
+                            newBox.X += (int)Math.Round(60d / e.Speed / 3d);
+                            e.FighterState = FighterState.Move;
+                        }
+                        else
+                        {
+                            //Left side of player is closer, begin moving to the left
+                            newBox.X -= (int)Math.Round(60d / e.Speed / 3d);
+                            e.FighterState = FighterState.Move;
+                        }
+
+                        e.Box = newBox;
+
+                    }
+
                 }
             }
 
