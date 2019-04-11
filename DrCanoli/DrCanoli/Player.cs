@@ -128,6 +128,7 @@ namespace DrCanoli
                         VelocityY = PhysManager.InitialYVelocity;
                         FighterState = FighterState.Jump;
                         Box = new Rectangle(Box.X, Box.Y - 5, Box.Width, Box.Height);
+                        jump.Play();
                         break;
                     }
                     

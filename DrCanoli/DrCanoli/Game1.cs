@@ -154,14 +154,8 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_HIT, Content)
             );
-            AnimationSet animSet = new AnimationSet(
-                            Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
-                        );
-            phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
-            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, hit, jump
+            phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height, boss);
+            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, hit, jump,
                 new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), 
                 Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content), 10, 1));
             phys.Player = player;
