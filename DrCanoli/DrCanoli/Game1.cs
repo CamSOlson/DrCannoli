@@ -47,6 +47,7 @@ namespace DrCanoli
 
         // Sound effects
         private SoundEffect hit;
+        private SoundEffect jump;
 
         private static double elapsedTime;
         
@@ -131,7 +132,10 @@ namespace DrCanoli
             bulletTexture = Content.Load<Texture2D>("Bullet");
             menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
 			font = Content.Load<SpriteFont>("placeholderText");
+
+            // Load sound effects
             hit = Content.Load<SoundEffect>("woosh");
+            jump = Content.Load<SoundEffect>("jump");
 
 			//Test player
 			AnimationSet playerAnimSet = new AnimationSet(
@@ -149,7 +153,7 @@ namespace DrCanoli
                             Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
                         );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
-            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, hit,
+            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, hit, jump,
                 new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), 
                 Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content), 10, 1));
             phys.Player = player;

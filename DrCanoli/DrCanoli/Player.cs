@@ -21,6 +21,7 @@ namespace DrCanoli
         MouseState mState, mStatePrev;
         PhysManager phys;
         SoundEffect hit;
+        SoundEffect jump;
         private int suspendedPrevious;
 
         public Weapon Wep
@@ -37,7 +38,7 @@ namespace DrCanoli
 		//player specific fields
 
 
-		public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys, Texture2D shadow, SoundEffect hit, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true)
+		public Player(int x, int y, int width, int height, int hp, int dmg, AnimationSet animSet, PhysManager phys, Texture2D shadow, SoundEffect hit, SoundEffect jump, Weapon weapon = null, FighterState fighterState = FighterState.Idle, bool facingRight = true)
             : base(new Rectangle(x, y, width, height), hp, dmg, animSet, fighterState, shadow)
         {
             wep = weapon;
@@ -55,6 +56,7 @@ namespace DrCanoli
 
             // Initialize sound effects
             this.hit = hit;
+            this.jump = jump;
         }
 
         public KeyboardState KBState
@@ -158,6 +160,7 @@ namespace DrCanoli
                         VelocityY = PhysManager.InitialYVelocity;
                         FighterState = FighterState.Jump;
                         Box = new Rectangle(Box.X, Box.Y, Box.Width, Box.Height);
+                        jump.Play();
                         break;
                     }
                     if (kbState.IsKeyUp(Keys.A) && kbState.IsKeyUp(Keys.W) && kbState.IsKeyUp(Keys.D) && kbState.IsKeyUp(Keys.S) && gpState.DPad.Right == ButtonState.Released && gpState.DPad.Up == ButtonState.Released && gpState.DPad.Down == ButtonState.Released && gpState.DPad.Left == ButtonState.Released)
@@ -305,6 +308,7 @@ namespace DrCanoli
                         VelocityY = PhysManager.InitialYVelocity;
                         FighterState = FighterState.Jump;
                         Box = new Rectangle(Box.X, Box.Y, Box.Width, Box.Height);
+                        jump.Play();
                         break;
                     }
                     else

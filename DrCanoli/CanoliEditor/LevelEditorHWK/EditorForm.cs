@@ -74,91 +74,7 @@ namespace LevelEditorHWK
             // If a file is loaded, create it based on data from the text file
             else
             {
-                // Streams for file reading
-                StreamReader reader = null;
-                try
-                {
-                    // Open designated file
-                    reader = new StreamReader(fileName);
-                    this.Text = "Level Editor - " + Path.GetFileName(fileName);
-                    // Create list and counter for picture box colors
-                    colorList = new List<String>();
-                    int colorCount = 0;
-                    // Read data from the file
-                    string lineOfText = null;
-                    
-                    // Extend the window based on width and height
-                    this.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
-                    box = this.mapBox;
-                    box.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
-                    // Convert data from the text file to the list of colors
-                    while ((lineOfText = reader.ReadLine()) != null)
-                    {
-                        colorList.Add(lineOfText);
-                    }
-                  
-                    // Initialize stream reader, string variable, and char variable
-                    // Create positionList
-                    List<List<char>> positionList = new List<List<char>>();
-                    // Read in each line as a list of characters, then add this list to positionList
-                    while ((lineOfText = reader.ReadLine()) != null)
-                    {
-                        List<char> row = new List<char>();
-                        foreach (char ch in lineOfText)
-                        {
-                            row.Add(ch);
-                        }
-                        positionList.Add(row);
-                    }
-
-                    // Close the stream
-                    reader.Close();
-                    // Clear the group box
-                    mapBox.Controls.Clear();
-                    // Generate picture boxes for map tiles
-                    for (int i = 0; i < positionList.Count; i++)
-                    {
-
-                        for (int j = 0; j < positionList[0].Count; j++)
-                        {
-                            PictureBox pictureBox = new PictureBox();
-                            pictureBox.Location = new Point((j * (500 / positionList.Count)), (i * (500 / positionList.Count)));
-                            pictureBox.Size = new Size((500 / positionList.Count), (500 / positionList.Count));
-                            if(positionList[i][j] == '-')
-                            {
-                                pictureBox.BackColor = Color.Black;
-                            }
-                            if (positionList[i][j] == 'X')
-                            {
-                                pictureBox.BackColor = Color.Lime;
-                            }
-                            if (positionList[i][j] == 'E')
-                            {
-                                pictureBox.BackColor = Color.Red;
-                            }
-                            mapBox.Controls.Add(pictureBox);
-                            pictureBox.MouseClick += ChangeColor;
-                            // Add the picture box to the list of picture boxes and increment the color count
-                            boxList.Add(pictureBox);
-                            colorCount++;
-                        }
-                        totalList.Add(boxList);
-                        boxList = new List<PictureBox>();
-                    }
-
-                    // Give feedback if level loads sucessfully
-                    MessageBox.Show("Level successfully loaded!");
-                }
-                catch (Exception f)
-                {
-                    // Catch the exception
-                    Console.WriteLine("File error, " + f.Message);
-                }
-                finally
-                {
-                    // Close the stream
-                    reader.Close();
-                }
+                LoadLevel(fileName);
             }
         }
 
@@ -276,91 +192,7 @@ namespace LevelEditorHWK
             // Open new editor form and open map from desired file if user presses OK
             if (dialogResult == DialogResult.OK)
             {
-                // Streams for file reading
-                StreamReader reader = null;
-                try
-                {
-                    // Open designated file
-                    reader = new StreamReader(loadFile.FileName);
-                    this.Text = "Level Editor - " + Path.GetFileName(loadFile.FileName);
-                    // Create list and counter for picture box colors
-                    colorList = new List<String>();
-                    int colorCount = 0;
-                    // Read data from the file
-                    string lineOfText = null;
-
-                    // Extend the window based on width and height
-                    this.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
-                    box = this.mapBox;
-                    box.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
-                    // Convert data from the text file to the list of colors
-                    while ((lineOfText = reader.ReadLine()) != null)
-                    {
-                        colorList.Add(lineOfText);
-                    }
-
-                    // Initialize stream reader, string variable, and char variable
-                    // Create positionList
-                    List<List<char>> positionList = new List<List<char>>();
-                    // Read in each line as a list of characters, then add this list to positionList
-                    while ((lineOfText = reader.ReadLine()) != null)
-                    {
-                        List<char> row = new List<char>();
-                        foreach (char ch in lineOfText)
-                        {
-                            row.Add(ch);
-                        }
-                        positionList.Add(row);
-                    }
-
-                    // Close the stream
-                    reader.Close();
-                    // Clear the group box
-                    mapBox.Controls.Clear();
-                    // Generate picture boxes for map tiles
-                    for (int i = 0; i < positionList.Count; i++)
-                    {
-
-                        for (int j = 0; j < positionList[0].Count; j++)
-                        {
-                            PictureBox pictureBox = new PictureBox();
-                            pictureBox.Location = new Point((j * (500 / positionList.Count)), (i * (500 / positionList.Count)));
-                            pictureBox.Size = new Size((500 / positionList.Count), (500 / positionList.Count));
-                            if (positionList[i][j] == '-')
-                            {
-                                pictureBox.BackColor = Color.Black;
-                            }
-                            if (positionList[i][j] == 'X')
-                            {
-                                pictureBox.BackColor = Color.Lime;
-                            }
-                            if (positionList[i][j] == 'E')
-                            {
-                                pictureBox.BackColor = Color.Black;
-                            }
-                            mapBox.Controls.Add(pictureBox);
-                            pictureBox.MouseClick += ChangeColor;
-                            // Add the picture box to the list of picture boxes and increment the color count
-                            boxList.Add(pictureBox);
-                            colorCount++;
-                        }
-                        totalList.Add(boxList);
-                        boxList = new List<PictureBox>();
-                    }
-
-                    // Give feedback if level loads sucessfully
-                    MessageBox.Show("Level successfully loaded!");
-                }
-                catch (Exception f)
-                {
-                    // Catch the exception
-                    Console.WriteLine("File error, " + f.Message);
-                }
-                finally
-                {
-                    // Close the stream
-                    reader.Close();
-                }
+                LoadLevel(loadFile.FileName);
             }
             // If they press anything else, don't do anything
             else
@@ -389,6 +221,95 @@ namespace LevelEditorHWK
                 {
 
                 }
+            }
+        }
+
+        private void LoadLevel(string fileName)
+        {
+            // Streams for file reading
+            StreamReader reader = null;
+            try
+            {
+                // Open designated file
+                reader = new StreamReader(fileName);
+                this.Text = "Level Editor - " + Path.GetFileName(fileName);
+                // Create list and counter for picture box colors
+                colorList = new List<String>();
+                int colorCount = 0;
+                // Read data from the file
+                string lineOfText = null;
+
+                // Extend the window based on width and height
+                this.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
+                box = this.mapBox;
+                box.Width += (loadedWidth - loadedHeight) * (500 / loadedHeight);
+                // Convert data from the text file to the list of colors
+                while ((lineOfText = reader.ReadLine()) != null)
+                {
+                    colorList.Add(lineOfText);
+                }
+
+                // Initialize stream reader, string variable, and char variable
+                // Create positionList
+                List<List<char>> positionList = new List<List<char>>();
+                // Read in each line as a list of characters, then add this list to positionList
+                while ((lineOfText = reader.ReadLine()) != null)
+                {
+                    List<char> row = new List<char>();
+                    foreach (char ch in lineOfText)
+                    {
+                        row.Add(ch);
+                    }
+                    positionList.Add(row);
+                }
+
+                // Close the stream
+                reader.Close();
+                // Clear the group box
+                mapBox.Controls.Clear();
+                // Generate picture boxes for map tiles
+                for (int i = 0; i < positionList.Count; i++)
+                {
+
+                    for (int j = 0; j < positionList[0].Count; j++)
+                    {
+                        PictureBox pictureBox = new PictureBox();
+                        pictureBox.Location = new Point((j * (500 / positionList.Count)), (i * (500 / positionList.Count)));
+                        pictureBox.Size = new Size((500 / positionList.Count), (500 / positionList.Count));
+                        if (positionList[i][j] == '-')
+                        {
+                            pictureBox.BackColor = Color.Black;
+                        }
+                        if (positionList[i][j] == 'X')
+                        {
+                            pictureBox.BackColor = Color.Lime;
+                        }
+                        if (positionList[i][j] == 'E')
+                        {
+                            pictureBox.BackColor = Color.Red;
+                        }
+                        mapBox.Controls.Add(pictureBox);
+                        pictureBox.MouseClick += ChangeColor;
+                        // Add the picture box to the list of picture boxes and increment the color count
+                        boxList.Add(pictureBox);
+                        colorCount++;
+                    }
+                    totalList.Add(boxList);
+                    boxList = new List<PictureBox>();
+                }
+
+                // Give feedback if level loads sucessfully
+                MessageBox.Show("Level successfully loaded!");
+            }
+            catch (Exception f)
+            {
+                // Catch the exception
+                Console.WriteLine("File error, " + f.Message);
+            }
+            finally
+            {
+                // Close the stream
+                reader.Close();
             }
         }
     }
