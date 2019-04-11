@@ -41,7 +41,7 @@ namespace DrCanoli
             : base(new Rectangle(x, y, width, height), hp, dmg, animSet, fighterState, shadow)
         {
             wep = weapon;
-            //100 is just a placeholder value, subject to change
+			//100 is just a placeholder value, subject to change
             alive = true;
             this.facingRight = facingRight;
             this.phys = phys;
