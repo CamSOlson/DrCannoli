@@ -29,7 +29,8 @@ namespace DrCanoli
 		private Rectangle optionsButton;    //positions for menu buttons
 		private Rectangle exitButton;
 		private Menu menu;                  //draws menu
-		private SpriteFont font;	//just a placeholder font until we get an actual font
+		private SpriteFont font;    //just a placeholder font until we get an actual font
+		private int gameOverCount;
 
 		private List<IDrawn> drawables;
         private List<Obstacle> obstacles;
@@ -99,6 +100,8 @@ namespace DrCanoli
 			optionsButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 5 - 25, 100, 50);
 			exitButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 6 - 25, 100, 50);
 
+			gameOverCount = 0;
+
             // Get data from text file
             textFile = new TextFile("Content/obstacles.txt");
             levelData = textFile.Read();
@@ -146,7 +149,7 @@ namespace DrCanoli
                             Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
                         );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
-            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture,
+            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, hit,
                 new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), 
                 Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content), 10, 1));
             phys.Player = player;
@@ -182,6 +185,10 @@ namespace DrCanoli
 
             //Initialize entity list
             entities = new List<Fighter>();
+
+			//resetting level after death
+			player.Hp = 100;
+			player.Alive = true;
 
             for (int c = 0; c < levelData.Count; c++)
             {
@@ -303,6 +310,13 @@ namespace DrCanoli
 
                     break;
 				case GameState.GameOver:
+					gameOverCount++;
+					if (gameOverCount > 180)
+					{
+						gameOverCount = 0;
+						LevelStart();
+						gameState = GameState.Menu;
+					}
 					break;
 			}
 
@@ -414,6 +428,7 @@ namespace DrCanoli
 					spriteBatch.DrawString(
 						font, "Your body is limp, lifeless wholly. You are dead, Dr. Cannoli", new Vector2(10, 10), Color.White
 						);
+
 					break;
 			}
 
