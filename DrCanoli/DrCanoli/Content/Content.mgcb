@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin 187025__lloydevans09__jump1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:187025__lloydevans09__jump1.wav;jump.wav
+
 #begin Bullet.png
 /importer:TextureImporter
 /processor:TextureProcessor
