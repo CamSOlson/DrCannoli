@@ -42,7 +42,7 @@ namespace DrCanoli
             //CHECK WEAPON COLLISIONS WITH ENEMIES, calls Hit() with proper entities
             foreach (Enemy e in enemyList)
             {
-                if (player.Wep.Swinging && e.Box.Intersects(player.Wep.Box) && e.Active)
+                if (player.Wep.Swinging && e.Hitbox.Intersects(player.Wep.Box) && e.Active)
                 {
                     if (!e.Stunned)
                         Hit(player, e);
@@ -52,24 +52,70 @@ namespace DrCanoli
             //CHECK ENEMY COLLISIONS WITH PLAYER, also calls Hit() with proper entities
             foreach (Enemy e in enemyList)
             {
-                if (e.Box.Intersects(player.Box) && e.Active)
+                if (e.Hitbox.Intersects(player.Hitbox) && e.Active)
                 {
-                    if (!player.Invulnerable)
-                        Hit(e, player);
-                    Rectangle intersect = Rectangle.Intersect(e.Box, player.Box);
-                    if (player.Box.X < e.Box.X)
-                        e.Box = new Rectangle(e.Box.X + intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
+                    Rectangle intersect = Rectangle.Intersect(e.Hitbox, player.Hitbox);
+
+
+                    if (intersect.Width < intersect.Height)
+                    {
+                        //enemy is coming from sides
+                        if (!player.Invulnerable)
+                            Hit(e, player);
+
+                        if (player.Box.X < e.Box.X)
+                        {
+                            //From left
+                            e.Box = new Rectangle(e.Box.X + intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                        else
+                        {
+                            //From right
+                            e.Box = new Rectangle(e.Box.X - intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
+                        }
+                    }
                     else
-                        e.Box = new Rectangle(e.Box.X - intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
+                    {
+                        Rectangle newBox = e.Box;
+                        //Enemy is coming from top/bottom
+                        if (player.Box.Y < e.Box.Y)
+                        {
+                            //From bottom
+                            newBox = new Rectangle(e.Box.X, e.Box.Y + intersect.Height, e.Box.Width, e.Box.Height);
+                        }
+                        else
+                        {
+                            //From top
+                            newBox = new Rectangle(e.Box.X, e.Box.Y - intersect.Height, e.Box.Width, e.Box.Height);
+                        }
+
+                        //Move to start finding place to hit
+                        if (player.Box.X < e.Box.X)
+                        {
+                            //Right side of player is closer, begin moving to the right
+                            newBox.X += (int)Math.Round(60d / e.Speed / 3d);
+                            e.FighterState = FighterState.Move;
+                        }
+                        else
+                        {
+                            //Left side of player is closer, begin moving to the left
+                            newBox.X -= (int)Math.Round(60d / e.Speed / 3d);
+                            e.FighterState = FighterState.Move;
+                        }
+
+                        e.Box = newBox;
+
+                    }
+
                 }
             }
 
             //CHECK AND ADJUST COLLISONS THAT DON'T PERMIT MOVEMENT
             foreach (Obstacle o in obstacles)
             {
-                if (o.Box.Intersects(player.Box))
+                if (o.Box.Intersects(player.Hitbox))
                 {
-                    Rectangle intersect = Rectangle.Intersect(o.Box, player.Box);
+                    Rectangle intersect = Rectangle.Intersect(o.Box, player.Hitbox);
                     if (player.Box.X < o.Box.X && player.KBState.IsKeyDown(Keys.D))
                         player.Box = new Rectangle(player.Box.X - intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
                     else if (player.KBState.IsKeyDown(Keys.A))

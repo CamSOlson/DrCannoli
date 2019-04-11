@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace DrCanoli
 {
-	enum GameState { Menu, Options, Game, GameOver }	//states of game, more levels can be added as needed
+	enum GameState { Menu, Options, Game, GameOver, Pause }	//states of game, more levels can be added as needed
 
     /// <summary>
     /// This is the main type for your game. Neat! -Cam -Julien -Liam -Alex -Drew
@@ -19,6 +19,8 @@ namespace DrCanoli
         SpriteBatch spriteBatch;
 
 		GameState gameState = GameState.Menu;   //deafult state brings player to menu
+		KeyboardState kbState;
+		KeyboardState lastKbState;
 
 		private Texture2D startTexture;
 		private Texture2D optionsTexture;   //place-holder textures for menu buttons
@@ -102,9 +104,11 @@ namespace DrCanoli
 			exitButton = new Rectangle(GraphicsDevice.Viewport.Width / 2 - 50, (GraphicsDevice.Viewport.Height / 8) * 6 - 25, 100, 50);
 
 			gameOverCount = 0;
+			kbState = new KeyboardState();
+			lastKbState = new KeyboardState();
 
-            // Get data from text file
-            textFile = new TextFile("Content/obstacles.txt");
+			// Get data from text file
+			textFile = new TextFile("Content/obstacles.txt");
             levelData = textFile.Read();
             base.Initialize();
 		}
@@ -156,7 +160,8 @@ namespace DrCanoli
             );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height, boss);
             player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, hit, jump,
-                new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), 
+                new Weapon(
+                    new Rectangle(PhysManager.Unicorns * 2, PhysManager.Unicorns * 4 - PhysManager.Unicorns / 2, PhysManager.Unicorns, PhysManager.Unicorns / 2), 
                 Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content), 10, 1));
             phys.Player = player;
 
@@ -255,10 +260,12 @@ namespace DrCanoli
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.F1))
                 Exit();
 
 			// TODO: Add your update logic here
+			lastKbState = kbState;
+			kbState = Keyboard.GetState();
 
 			switch (gameState)	//used for transitioning between gameStates
 			{
@@ -279,6 +286,11 @@ namespace DrCanoli
 				case GameState.Options:
 					break;
 				case GameState.Game:
+					if (kbState.IsKeyDown(Keys.Escape) && !lastKbState.IsKeyDown(Keys.Escape))
+					{
+						gameState = GameState.Pause;
+					}
+
                     //ALWAYS update player, no ifs/elses about it
                     elapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
                     player.Update();
@@ -320,6 +332,18 @@ namespace DrCanoli
 					{
 						gameOverCount = 0;
 						LevelStart();			//resets player and enemies when level is restarted
+						gameState = GameState.Menu;
+					}
+					break;
+				case GameState.Pause:
+					if (kbState.IsKeyDown(Keys.Escape) && !lastKbState.IsKeyDown(Keys.Escape))	//returns to game when esc is pressed
+					{
+						gameState = GameState.Game;
+					}
+					else if (kbState.IsKeyDown(Keys.M))		//goes to menu when m is pressed
+					{
+						gameState = GameState.Menu;
+						LevelStart();           //resets player and enemies when level is restarted
 						gameState = GameState.Menu;
 					}
 					break;
@@ -404,9 +428,6 @@ namespace DrCanoli
                         {
                             ent.DrawShadow(spriteBatch);
                             ent.Draw(spriteBatch);
-                            //This will be moved into player eventually, and removed when the animation is finished
-                            if (player.Wep != null)
-                                player.Wep.Draw(spriteBatch);
                         }
                     }
 
@@ -434,6 +455,12 @@ namespace DrCanoli
 						font, "Your body is limp, lifeless wholly. You are dead, Dr. Cannoli", new Vector2(10, 10), Color.White
 						);
 
+					break;
+				case GameState.Pause:
+					GraphicsDevice.Clear(Color.Gray);      //placeholder color for testing
+					spriteBatch.DrawString(
+						font, "The game is paused. Press esc to return to game. Press m to go back to menu.", new Vector2(10, 10), Color.White
+						);
 					break;
 			}
 
