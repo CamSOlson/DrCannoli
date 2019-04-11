@@ -20,12 +20,21 @@ namespace DrCanoli
     {
         //Some basic animation directories for quick loading
         public static string BASE = AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\..\";
+        //Cannoli
         public static string CANNOLI_IDLE = BASE + @"Content\animations\cannoli\Idle.anim";
         public static string CANNOLI_WALKING = BASE + @"Content\animations\cannoli\Walking.anim";
         public static string CANNOLI_FALLING = BASE + @"Content\animations\cannoli\Falling.anim";
         public static string CANNOLI_JUMPING = BASE + @"Content\animations\cannoli\Jumping.anim";
         public static string CANNOLI_ATTACK_SANDWICH = BASE + @"Content\animations\cannoli\Attacking.anim";
         public static string CANNOLI_HIT = BASE + @"Content\animations\cannoli\Knockback.anim";
+        //Enemy
+        public static string ENEMY_IDLE = BASE + @"Content\animations\enemies\Idle.anim";
+        public static string ENEMY_WALKING = BASE + @"Content\animations\enemies\Walking.anim";
+        public static string ENEMY_FALLING = BASE + @"Content\animations\enemies\Falling.anim";
+        public static string ENEMY_JUMPING = BASE + @"Content\animations\enemies\Jumping.anim";
+        public static string ENEMY_ATTACK_SANDWICH = BASE + @"Content\animations\enemies\Attacking.anim";
+        public static string ENEMY_HIT = BASE + @"Content\animations\enemies\Knockback.anim";
+
 
         private Texture2D texture;
         private Rectangle[] frameBounds;

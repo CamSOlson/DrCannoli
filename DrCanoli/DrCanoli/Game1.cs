@@ -205,12 +205,12 @@ namespace DrCanoli
                     else if (levelData[c][d] == 'E')
                     {
                         AnimationSet animSet = new AnimationSet(
-                            Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_HIT, Content)
+                            Animation.LoadAnimation(Animation.ENEMY_IDLE, Content),
+                            Animation.LoadAnimation(Animation.ENEMY_WALKING, Content),
+                            Animation.LoadAnimation(Animation.ENEMY_FALLING, Content),
+                            Animation.LoadAnimation(Animation.ENEMY_JUMPING, Content),
+                            Animation.LoadAnimation(Animation.ENEMY_ATTACK_SANDWICH, Content),
+                            Animation.LoadAnimation(Animation.ENEMY_HIT, Content)
                         );
                         Enemy enemy = new Enemy(x, y, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 50, 10, animSet, phys, shadowTexture);
                         enemyList.Add(enemy);
