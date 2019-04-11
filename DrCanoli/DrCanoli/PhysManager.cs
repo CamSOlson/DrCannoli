@@ -28,7 +28,7 @@ namespace DrCanoli
             get { return unicorns; }
         }
 
-        public PhysManager(Player player, List<Enemy> enemies, List<Obstacle> obs, int screenHeight)
+        public PhysManager(Player player, List<Enemy> enemies, List<Obstacle> obs, int screenHeight, Boss boss)
         {
             this.player = player;
             obstacles = obs;
@@ -37,7 +37,6 @@ namespace DrCanoli
             frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
             acceleration = -.981 * 2; //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
         }
-
         public void CheckCollisions()
         {
             //CHECK WEAPON COLLISIONS WITH ENEMIES, calls Hit() with proper entities

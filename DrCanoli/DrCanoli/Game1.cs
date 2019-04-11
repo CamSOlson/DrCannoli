@@ -118,7 +118,15 @@ namespace DrCanoli
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 			drawables.Add(player);
-			foreach (Enemy e in enemyList)
+            phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height, boss);
+            AnimationSet animSet = new AnimationSet(
+                            Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
+                        );
+            boss = new Boss(PhysManager.Unicorns * 5, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, animSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
+            foreach (Enemy e in enemyList)
 			{
 				drawables.Add(e);
 			}
@@ -153,7 +161,7 @@ namespace DrCanoli
                             Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
                         );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
-            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, hit, jump,
+            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, hit, jump
                 new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), 
                 Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content), 10, 1));
             phys.Player = player;
@@ -177,7 +185,7 @@ namespace DrCanoli
                 data[i] = Color.IndianRed;
             }
             healthBar.SetData(data);
-            boss = new Boss(PhysManager.Unicorns * 16, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, animSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
+            boss = new Boss(PhysManager.Unicorns * 25, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, animSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
             LevelStart();
 
         }
@@ -287,7 +295,6 @@ namespace DrCanoli
                         e.Update();
                     }
                     phys.CheckCollisions();
-
                     //Update camera
                     cameraOffset = player.Box.X - graphics.PreferredBackBufferWidth / 2 + player.Box.Width / 2;
 
@@ -315,10 +322,10 @@ namespace DrCanoli
                     break;
 				case GameState.GameOver:
 					gameOverCount++;
-					if (gameOverCount > 180)
+					if (gameOverCount > 180)		//counts to 3 seconds then restarts level
 					{
 						gameOverCount = 0;
-						LevelStart();
+						LevelStart();			//resets player and enemies when level is restarted
 						gameState = GameState.Menu;
 					}
 					break;
