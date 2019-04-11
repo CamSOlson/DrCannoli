@@ -101,6 +101,18 @@
 /processorParam:TextureFormat=Color
 /build:textures/backgrounds/Classroom.png
 
+#begin textures/sprites/cannoli/Attack.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/sprites/cannoli/Attack.png
+
 #begin textures/sprites/cannoli/Falling.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -113,6 +125,18 @@
 /processorParam:TextureFormat=Color
 /build:textures/sprites/cannoli/Falling.png
 
+#begin textures/sprites/cannoli/Hit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/sprites/cannoli/Hit.png
+
 #begin textures/sprites/cannoli/Idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -124,18 +148,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textures/sprites/cannoli/Idle.png
-
-#begin textures/sprites/cannoli/Jumping.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/sprites/cannoli/Jumping.png
 
 #begin textures/sprites/cannoli/Jumping.png
 /importer:TextureImporter

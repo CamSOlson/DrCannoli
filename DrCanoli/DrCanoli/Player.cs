@@ -256,6 +256,11 @@ namespace DrCanoli
                             animation = AnimationSet.Jumping;
                         }
                     }
+
+                    if (Stunned)
+                    {
+                        animation = AnimationSet.Knockback;
+                    }
                     break;
                 case FighterState.SusJump:					//Suspended Jump State
                     if (kbState.IsKeyDown(Keys.A) && Box.X > 0)          //when A is pressed
@@ -309,11 +314,14 @@ namespace DrCanoli
                 (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)))
             {
                 Wep.Swinging = true;
+                animation = Wep.AttackAnimation;
             }
-            else
+            else if (Wep.Swinging)
             {
-                wep.Swinging = false;
+                Wep.Swinging = false;
+                animation = AnimationSet.Idle;
             }
+            //Attacking animation
 
             animation.FacingRight = facingRight;
 

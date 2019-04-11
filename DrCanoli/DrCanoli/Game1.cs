@@ -128,10 +128,14 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
                 Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
+                Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_HIT, Content)
             );
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height);
-            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture, new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), Content.Load<Texture2D>("tempWep"), 10, 1));
+            player = new Player(0, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 100, 0, playerAnimSet, phys, shadowTexture,
+                new Weapon(new Rectangle(0, 0, (int)(PhysManager.Unicorns * 1.4), PhysManager.Unicorns), 
+                Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content), 10, 1));
             phys.Player = player;
 
             //Background
@@ -191,7 +195,9 @@ namespace DrCanoli
                             Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
                             Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
                             Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
+                            Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content),
+                            Animation.LoadAnimation(Animation.CANNOLI_HIT, Content)
                         );
                         Enemy enemy = new Enemy(x, y, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, 50, 10, animSet, phys, shadowTexture);
                         enemyList.Add(enemy);

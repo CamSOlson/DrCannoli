@@ -19,12 +19,13 @@ namespace DrCanoli
     class Animation
     {
         //Some basic animation directories for quick loading
-        //public static string CANNOLI_IDLE = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "/Content/animations/cannoli/Idle.anim";
         public static string BASE = AppDomain.CurrentDomain.BaseDirectory + @"\..\..\..\..\";
         public static string CANNOLI_IDLE = BASE + @"Content\animations\cannoli\Idle.anim";
         public static string CANNOLI_WALKING = BASE + @"Content\animations\cannoli\Walking.anim";
         public static string CANNOLI_FALLING = BASE + @"Content\animations\cannoli\Falling.anim";
         public static string CANNOLI_JUMPING = BASE + @"Content\animations\cannoli\Jumping.anim";
+        public static string CANNOLI_ATTACK_SANDWICH = BASE + @"Content\animations\cannoli\Attacking.anim";
+        public static string CANNOLI_HIT = BASE + @"Content\animations\cannoli\Knockback.anim";
 
         private Texture2D texture;
         private Rectangle[] frameBounds;
@@ -90,9 +91,12 @@ namespace DrCanoli
         /// <param name="sb"></param>
         public void Draw(Rectangle bounds, SpriteBatch sb, Color drawColor)
         {
+            double scale = (double) bounds.Height / (double) texture.Height;
+
             sb.Draw(texture,
                 sourceRectangle: frameBounds[currentFrame],
-                destinationRectangle: new Rectangle(bounds.X - Game1.CameraOffset, bounds.Y, bounds.Width, bounds.Height),
+                destinationRectangle: new Rectangle(bounds.X - Game1.CameraOffset, bounds.Y,
+                    (int) Math.Round(frameBounds[currentFrame].Width * scale), bounds.Height),
                 color: drawColor,
                 effects: spriteEffects);
         }
