@@ -93,7 +93,7 @@ namespace DrCanoli
                         }
                         else
                         {
-                            if (timer % 100 == 0)
+                            /*if (timer % 100 == 0)
                             {
                                 list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Down));
                             }
@@ -107,7 +107,7 @@ namespace DrCanoli
                                 {
                                     list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Left));
                                 }
-                            }
+                            }*/
                             timer++;
                         }
                         break;
@@ -127,7 +127,7 @@ namespace DrCanoli
                         }
                         else
                         {
-                            if (timer % 100 == 0)
+                            /*if (timer % 100 == 0)
                             {
                                 list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Up));
                             }
@@ -141,7 +141,7 @@ namespace DrCanoli
                                 {
                                     list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, 25, 25), Direction.Left));
                                 }
-                            }
+                            }*/
                             timer++;
                         }
                         break;
