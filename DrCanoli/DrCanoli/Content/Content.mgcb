@@ -161,6 +161,18 @@
 /processorParam:TextureFormat=Color
 /build:textures/sprites/cannoli/Idle.png
 
+#begin textures/sprites/cannoli/Jumping.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textures/sprites/cannoli/Jumping.png
+
 #begin textures/sprites/cannoli/Walking.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -185,30 +197,6 @@
 /processorParam:TextureFormat=Color
 /build:textures/sprites/enemies/Attack.png
 
-#begin textures/sprites/enemies/Attack.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/sprites/enemies/Attack.png
-
-#begin textures/sprites/enemies/Falling.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/sprites/enemies/Falling.png
-
 #begin textures/sprites/enemies/Falling.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -233,18 +221,6 @@
 /processorParam:TextureFormat=Color
 /build:textures/sprites/enemies/Hit.png
 
-#begin textures/sprites/enemies/Hit.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/sprites/enemies/Hit.png
-
 #begin textures/sprites/enemies/Idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -256,30 +232,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textures/sprites/enemies/Idle.png
-
-#begin textures/sprites/enemies/Idle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/sprites/enemies/Idle.png
-
-#begin textures/sprites/enemies/Jumping.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:textures/sprites/enemies/Jumping.png
 
 #begin textures/sprites/enemies/Jumping.png
 /importer:TextureImporter
