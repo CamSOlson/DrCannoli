@@ -109,7 +109,7 @@ namespace DrCanoli
 			lastKbState = new KeyboardState();
 
 			// Get data from text file
-			textFile = new TextFile("Content/obstacles.txt");
+			textFile = new TextFile("Content/test6.txt");
             levelData = textFile.Read();
             base.Initialize();
 		}

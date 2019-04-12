@@ -107,6 +107,9 @@
 #begin test.txt
 /copy:test.txt
 
+#begin test6.txt
+/copy:test6.txt
+
 #begin textures/backgrounds/Classroom.png
 /importer:TextureImporter
 /processor:TextureProcessor
