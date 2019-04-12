@@ -46,13 +46,6 @@ namespace DrCanoli
             list = new List<Bullet>();
             this.bulletTexture = bulletTexture;
         }
-
-        public void DrawHealthbar(SpriteBatch batch)
-        {
-            //The rectangle values are just temporary, draws a boss' healthbar
-            batch.Draw(healthBar, new Rectangle(PhysManager.Unicorns * 8, 20, PhysManager.Unicorns * 6, 40), Color.White);
-            batch.Draw(healthBar, new Rectangle(PhysManager.Unicorns * 8, 20, (health / maxHp) * (PhysManager.Unicorns * 6), 40), Color.Red);
-        }
         public void UpdateBullets()
         {
             for(int c = 0; c < list.Count; c++)

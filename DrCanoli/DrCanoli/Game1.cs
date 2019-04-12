@@ -46,6 +46,7 @@ namespace DrCanoli
 
         private Texture2D healthBackground;
         private Texture2D healthBar;
+        private Texture2D healthBarBoss;
 
         // Sound effects
         private SoundEffect hit;
@@ -123,17 +124,6 @@ namespace DrCanoli
             spriteBatch = new SpriteBatch(GraphicsDevice);
 			drawables.Add(player);
             phys = new PhysManager(player, enemyList, obstacles, GraphicsDevice.Viewport.Height, boss);
-            AnimationSet animSet = new AnimationSet(
-                            Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
-                            Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content)
-                        );
-            boss = new Boss(PhysManager.Unicorns * 5, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, animSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
-            foreach (Enemy e in enemyList)
-			{
-				drawables.Add(e);
-			}
 
 			// TODO: use this.Content to load your game content here
 			startTexture = Content.Load<Texture2D>("start");
@@ -184,18 +174,39 @@ namespace DrCanoli
                 data[i] = Color.IndianRed;
             }
             healthBar.SetData(data);
-            boss = new Boss(PhysManager.Unicorns * 25, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, animSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
+
+            healthBarBoss = new Texture2D(graphics.GraphicsDevice, healthBackground.Width, healthBackground.Height);
+            data = new Color[healthBar.Width * healthBar.Height];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = Color.CornflowerBlue;
+            }
+            healthBarBoss.SetData(data);
+
+            //Start level
             LevelStart();
 
         }
 
         private void LevelStart()
         {
-            //Set floor top value
-            floorTop = graphics.PreferredBackBufferHeight / 3 * 2;
-
             //Initialize entity list
             entities = new List<Fighter>();
+
+            //Spawn boss
+            AnimationSet bossAnimSet = new AnimationSet(
+                Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content),
+                Animation.LoadAnimation(Animation.CANNOLI_HIT, Content)
+            );
+            boss = new Boss(PhysManager.Unicorns * 25, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, bossAnimSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
+            entities.Add(boss);
+
+            //Set floor top value
+            floorTop = graphics.PreferredBackBufferHeight / 3 * 2;
 
 			//resetting level after death
 			player.Hp = 100;
@@ -414,7 +425,6 @@ namespace DrCanoli
                     //This does the clearing, no need to waste time with redundant clears
                     background.Draw(spriteBatch);
                     boss.Draw(spriteBatch);
-                    boss.DrawHealthbar(spriteBatch);
                     boss.DrawBullets(spriteBatch);
                     //Entities (enemies and player)
                     foreach (Fighter ent in entities)
@@ -446,6 +456,18 @@ namespace DrCanoli
                     spriteBatch.Draw(healthBar,
                         new Rectangle(PhysManager.Unicorns / 2, PhysManager.Unicorns / 2, healthBarWidth, healthBar.Height),
                         Color.White);
+
+                    //Boss health bar
+                    spriteBatch.Draw(healthBackground,
+                        new Rectangle(graphics.PreferredBackBufferWidth - PhysManager.Unicorns / 2 - healthBackground.Width,
+                            PhysManager.Unicorns / 2, healthBackground.Width, healthBackground.Height),
+                        Color.White);
+                    healthBarWidth = (int)((double)healthBackground.Width * ((double)boss.Hp / (double)boss.MaxHp));
+                    spriteBatch.Draw(healthBarBoss,
+                        new Rectangle(graphics.PreferredBackBufferWidth - PhysManager.Unicorns / 2 - healthBackground.Width + (healthBackground.Width - healthBarWidth),
+                            PhysManager.Unicorns / 2, healthBarWidth, healthBarBoss.Height),
+                        Color.White);
+
 
 
                     break;
