@@ -192,6 +192,11 @@ namespace DrCanoli
                     break;
             }
 
+            if (FighterState != FighterState.Jump)
+            {
+                Stunned = false;
+            }
+
             animation.FacingRight = facingRight;
         }
     }
