@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.tileBox = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -38,10 +40,8 @@
             this.currentTileBox = new System.Windows.Forms.GroupBox();
             this.currentTileButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
-            this.mapBox = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
+            this.mapBox = new System.Windows.Forms.GroupBox();
             this.tileBox.SuspendLayout();
             this.currentTileBox.SuspendLayout();
             this.SuspendLayout();
@@ -62,6 +62,25 @@
             this.tileBox.TabIndex = 0;
             this.tileBox.TabStop = false;
             this.tileBox.Text = "Object Selector";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(65, 136);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(49, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Obstacle";
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.Orange;
+            this.button2.Location = new System.Drawing.Point(67, 89);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(44, 44);
+            this.button2.TabIndex = 7;
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.greenButton_Click);
             // 
             // label3
             // 
@@ -152,15 +171,6 @@
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // mapBox
-            // 
-            this.mapBox.Location = new System.Drawing.Point(210, 13);
-            this.mapBox.Name = "mapBox";
-            this.mapBox.Size = new System.Drawing.Size(500, 500);
-            this.mapBox.TabIndex = 4;
-            this.mapBox.TabStop = false;
-            this.mapBox.Text = "Map";
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(37, 397);
@@ -171,37 +181,27 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.loadButton_Click);
             // 
-            // button2
+            // mapBox
             // 
-            this.button2.BackColor = System.Drawing.Color.Orange;
-            this.button2.Location = new System.Drawing.Point(67, 89);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(44, 44);
-            this.button2.TabIndex = 7;
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.greenButton_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(65, 136);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Obstacle";
+            this.mapBox.Location = new System.Drawing.Point(187, 13);
+            this.mapBox.Name = "mapBox";
+            this.mapBox.Size = new System.Drawing.Size(500, 500);
+            this.mapBox.TabIndex = 6;
+            this.mapBox.TabStop = false;
+            this.mapBox.Text = "Map";
             // 
             // EditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(737, 552);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.mapBox);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.currentTileBox);
             this.Controls.Add(this.tileBox);
             this.Name = "EditorForm";
-            this.Text = "EditorForm";
+            this.Text = "Editor Form";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CloseForm);
             this.tileBox.ResumeLayout(false);
             this.tileBox.PerformLayout();
@@ -219,12 +219,12 @@
         private System.Windows.Forms.GroupBox currentTileBox;
         private System.Windows.Forms.Button currentTileButton;
         private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.GroupBox mapBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox mapBox;
     }
 }

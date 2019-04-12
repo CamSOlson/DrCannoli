@@ -245,12 +245,10 @@ namespace LevelEditorHWK
 
                 reader = new StreamReader(fileName);
 
-                InitializeComponent();
-
                 // Extend the window based on width and height
-                this.Width += (loadedWidth - 6) * (500 / 6);
+                this.Width = 1000 + (loadedWidth - 6) * (500 / 6);
                 box = this.mapBox;
-                box.Width += (loadedWidth - 6) * (500 / 6); 
+                box.Width = 1000 + (loadedWidth - 6) * (500 / 6); 
 
                 // Initialize stream reader, string variable, and char variable
                 // Create positionList
@@ -292,6 +290,11 @@ namespace LevelEditorHWK
                         {
                             pictureBox.BackColor = Color.Red;
                         }
+                        if(positionList[i][j] == 'O')
+                        {
+                            pictureBox.BackColor = Color.Orange;
+                        }
+                        pictureBox.Visible = true;
                         mapBox.Controls.Add(pictureBox);
                         pictureBox.MouseClick += ChangeColor;
                         // Add the picture box to the list of picture boxes and increment the color count
@@ -300,7 +303,7 @@ namespace LevelEditorHWK
                     totalList.Add(boxList);
                     boxList = new List<PictureBox>();
                 }
-
+                
                 // Give feedback if level loads sucessfully
                 MessageBox.Show("Level successfully loaded!");
             }
