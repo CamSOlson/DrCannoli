@@ -424,6 +424,11 @@ namespace DrCanoli
                     
                     //This does the clearing, no need to waste time with redundant clears
                     background.Draw(spriteBatch);
+                    //draws the obstacles
+                    foreach (Obstacle obstacle in obstacles)
+                    {
+                        obstacle.Draw(spriteBatch);
+                    }
                     boss.Draw(spriteBatch);
                     boss.DrawBullets(spriteBatch);
                     //Entities (enemies and player)
@@ -441,11 +446,7 @@ namespace DrCanoli
                         }
                     }
 
-					//draws the obstacles
-					foreach (Obstacle obstacle in obstacles)
-					{
-						obstacle.Draw(spriteBatch);
-					}
+					
 
                     //GUI
                     //Health bar
