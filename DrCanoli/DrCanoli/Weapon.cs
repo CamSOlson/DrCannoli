@@ -15,8 +15,9 @@ namespace DrCanoli
         private Rectangle box, initialBox;
         private Animation attackAnimation;
         protected int damage;
+        protected double fireRate;
         private bool swinging;
-        protected int fireRate;
+        private double swingDuration;
 
         public int Damage
         {
@@ -29,7 +30,7 @@ namespace DrCanoli
                 damage = value;
             }
         }
-        public int FireRate
+        public double FireRate
         {
             get
             {
@@ -39,6 +40,11 @@ namespace DrCanoli
             {
                 fireRate = value;
             }
+        }
+        public double SwingDuration
+        {
+            get { return swingDuration; }
+            set { swingDuration = value; }
         }
         public Animation AttackAnimation
         {
@@ -58,7 +64,7 @@ namespace DrCanoli
         }
 
         // Class constructor
-        public Weapon(Rectangle box, Animation attackAnimation, int damage, int fireRate)
+        public Weapon(Rectangle box, Animation attackAnimation, int damage, double fireRate)
         {
             this.box = box;
             this.initialBox = new Rectangle(box.X, box.Y, box.Width, box.Height);
@@ -66,6 +72,7 @@ namespace DrCanoli
             this.fireRate = fireRate;
             this.attackAnimation = attackAnimation;
             swinging = false;
+
         }
 
         public void Update(Fighter user)
@@ -78,7 +85,7 @@ namespace DrCanoli
             }
         }
 
-        public void Swing(int fireRate)
+        public void Swing(double fireRate)
         {
             // Put swing animation code here
         }
