@@ -20,7 +20,7 @@ namespace DrCanoli
         private double velocityY, stunTime, invulnTime; //intended for just jumping and knockback but if yall have a use for it have at it, could be good for tracking horizontal movement for a jump?
 		private FighterState fighterState;
         //actual stat fields here I haven't really put much thought into how we store and calculate them
-        private bool stunned, invuln;
+        private bool stunned, invuln, jumpSuspended;
         private int hp;
         private int maxHp;
         private int dmg;
@@ -35,6 +35,12 @@ namespace DrCanoli
         {
             get { return currentColor; }
             set { currentColor = value; }
+        }
+
+        public bool SuspendedJump
+        {
+            get { return jumpSuspended; }
+            set { jumpSuspended = value; }
         }
 
         public int Hp
@@ -76,6 +82,7 @@ namespace DrCanoli
             dmg = damage;
             this.shadow = shadow;
             currentColor = Color.White;
+            jumpSuspended = false;
         }
         public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet, FighterState fighterState, Texture2D shadow)
             : this(new Rectangle(x,y,width,height), hp, dmg, animationSet, fighterState, shadow) { }

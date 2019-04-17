@@ -198,6 +198,7 @@ namespace DrCanoli
                 //if (jumper.Stunned)
                  //   jumper.Color = Color.White;
                 jumper.Stunned = false;
+                jumper.SuspendedJump = false;
                 return true;
             }
             return false;
