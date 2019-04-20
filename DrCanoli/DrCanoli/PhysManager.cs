@@ -113,17 +113,42 @@ namespace DrCanoli
             //CHECK AND ADJUST COLLISONS THAT DON'T PERMIT MOVEMENT
             foreach (Obstacle o in obstacles)
             {
-                if (o.Box.Intersects(player.Hitbox))
+                if (player.FighterState != FighterState.Jump && o.Box.Intersects(player.Hitbox))
                 {
                     Rectangle intersect = Rectangle.Intersect(o.Box, player.Hitbox);
-                    if (player.Box.X < o.Box.X && player.KBState.IsKeyDown(Keys.D))
+                    //in the rare case intersect.Height = intersect.Width
+                    if (player.Hitbox.X < o.Box.X && player.Hitbox.Y < o.Box.Y && intersect.Height == intersect.Width)
+                        player.Box = new Rectangle(player.Box.X - intersect.Width, player.Box.Y - intersect.Width, player.Box.Width, player.Box.Height);
+                    else if (player.Hitbox.X > o.Box.X && player.Hitbox.Y < o.Box.Y && intersect.Height == intersect.Width)
+                        player.Box = new Rectangle(player.Box.X + intersect.Width, player.Box.Y - intersect.Width, player.Box.Width, player.Box.Height);
+                    else if (player.Hitbox.X < o.Box.X && player.Hitbox.Y > o.Box.Y && intersect.Height == intersect.Width)
+                        player.Box = new Rectangle(player.Box.X - intersect.Width, player.Box.Y + intersect.Width, player.Box.Width, player.Box.Height);
+                    else if (player.Hitbox.X > o.Box.X && player.Hitbox.Y > o.Box.Y && intersect.Height == intersect.Width)
+                        player.Box = new Rectangle(player.Box.X + intersect.Width, player.Box.Y + intersect.Width, player.Box.Width, player.Box.Height);
+
+                    //grounded object collisions 2.0
+                    else if (player.Hitbox.X < o.Box.X && intersect.Height > intersect.Width)
+                    {
                         player.Box = new Rectangle(player.Box.X - intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
-                    else if (player.KBState.IsKeyDown(Keys.A))
+                    }
+                    else if (intersect.Height > intersect.Width)
+                    {
                         player.Box = new Rectangle(player.Box.X + intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
-                    else if (player.Box.Y < o.Box.Y && player.KBState.IsKeyDown(Keys.S))
+                    }
+                    else if (player.Hitbox.Y < o.Box.Y && intersect.Height < intersect.Width)
+                    {
                         player.Box = new Rectangle(player.Box.X, player.Box.Y - intersect.Height, player.Box.Width, player.Box.Height);
-                    else if (player.KBState.IsKeyDown(Keys.W))
+                    }
+                    else if (intersect.Height < intersect.Width)
+                    {
                         player.Box = new Rectangle(player.Box.X, player.Box.Y + intersect.Height, player.Box.Width, player.Box.Height);
+                    }
+                }
+                else if (player.FighterState == FighterState.Jump && player.DestinationRectangle.Intersects(o.Box) && player.Hitbox.X < o.Box.X && player.VelocityY <= 0)
+                {
+                    Rectangle intersect = Rectangle.Intersect(o.Box, player.Hitbox);
+                    player.Box = new Rectangle(player.Box.X - intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
+                    player.SuspendedJump = true;
                 }
             }
         }

@@ -102,8 +102,7 @@ namespace DrCanoli
             if (fighterState == FighterState.Jump)
             {
                 batch.Draw(shadow,
-                    destinationRectangle: new Rectangle(box.X - Game1.CameraOffset, initialY + box.Height - box.Width / 8,
-                        box.Width, box.Width / 4),
+                    DestinationRectangle,
                     color: Color.White);
             }
             else
@@ -113,6 +112,11 @@ namespace DrCanoli
                         box.Width, box.Width / 4),
                     color: Color.White);
             }
+        }
+
+        public Rectangle DestinationRectangle
+        {
+            get { return new Rectangle(box.X - Game1.CameraOffset, initialY + box.Height - box.Width / 8, box.Width, box.Width / 4); }
         }
 
         public bool Stunned

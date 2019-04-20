@@ -244,9 +244,10 @@ namespace DrCanoli
                         }
                     }
 
+                    /*
                     if (VelocityY <= 0) //suspended jump
                     {
-                        if (suspendedPrevious > Box.Y)
+                        if (suspendedPrevious >= Box.Y)
                         {
                             VelocityY = 0;
                             SuspendedJump = true;
@@ -264,7 +265,7 @@ namespace DrCanoli
                             }
                         }
                     }
-
+                    */
                     bool done = phys.Jump(this); //IMPORTANT: moving the suspendPrevious update before this line or the suspend jump check after this line will BREAK jumping lol
 
                     //Falling
