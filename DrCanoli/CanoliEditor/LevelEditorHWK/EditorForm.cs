@@ -42,10 +42,8 @@ namespace LevelEditorHWK
             totalList = new List<List<PictureBox>>();
 
             InitializeComponent();
-            // Extend the window based on width and height
-            this.Width += (width - height) * (500 / height);
-            box = this.mapBox;
-            box.Width += (width - height) * (500 / height);
+            panel = this.mapPanel;
+            mapBox.Controls.Add(panel);
 
             // If a file is not loaded, create a blank level
             if(fileName == null)
@@ -64,7 +62,7 @@ namespace LevelEditorHWK
                         pictureBox.Location = new Point((j * (500 / height)), (i * (500 / height)));
                         pictureBox.Size = new Size((500 / height), (500 / height));
                         pictureBox.BackColor = Color.Black;
-                        mapBox.Controls.Add(pictureBox);
+                        panel.Controls.Add(pictureBox);
                         pictureBox.MouseClick += ChangeColor;
                         // Add picture box to list of boxes
                         boxList.Add(pictureBox);
@@ -247,11 +245,6 @@ namespace LevelEditorHWK
 
                 reader = new StreamReader(fileName);
 
-                // Extend the window based on width and height
-                this.Width = 1000 + (loadedWidth - 6) * (500 / 6);
-                box = this.mapBox;
-                box.Width = 1000 + (loadedWidth - 6) * (500 / 6); 
-
                 // Initialize stream reader, string variable, and char variable
                 // Create positionList
                 List<List<char>> positionList = new List<List<char>>();
@@ -297,7 +290,7 @@ namespace LevelEditorHWK
                             pictureBox.BackColor = Color.Orange;
                         }
                         pictureBox.Visible = true;
-                        mapBox.Controls.Add(pictureBox);
+                        panel.Controls.Add(pictureBox);
                         pictureBox.MouseClick += ChangeColor;
                         // Add the picture box to the list of picture boxes and increment the color count
                         boxList.Add(pictureBox);
