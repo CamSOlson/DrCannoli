@@ -28,6 +28,8 @@ namespace LevelEditorHWK
         public List<String> colorList;
         // Picture box variable
         private GroupBox box;
+        // Panel variable
+        private Panel panel;
         private bool saved = true;
 
         // Form constructor
