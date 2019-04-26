@@ -25,6 +25,7 @@ namespace DrCanoli
 		private Texture2D startTexture;
 		private Texture2D optionsTexture;   //place-holder textures for menu buttons
 		private Texture2D exitTexture;
+		private Texture2D controls;
         private Texture2D obstacleTexture; // texture for obstacle
         private Texture2D bulletTexture;
 		private Rectangle startButton;
@@ -129,6 +130,7 @@ namespace DrCanoli
 			startTexture = Content.Load<Texture2D>("start");
 			optionsTexture = Content.Load<Texture2D>("options");	//loads button textures
 			exitTexture = Content.Load<Texture2D>("exit");
+			controls = Content.Load<Texture2D>("Controls_Graphic2");
             obstacleTexture = Content.Load<Texture2D>("obstacle");
             shadowTexture = Content.Load<Texture2D>("textures/sprites/Shadow");
             bulletTexture = Content.Load<Texture2D>("Bullet");
@@ -295,6 +297,10 @@ namespace DrCanoli
                     }
                     break;
 				case GameState.Options:
+					if (kbState.IsKeyDown(Keys.Escape) && !lastKbState.IsKeyDown(Keys.Escape))  //returns to game when esc is pressed
+					{
+						gameState = GameState.Menu;
+					}
 					break;
 				case GameState.Game:
 					if (kbState.IsKeyDown(Keys.Escape) && !lastKbState.IsKeyDown(Keys.Escape))
@@ -410,13 +416,16 @@ namespace DrCanoli
 			switch (gameState)  //used for drawing screen based on gameState
 			{
 				case GameState.Menu:            //put all menu draw methods here
+					background.Draw(spriteBatch);
 					menu.Draw(spriteBatch);
 					break;
 				case GameState.Options:
-					GraphicsDevice.Clear(Color.LawnGreen);      //placeholder color for testing
-					spriteBatch.DrawString(
-						font, "Options", new Vector2(10, 10), Color.White
-						);
+					background.Draw(spriteBatch);
+					spriteBatch.DrawString(font, "Press esc to return to menu", new Vector2(0, 0), Color.White);
+					spriteBatch.Draw(
+						controls, 
+						new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), 
+						Color.White);
 					break;
 				case GameState.Game:
 
