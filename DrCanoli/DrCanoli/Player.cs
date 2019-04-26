@@ -192,27 +192,12 @@ namespace DrCanoli
                         if ((kbState.IsKeyDown(Keys.A) || gpState.DPad.Left == ButtonState.Pressed) && Box.X > 0)          //when A is pressed
                         {
                             facingRight = false;
-                            Box = new Rectangle((int)(Box.X - (PhysManager.Unicorns / (60d / Speed))), Box.Y, Box.Width, Box.Height);
-                            if (kbPrevious.IsKeyUp(Keys.A) && VelocityY > 0)
-                            {
-                                AnimationSet.Idle.Reset();
-                                animation = AnimationSet.Walking;
-                            }
+                            Box = new Rectangle((int)Math.Round(Box.X - (PhysManager.Unicorns / (60d / Speed))), Box.Y, Box.Width, Box.Height);
                         }
                         if (kbState.IsKeyDown(Keys.D) || gpState.DPad.Right == ButtonState.Pressed)     //when D is pressed
                         {
                             facingRight = true;
-                            Box = new Rectangle((int)(Box.X + (PhysManager.Unicorns / (60d / Speed))), Box.Y, Box.Width, Box.Height);
-                            if (kbPrevious.IsKeyUp(Keys.D) && VelocityY > 0)
-                            {
-                                AnimationSet.Idle.Reset();
-                                animation = AnimationSet.Walking;
-                            }
-                        }
-                        else if ((kbState.IsKeyUp(Keys.A) || gpState.DPad.Left == ButtonState.Released)&& VelocityY > 0)
-                        {
-                            AnimationSet.Walking.Reset();
-                            animation = AnimationSet.Idle;
+                            Box = new Rectangle((int)Math.Round(Box.X + (PhysManager.Unicorns / (60d / Speed))), Box.Y, Box.Width, Box.Height);
                         }
                         if (kbState.IsKeyDown(Keys.W) || gpState.DPad.Up == ButtonState.Pressed)            //when W is pressed
                         {
@@ -222,6 +207,8 @@ namespace DrCanoli
                             {
                                 InitialY = (int)(Game1.FloorTop + Box.Height / 8 - Box.Height);
                             }
+                            else
+                                Box = new Rectangle(Box.X, Box.Y - (int)(PhysManager.Unicorns / (60 / Speed * 2)) - 2, Box.Width, Box.Height);
                         }
                         if (kbState.IsKeyDown(Keys.S) || gpState.DPad.Down == ButtonState.Pressed)          //when S is pressed
                         {
@@ -314,8 +301,8 @@ namespace DrCanoli
             }
 
             //attacking
-            if ((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
-                (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)) || (gpState.Buttons.X == ButtonState.Pressed && gpState.Buttons.X == ButtonState.Released) && !Wep.Swinging && Wep.SwingDuration <= 0)
+            if (((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
+                (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)) || (gpState.Buttons.X == ButtonState.Pressed && gpState.Buttons.X == ButtonState.Released)) && !Wep.Swinging && Wep.SwingDuration <= 0)
             {
                 Wep.SwingDuration = Wep.FireRate;
                 Wep.Swinging = true;
