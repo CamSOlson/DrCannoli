@@ -30,6 +30,13 @@ namespace DrCanoli
         protected Texture2D shadow;
         private Color currentColor;
         protected bool facingRight;   //true if last idle state was right, false if last idle state was left
+        private int suspendedPrevious;
+
+        public int SuspendedPrevious
+        {
+            get { return suspendedPrevious; }
+            set { suspendedPrevious = value; }
+        }
 
         public Color Color
         {
