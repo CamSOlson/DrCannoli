@@ -21,6 +21,8 @@ namespace DrCanoli
 		GameState gameState = GameState.Menu;   //deafult state brings player to menu
 		KeyboardState kbState;
 		KeyboardState lastKbState;
+        GamePadState gpState;
+        GamePadState gpPrevious;
 
 		private Texture2D startTexture;
 		private Texture2D optionsTexture;   //place-holder textures for menu buttons
@@ -108,6 +110,8 @@ namespace DrCanoli
 			gameOverCount = 0;
 			kbState = new KeyboardState();
 			lastKbState = new KeyboardState();
+            gpState = new GamePadState();
+            gpPrevious = new GamePadState();
 
 			// Get data from text file
 			textFile = new TextFile("Content/test6.txt");
@@ -279,11 +283,13 @@ namespace DrCanoli
 			// TODO: Add your update logic here
 			lastKbState = kbState;
 			kbState = Keyboard.GetState();
+            gpPrevious = gpState;
+            gpState = GamePad.GetState(PlayerIndex.One);
 
 			switch (gameState)	//used for transitioning between gameStates
 			{
 				case GameState.Menu:
-					if (menu.startClicked())
+					if (menu.startClicked() || gpState.Buttons.A == ButtonState.Pressed)
                     {
                         gameState = GameState.Game;	//goes to level1 state when start is clicked
                     }
@@ -303,7 +309,7 @@ namespace DrCanoli
 					}
 					break;
 				case GameState.Game:
-					if (kbState.IsKeyDown(Keys.Escape) && !lastKbState.IsKeyDown(Keys.Escape))
+					if ((kbState.IsKeyDown(Keys.Escape) && !lastKbState.IsKeyDown(Keys.Escape)) || (gpState.Buttons.Start == ButtonState.Pressed && gpPrevious.Buttons.Start != ButtonState.Pressed))
 					{
 						gameState = GameState.Pause;
 					}
@@ -353,11 +359,11 @@ namespace DrCanoli
 					}
 					break;
 				case GameState.Pause:
-					if (kbState.IsKeyDown(Keys.Escape) && !lastKbState.IsKeyDown(Keys.Escape))	//returns to game when esc is pressed
+					if ((kbState.IsKeyDown(Keys.Escape) && !lastKbState.IsKeyDown(Keys.Escape)) || (gpState.Buttons.Start == ButtonState.Pressed && gpPrevious.Buttons.Start != ButtonState.Pressed))	//returns to game when esc is pressed
 					{
 						gameState = GameState.Game;
 					}
-					else if (kbState.IsKeyDown(Keys.M))		//goes to menu when m is pressed
+					else if (kbState.IsKeyDown(Keys.M) || gpState.Buttons.B == ButtonState.Pressed)		//goes to menu when m is pressed
 					{
 						gameState = GameState.Menu;
 						LevelStart();           //resets player and enemies when level is restarted
