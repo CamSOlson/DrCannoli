@@ -34,6 +34,13 @@ namespace DrCanoli
         public static string ENEMY_JUMPING = BASE + @"Content\animations\enemies\Jumping.anim";
         public static string ENEMY_ATTACK_SANDWICH = BASE + @"Content\animations\enemies\Attacking.anim";
         public static string ENEMY_HIT = BASE + @"Content\animations\enemies\Knockback.anim";
+        //Erin
+        public static string ERIN_IDLE = BASE + @"Content\animations\erin\Idle.anim";
+        public static string ERIN_WALKING = BASE + @"Content\animations\erin\Walking.anim";
+        public static string ERIN_FALLING = BASE + @"Content\animations\erin\Falling.anim";
+        public static string ERIN_JUMPING = BASE + @"Content\animations\erin\Jumping.anim";
+        public static string ERIN_ATTACK_SANDWICH = BASE + @"Content\animations\erin\Attacking.anim";
+        public static string ERIN_HIT = BASE + @"Content\animations\erin\Knockback.anim";
 
 
         private Texture2D texture;

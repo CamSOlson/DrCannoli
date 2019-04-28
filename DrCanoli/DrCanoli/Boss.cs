@@ -103,17 +103,17 @@ namespace DrCanoli
                         {
                             if (timer % 100 == 0)
                             {
-                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, 25, 25), Direction.Down));
+                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Down));
                             }
                             else if (timer % 50 == 0)
                             {
                                 if (player.Box.X > Box.X)
                                 {
-                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, 25, 25), Direction.Right));
+                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
                                 }
                                 else if (player.Box.X < Box.X)
                                 {
-                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, 25, 25), Direction.Left));
+                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
                                 }
                             }
                         }
@@ -140,17 +140,17 @@ namespace DrCanoli
                         {
                             if (timer % 100 == 0)
                             {
-                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, 25, 25), Direction.Up));
+                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Up));
                             }
                             else if (timer % 50 == 0)
                             {
                                 if (player.Box.X > Box.X)
                                 {
-                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, 25, 25), Direction.Right));
+                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
                                 }
                                 else if (player.Box.X < Box.X)
                                 {
-                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, 25, 25), Direction.Left));
+                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X - Game1.CameraOffset, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
                                 }
                             }
                         }

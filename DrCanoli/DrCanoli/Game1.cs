@@ -197,12 +197,12 @@ namespace DrCanoli
 
             //Spawn boss
             AnimationSet bossAnimSet = new AnimationSet(
-                Animation.LoadAnimation(Animation.CANNOLI_IDLE, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_WALKING, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_FALLING, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_JUMPING, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_ATTACK_SANDWICH, Content),
-                Animation.LoadAnimation(Animation.CANNOLI_HIT, Content)
+                Animation.LoadAnimation(Animation.ERIN_IDLE, Content),
+                Animation.LoadAnimation(Animation.ERIN_WALKING, Content),
+                Animation.LoadAnimation(Animation.ERIN_FALLING, Content),
+                Animation.LoadAnimation(Animation.ERIN_JUMPING, Content),
+                Animation.LoadAnimation(Animation.ERIN_ATTACK_SANDWICH, Content),
+                Animation.LoadAnimation(Animation.ERIN_HIT, Content)
             );
             boss = new Boss(PhysManager.Unicorns * 25, 0, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, bossAnimSet, 200, 0, phys, shadowTexture, healthBar, player, bulletTexture);
             entities.Add(boss);
