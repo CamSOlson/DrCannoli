@@ -138,6 +138,7 @@ namespace DrCanoli
                     else if (player.Hitbox.Y < o.Box.Y && intersect.Height < intersect.Width)
                     {
                         player.Box = new Rectangle(player.Box.X, player.Box.Y - intersect.Height, player.Box.Width, player.Box.Height);
+                        player.SuspendedJump = true;
                     }
                     else if (intersect.Height < intersect.Width)
                     {
@@ -223,7 +224,6 @@ namespace DrCanoli
                 //if (jumper.Stunned)
                  //   jumper.Color = Color.White;
                 jumper.Stunned = false;
-                jumper.SuspendedJump = false;
                 return true;
             }
             return false;
