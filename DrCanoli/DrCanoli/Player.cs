@@ -160,7 +160,7 @@ namespace DrCanoli
                             facingRight = true;
                             Box = new Rectangle((int)Math.Round(Box.X + (PhysManager.Unicorns / (60d / Speed))), Box.Y, Box.Width, Box.Height);
                         }
-                        if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space) || gpState.Buttons.A == ButtonState.Pressed && gpState.Buttons.A == ButtonState.Released) //when Space is pressed
+                        if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space) || gpState.Buttons.A == ButtonState.Pressed && gpPrevious.Buttons.A == ButtonState.Released) //when Space is pressed
                         {
                             if (!SuspendedJump)
                                 InitialY = Box.Y;
@@ -302,7 +302,7 @@ namespace DrCanoli
 
             //attacking
             if (((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
-                (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)) || (gpState.Buttons.X == ButtonState.Pressed && gpState.Buttons.X == ButtonState.Released)) && !Wep.Swinging && Wep.SwingDuration <= 0)
+                (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)) || (gpState.Buttons.X == ButtonState.Pressed && gpPrevious.Buttons.X == ButtonState.Released)) && !Wep.Swinging && Wep.SwingDuration <= 0)
             {
                 Wep.SwingDuration = Wep.FireRate;
                 Wep.Swinging = true;
