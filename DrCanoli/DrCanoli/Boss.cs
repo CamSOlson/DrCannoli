@@ -55,7 +55,7 @@ namespace DrCanoli
                     list[c].Update();
                     if (FighterState == FighterState.Jump)
                     {
-                        if (list[c].Rect.Intersects(new Rectangle(player.Box.X - Game1.CameraOffset, player.Box.Y, player.Box.Width, player.Box.Height)))
+                        if (list[c].Rect.Intersects(new Rectangle(player.Box.X, player.Box.Y, player.Box.Width, player.Box.Height)))
                         {
                             player.Hp -= 10;
                             list[c].Active = false;
@@ -65,7 +65,7 @@ namespace DrCanoli
                     }
                     else
                     {
-                        if(list[c].Rect.Intersects(new Rectangle(player.Box.X - Game1.CameraOffset, player.Box.Y + player.Box.Height - player.Box.Width / 8,
+                        if(list[c].Rect.Intersects(new Rectangle(player.Box.X, player.Box.Y + player.Box.Height - player.Box.Width / 8,
                         player.Box.Width, player.Box.Width / 4)))
                         {
                             player.Hp -= 10;
