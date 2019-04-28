@@ -62,6 +62,7 @@ namespace DrCanoli
                 active = false;
             }
             
+            //Check for player collision
             foreach (Entity e in Game1.Entities)
             {
                 if (e is Player)
