@@ -89,12 +89,13 @@ namespace DrCanoli
 
         public override void Update()
         {
-            animation.Update();
             animation.FacingRight = FacingRight;
         }
 
         public override void Draw(SpriteBatch batch)
         {
+            animation.Update();
+            animation.FacingRight = facingRight;
             animation.Draw(box, batch, currentColor);
         }
 

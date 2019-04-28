@@ -261,6 +261,8 @@ namespace DrCanoli
                         if (!Wep.Swinging)
                             animation = AnimationSet.Falling;
 
+                        animation.FacingRight = FacingRight;
+
                         suspendedPrevious = Box.Y;
 
                         if (done && (kbState.IsKeyDown(Keys.A) || kbState.IsKeyDown(Keys.D) || gpState.DPad.Left == ButtonState.Pressed || gpState.DPad.Right == ButtonState.Pressed))

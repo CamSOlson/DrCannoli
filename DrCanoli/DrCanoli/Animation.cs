@@ -89,11 +89,11 @@ namespace DrCanoli
             }
 
             //Update sprite effects if it needs to be flipped
-            if (FacingRight && spriteEffects.Equals(SpriteEffects.FlipHorizontally))
+            if (FacingRight)
             {
                 spriteEffects = SpriteEffects.None;
             }
-            else if (!FacingRight && !spriteEffects.Equals(SpriteEffects.FlipHorizontally))
+            else if (!FacingRight)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }

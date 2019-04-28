@@ -157,7 +157,7 @@ namespace DrCanoli
 			startTexture = Content.Load<Texture2D>("start");
 			optionsTexture = Content.Load<Texture2D>("options");	//loads button textures
 			exitTexture = Content.Load<Texture2D>("exit");
-			controls = Content.Load<Texture2D>("Controls_Graphic2");
+			controls = Content.Load<Texture2D>("textures/Controls");
             obstacleTexture = Content.Load<Texture2D>("obstacle");
             shadowTexture = Content.Load<Texture2D>("textures/sprites/Shadow");
             bulletTexture = Content.Load<Texture2D>("Bullet");
@@ -471,8 +471,7 @@ namespace DrCanoli
 					menu.Draw(spriteBatch);
 					break;
 				case GameState.Options:
-					background.Draw(spriteBatch);
-					spriteBatch.DrawString(font, "Press esc to return to menu", new Vector2(0, 0), Color.White);
+                    spriteBatch.Draw(titleScreenTexture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.Gray);
 					spriteBatch.Draw(
 						controls, 
 						new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), 
