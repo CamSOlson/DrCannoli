@@ -30,6 +30,7 @@ namespace DrCanoli
 		private Texture2D controls;
         private Texture2D obstacleTexture; // texture for obstacle
         private Texture2D bulletTexture;
+        private Texture2D titleScreenTexture;
 		private Rectangle startButton;
 		private Rectangle optionsButton;    //positions for menu buttons
 		private Rectangle exitButton;
@@ -160,6 +161,7 @@ namespace DrCanoli
             obstacleTexture = Content.Load<Texture2D>("obstacle");
             shadowTexture = Content.Load<Texture2D>("textures/sprites/Shadow");
             bulletTexture = Content.Load<Texture2D>("Bullet");
+            titleScreenTexture = Content.Load<Texture2D>("textures/TitleScreen");
             menu = new Menu(startTexture, optionsTexture, exitTexture, startButton, optionsButton, exitButton);
 			font = Content.Load<SpriteFont>("placeholderText");
 
@@ -465,7 +467,7 @@ namespace DrCanoli
 			switch (gameState)  //used for drawing screen based on gameState
 			{
 				case GameState.Menu:            //put all menu draw methods here
-					background.Draw(spriteBatch);
+                    spriteBatch.Draw(titleScreenTexture, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
 					menu.Draw(spriteBatch);
 					break;
 				case GameState.Options:
