@@ -57,7 +57,7 @@ namespace DrCanoli
         }
         public void Draw(SpriteBatch batch)
         {
-                batch.Draw(texture, rect, Color.White);
+                batch.Draw(texture, new Rectangle(rect.X - Game1.CameraOffset, rect.Y, rect.Width, rect.Height), Color.White);
         }
     }
 }

@@ -46,6 +46,8 @@ namespace DrCanoli
 
         public override void Update()
         {
+            base.Update();
+
             kbPrevious = kbState;
             kbState = Keyboard.GetState();
             switch (FighterState)
@@ -77,7 +79,6 @@ namespace DrCanoli
                     if (!closest)
                     {
                         FighterState = FighterState.Move;
-                        AnimationSet.Walking.Reset();
                         animation = AnimationSet.Idle;
                     }
                     else
@@ -105,7 +106,6 @@ namespace DrCanoli
                         if (Box.X == phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2 && Box.Y == phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2)
                         {
                             FighterState = FighterState.Idle;
-                            AnimationSet.Walking.Reset();
                             animation = AnimationSet.Idle;
                         }
                         if (Box.Y > phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2 && Box.Y + Box.Height - Box.Height / 8 > Game1.FloorTop)            //when W is pressed
@@ -116,6 +116,8 @@ namespace DrCanoli
                         {
                             Box = new Rectangle(Box.X, (int)(Box.Y + PhysManager.Unicorns / (60 / Speed * 2)), Box.Width, Box.Height);
                         }
+
+                        animation = AnimationSet.Walking;
                     }
                     break;
                 case FighterState.Jump:					//Jump State
@@ -127,7 +129,6 @@ namespace DrCanoli
                             Box = new Rectangle((int)(Box.X - PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
                             if (kbPrevious.IsKeyUp(Keys.A))
                             {
-                                AnimationSet.Idle.Reset();
                                 animation = AnimationSet.Walking;
                             }
                         }
@@ -137,13 +138,11 @@ namespace DrCanoli
                             Box = new Rectangle((int)(Box.X + PhysManager.Unicorns / (60 / Speed)), Box.Y, Box.Width, Box.Height);
                             if (kbPrevious.IsKeyUp(Keys.D))
                             {
-                                AnimationSet.Idle.Reset();
                                 animation = AnimationSet.Walking;
                             }
                         }
                         else
                         {
-                            AnimationSet.Walking.Reset();
                             animation = AnimationSet.Idle;
                         }
                         if (Box.Y > phys.Player.Box.Y + phys.Player.Box.Height / 2 - Box.Height / 2)            //when W is pressed
@@ -179,13 +178,11 @@ namespace DrCanoli
                     if (done && (Box.X > phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2 || Box.X < phys.Player.Box.X + phys.Player.Box.Width / 2 - Box.Width / 2))
                     {
                         FighterState = FighterState.Move;
-                        AnimationSet.Idle.Reset();
                         animation = AnimationSet.Walking;
                     }
                     else if (done)
                     {
                         FighterState = FighterState.Idle;
-                        AnimationSet.Walking.Reset();
                         animation = AnimationSet.Idle;
                     }
 

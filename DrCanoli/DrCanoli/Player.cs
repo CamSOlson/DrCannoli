@@ -331,8 +331,6 @@ namespace DrCanoli
             {
                 Hp = Hp - 10;
             }
-
-			base.Update();
 		}
 
         public override void Draw(SpriteBatch batch)	//has states for drawing character based on state
