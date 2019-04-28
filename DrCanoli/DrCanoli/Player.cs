@@ -195,6 +195,7 @@ namespace DrCanoli
                                 FighterState = FighterState.Jump;
                                 InitialY = (int)(Game1.FloorTop + Box.Height / 8 - Box.Height);
                                 VelocityY = 0;
+                                SuspendedJump = false;
                             }
                         }
                     }
