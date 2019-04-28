@@ -282,7 +282,7 @@ namespace DrCanoli
 
             //attacking
             if (((kbState.IsKeyDown(Keys.P) && kbPrevious.IsKeyUp(Keys.P)) ||
-                (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)) || (gpState.Buttons.X == ButtonState.Pressed && gpPrevious.Buttons.X == ButtonState.Released)) && !Wep.Swinging && Wep.SwingDuration <= 0)
+                (mState.LeftButton.Equals(ButtonState.Pressed) && mStatePrev.LeftButton.Equals(ButtonState.Released)) || (gpState.Buttons.X == ButtonState.Pressed && gpPrevious.Buttons.X == ButtonState.Released)) && !Wep.Swinging && Wep.SwingDuration <= 0 && !Stunned)
             {
                 Wep.SwingDuration = Wep.FireRate;
                 Wep.Swinging = true;
