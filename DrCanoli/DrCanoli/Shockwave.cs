@@ -5,16 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
 namespace DrCanoli
 {
+
     class Shockwave: Entity
     {
         private Texture2D texture;
         private Rectangle rect;
-        private Direction dir;
         private bool active;
         private int startX;
-        
+        private bool facingRight;
 
         public bool Active
         {
@@ -28,38 +29,33 @@ namespace DrCanoli
         }
         public override Rectangle Hitbox
         {
-            get { return rect; }
+            get { return new Rectangle(Box.X, Box.Y + PhysManager.Unicorns / 2, Box.Width, PhysManager.Unicorns / 2); }
         }
-        public Shockwave(Texture2D texture, Rectangle rect, Direction dir)
+        public bool FacingRight
+        {
+            get { return facingRight; }
+            set { facingRight = value; }
+        }
+
+        public Shockwave(Texture2D texture, Rectangle rect, bool facingRight)
         {
             this.texture = texture;
             this.rect = rect;
-            this.dir = dir;
             active = true;
             startX = rect.X;
+            this.facingRight = facingRight;
         }
+
         public override void Update()
         {
-                switch (dir)
-                {
-                    case Direction.Up:
-                        rect.Y -= (int) Math.Round(PhysManager.Unicorns * 5d / 60d);
-                        break;
-                    case Direction.Down:
-                        rect.Y += (int)Math.Round(PhysManager.Unicorns * 5d / 60d);
-                        break;
-                    case Direction.Left:
-                        rect.X -= (int)Math.Round(PhysManager.Unicorns * 5d / 60d);
-                        break;
-                    case Direction.Right:
-                        rect.X += (int)Math.Round(PhysManager.Unicorns * 5d / 60d);
-                        break;
-                    default:
-                        break;
-                }
-            if (rect.Y > PhysManager.Unicorns * 9 || rect.Y < 0 || rect.X > startX + (PhysManager.Unicorns * 16) || rect.X < 0)
+            //Update position
+            if (facingRight)
             {
-                active = false;
+                rect.X += (int)Math.Round(PhysManager.Unicorns * 5d / 60d);
+            }
+            else
+            {
+                rect.X -= (int)Math.Round(PhysManager.Unicorns * 5d / 60d);
             }
             
             //Check for player collision
@@ -68,23 +64,28 @@ namespace DrCanoli
                 if (e is Player)
                 {
                     Player p = ((Player)e);
-                    if (p.FighterState != FighterState.Jump && Box.Intersects(p.Hitbox))
+                    if (p.FighterState != FighterState.Jump && Hitbox.Intersects(p.Hitbox))
                     {
                         p.Hp -= 10;
                         PhysManager.Knockback(p);
+                        Game1.RemoveEntity(this);
                     }
                 }
             }
 
             //Remove if 20 or more unicorns from start so they don't stack up and lag
-            if (Math.Abs(Box.X - startX) > PhysManager.Unicorns * 20)
+            if (Math.Abs(Box.X - startX) > PhysManager.Unicorns * 7)
             {
                 Game1.RemoveEntity(this);
             }
         }
+
         public override void Draw(SpriteBatch batch)
         {
-                batch.Draw(texture, new Rectangle(rect.X - Game1.CameraOffset, rect.Y, rect.Width, rect.Height), Color.White);
+            batch.Draw(texture,
+                destinationRectangle: new Rectangle(rect.X - Game1.CameraOffset, rect.Y, rect.Width, rect.Height),
+                color: Color.White,
+                effects: facingRight ? SpriteEffects.FlipHorizontally: SpriteEffects.None);
         }
     }
 }

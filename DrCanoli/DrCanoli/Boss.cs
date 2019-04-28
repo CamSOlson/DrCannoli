@@ -8,53 +8,218 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
-enum BossStates
-{
-    Top,
-    MovingDown,
-    Bottom,
-    MovingUp
-}
-enum Direction
-{
-    Up,
-    Down,
-    Left,
-    Right
-}
+
+
 
 namespace DrCanoli
 {
-    class Boss : Enemy
+    enum BossState
     {
-        private Texture2D healthBar;
+        Jumping, Walking, Idle
+    }
+
+    class Boss : Fighter
+    {
         private int maxHp;
         private int health;
-        private Player player;
-        private BossStates state;
+        private BossState state;
         private int timer;
-        //private List<Bullet> list;
+        private PhysManager phys;
         private Texture2D bulletTexture;
-        public Boss(int x, int y, int width, int height, AnimationSet animSet, int hp, int dmg, PhysManager phys, Texture2D shadow, Texture2D healthBar, Player player, Texture2D bulletTexture)
-            : base(x, y, width, height, hp, dmg, animSet, phys, shadow)
+        private Random rando;
+        private int startY;
+        private int endY;
+
+        public Boss(int x, int y, int width, int height, AnimationSet animSet, int hp, int dmg, Texture2D shadow, PhysManager phys, Texture2D bulletTexture)
+            : base(x, y, width, height, hp, dmg, animSet, FighterState.Idle, shadow)
         {
-            this.healthBar = healthBar;
             maxHp = hp;
             this.health = maxHp;
-            this.player = player;
-            state = BossStates.Top;
-            //list = new List<Bullet>();
+            state = BossState.Idle;
+            this.phys = phys;
             this.bulletTexture = bulletTexture;
+            rando = new Random();
         }
+
         public override void Update()
+        {
+            base.Update();
+
+            if (phys.Player.Box.X < Box.X)
+            {
+                //If player is to the left of the enemy
+                facingRight = false;
+            }
+            else
+            {
+                //If player is to the right
+                facingRight = true;
+            }
+
+
+            switch (state)
+            {
+                default:
+                    //Idle
+                    FighterState = FighterState.Idle;
+
+                    //Every second, send a shockwave
+                    if (timer == 0 || timer == 60 || timer == 120)
+                    {
+                        animation = AnimationSet.Attacking;
+                        SpawnShockwave();
+                    }
+                    //Half a second after sending each shockwave, update animation back to idle
+                    if (timer == 30 || timer == 90 || timer == 150)
+                    {
+                        animation = AnimationSet.Idle;
+                    }
+                    //After 4 seconds, move to next state
+                    if (timer >= 180)
+                    {
+                        //Set timer to -1 so after switch it will update to 0 before updating with next state
+                        timer = -1;
+
+                        startY = Box.Y;
+
+                        //If the boss is not within 1 unicorn of the bottom, it will move to the bottom
+                        if (Box.Y + Box.Height < PhysManager.Unicorns * 8)
+                        {
+                            endY = PhysManager.Unicorns * 9;
+                        }
+                        else
+                        {
+                            endY = (int) Math.Round(PhysManager.Unicorns * 6.5d);
+                        }
+
+                        //Move to next position by a randomly chosen method
+                        if (rando.Next(2) % 2 == 0)
+                        {
+                            //move by jumping
+                            state = BossState.Jumping;
+                        }
+                        else
+                        {
+                            //move by walking
+                            state = BossState.Walking;
+                        }
+                    }
+                    break;
+                case BossState.Jumping:
+                    //Jumping to next position
+                    FighterState = FighterState.Jump;
+
+                    if (timer >= 0)
+                    {
+                        //If just started, start jump
+                        if (timer == 0)
+                        {
+                            VelocityY = PhysManager.InitialYVelocity;
+                            animation = AnimationSet.Jumping;
+                            InitialY = startY;
+                        }
+
+                        bool done = phys.Jump(this);
+
+                        //Falling
+                        if (VelocityY < 0)
+                        {
+                            animation = AnimationSet.Falling;
+                        }
+
+                        if (done)
+                        {
+                            //If jump is done, set timer to negatives and count back up towards 0 for a delay
+                            FighterState = FighterState.Idle;
+                            Box = new Rectangle(Box.X, endY - Box.Height, Box.Width, Box.Height);
+                            InitialY = endY - Box.Height;
+                            timer = -60;
+                            animation = AnimationSet.Idle;
+                        }
+                        else
+                        {
+                            //Move towards the end point
+                            int moveAmount = (int)Math.Round(PhysManager.Unicorns * 2d / 30d);
+
+                            //If end is greater than 1 unicorn above the bottom, negate the value
+                            if (endY > PhysManager.Unicorns * 8)
+                            {
+                                moveAmount = -moveAmount;
+                            }
+
+                            InitialY -= moveAmount;
+                            Box = new Rectangle(Box.X, Box.Y - moveAmount, Box.Width, Box.Height);
+                        }
+
+                    }
+                    else if (timer == -1)
+                    {
+                        //This is a delay before moving to next state to give the player a chance to attack
+                        state = BossState.Idle;
+                    }
+                    break;
+                case BossState.Walking:
+                    //Walking to next position
+
+                    //Every second, send a shockwave
+                    if (timer == 30 || timer == 90 || timer == 150)
+                    {
+                        FighterState = FighterState.Idle;
+                        animation = AnimationSet.Attacking;
+                        SpawnShockwave();
+                    }
+                    //Half a second after sending each shockwave, update animation to moving and move to the end position
+                    if ((timer >= 0 && timer < 30) || (timer >= 60 && timer < 90) || (timer >= 120 && timer < 150) || (timer >= 180 && timer < 210))
+                    {
+                        FighterState = FighterState.Move;
+                        animation = AnimationSet.Walking;
+
+                        //Move towards the end point
+                        int moveAmount = (int)Math.Round(PhysManager.Unicorns * 2d / 90d);
+
+                        //If end is greater than 1 unicorn above the bottom, negate the value
+                        if (endY > PhysManager.Unicorns * 8)
+                        {
+                            moveAmount = -moveAmount;
+                        }
+
+                        InitialY -= moveAmount;
+                        Box = new Rectangle(Box.X, Box.Y - moveAmount, Box.Width, Box.Height);
+                    }
+                    //After 4 seconds, move to next state
+                    if (timer >= 210)
+                    {
+                        //Set timer to -1 so after switch it will update to 0 before updating with next state
+                        timer = -1;
+                        state = BossState.Idle;
+                        Box = new Rectangle(Box.X, endY - Box.Height, Box.Width, Box.Height);
+                    }
+                    break;
+            }
+
+            timer++;
+
+        }
+
+        private void SpawnShockwave()
+        {
+            Game1.AddEntity(new Shockwave(bulletTexture,
+                new Rectangle(Box.X + (facingRight ? PhysManager.Unicorns * 2 : PhysManager.Unicorns * -2),
+                Box.Y + Box.Height - PhysManager.Unicorns + 1, PhysManager.Unicorns * 2, PhysManager.Unicorns),
+                facingRight));
+        }
+
+        //Old update method. Keeping just in case, but otherwise DO NOT USE
+        /*
+        public void OldUpdate()
         {
                 switch (state)
                 {
-                    case BossStates.Top:
+                    case BossState.Top:
                         if (timer >= 300)
                         {
                             timer = 0;
-                            state = BossStates.MovingDown;
+                            state = BossState.MovingDown;
                         }
                         else
                         {
@@ -79,19 +244,19 @@ namespace DrCanoli
                             timer++;
                         }
                         break;
-                    case BossStates.MovingDown:
+                    case BossState.MovingDown:
                         Box = new Rectangle(Box.X, Box.Y + 1, Box.Width, Box.Height);
                         if (Box.Y >= (PhysManager.Unicorns * 9) - Box.Height)
                         {
                             Box = new Rectangle(Box.X, (PhysManager.Unicorns * 9) - Box.Height, Box.Width, Box.Height);
-                            state = BossStates.Bottom;
+                            state = BossState.Bottom;
                         }
                         break;
-                    case BossStates.Bottom:
+                    case BossState.Bottom:
                         if (timer >= 300)
                         {
                             timer = 0;
-                            state = BossStates.MovingUp;
+                            state = BossState.MovingUp;
                         }
                         else
                         {
@@ -116,12 +281,12 @@ namespace DrCanoli
                             timer++;
                         }
                         break;
-                    case BossStates.MovingUp:
+                    case BossState.MovingUp:
                         Box = new Rectangle(Box.X, Box.Y - 1, Box.Width, Box.Height);
                         if (Box.Y <= 0)
                         {
                             Box = new Rectangle(Box.X, 0, Box.Width, Box.Height);
-                            state = BossStates.Top;
+                            state = BossState.Top;
                         }
                         break;
                     default:
@@ -129,5 +294,6 @@ namespace DrCanoli
                 }
             
         }
+        */
     }
 }

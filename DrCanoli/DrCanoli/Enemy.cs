@@ -50,6 +50,18 @@ namespace DrCanoli
 
             kbPrevious = kbState;
             kbState = Keyboard.GetState();
+
+            if (phys.Player.Box.X < Box.X)
+            {
+                //If player is to the left of the enemy
+                facingRight = false;
+            }
+            else
+            {
+                //If player is to the right
+                facingRight = true;
+            }
+
             switch (FighterState)
             {
                 case FighterState.Idle:				//IdleLeft state
