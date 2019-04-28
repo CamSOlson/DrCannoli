@@ -46,49 +46,6 @@ namespace DrCanoli
             //list = new List<Bullet>();
             this.bulletTexture = bulletTexture;
         }
-        /*
-        public void UpdateBullets()
-        {
-            for(int c = 0; c < list.Count; c++)
-            {
-                if (list[c].Active)
-                {
-                    list[c].Update();
-                    if (FighterState == FighterState.Jump)
-                    {
-                        if (list[c].Box.Intersects(new Rectangle(player.Box.X, player.Box.Y, player.Box.Width, player.Box.Height)))
-                        {
-                            player.Hp -= 10;
-                            list[c].Active = false;
-                            list.Remove(list[c]);
-                            c--;
-                        }
-                    }
-                    else
-                    {
-                        if(list[c].Box.Intersects(new Rectangle(player.Box.X, player.Box.Y + player.Box.Height - player.Box.Width / 8,
-                        player.Box.Width, player.Box.Width / 4)))
-                        {
-                            player.Hp -= 10;
-                            list[c].Active = false;
-                            list.Remove(list[c]);
-                            c--;
-                        }
-                    }
-                }
-            }
-        }
-        public void DrawBullets(SpriteBatch batch)
-        {
-            foreach (Bullet b in list)
-            {
-                if (b.Active)
-                {
-                    b.Draw(batch);
-                }
-            }
-        }
-        */
         public override void Update()
         {
                 switch (state)
@@ -105,17 +62,17 @@ namespace DrCanoli
                         {
                             if (timer % 100 == 0)
                             {
-                                Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Down));
+                                Game1.AddEntity(new Shockwave(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Down));
                             }
                             else if (timer % 50 == 0)
                             {
                                 if (player.Box.X > Box.X)
                                 {
-                                    Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
+                                    Game1.AddEntity(new Shockwave(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
                                 }
                                 else if (player.Box.X < Box.X)
                                 {
-                                    Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
+                                    Game1.AddEntity(new Shockwave(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
                                 }
                             }
                         }
@@ -142,17 +99,17 @@ namespace DrCanoli
                         {
                             if (timer % 100 == 0)
                             {
-                                Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Up));
+                                Game1.AddEntity(new Shockwave(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Up));
                             }
                             else if (timer % 50 == 0)
                             {
                                 if (player.Box.X > Box.X)
                                 {
-                                    Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
+                                    Game1.AddEntity(new Shockwave(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
                                 }
                                 else if (player.Box.X < Box.X)
                                 {
-                                    Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
+                                    Game1.AddEntity(new Shockwave(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
                                 }
                             }
                         }

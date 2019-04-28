@@ -99,7 +99,15 @@ namespace DrCanoli
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";            
+            Content.RootDirectory = "Content";
+
+            //graphics.PreferredBackBufferWidth = (int) (GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height * 0.75f);
+            //graphics.PreferredBackBufferHeight = graphics.PreferredBackBufferWidth / 16 * 9;
+
+            //System.Windows.Forms.Form form = (System.Windows.Forms.Form) System.Windows.Forms.Form.FromHandle(Window.Handle);
+            //form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+
+
         }
 
         /// <summary>

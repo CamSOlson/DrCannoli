@@ -7,13 +7,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace DrCanoli
 {
-    class Bullet: Entity
+    class Shockwave: Entity
     {
         private Texture2D texture;
         private Rectangle rect;
         private Direction dir;
         private bool active;
         private int startX;
+        
+
         public bool Active
         {
             get { return active; }
@@ -28,7 +30,7 @@ namespace DrCanoli
         {
             get { return rect; }
         }
-        public Bullet(Texture2D texture, Rectangle rect, Direction dir)
+        public Shockwave(Texture2D texture, Rectangle rect, Direction dir)
         {
             this.texture = texture;
             this.rect = rect;
@@ -41,16 +43,16 @@ namespace DrCanoli
                 switch (dir)
                 {
                     case Direction.Up:
-                        rect.Y -= 5;
+                        rect.Y -= (int) Math.Round(PhysManager.Unicorns * 5d / 60d);
                         break;
                     case Direction.Down:
-                        rect.Y += 5;
+                        rect.Y += (int)Math.Round(PhysManager.Unicorns * 5d / 60d);
                         break;
                     case Direction.Left:
-                        rect.X -= 5;
+                        rect.X -= (int)Math.Round(PhysManager.Unicorns * 5d / 60d);
                         break;
                     case Direction.Right:
-                        rect.X += 5;
+                        rect.X += (int)Math.Round(PhysManager.Unicorns * 5d / 60d);
                         break;
                     default:
                         break;
@@ -59,16 +61,6 @@ namespace DrCanoli
             {
                 active = false;
             }
-            /*
-            if (list[c].Box.Intersects(new Rectangle(player.Box.X, player.Box.Y + player.Box.Height - player.Box.Width / 8,
-player.Box.Width, player.Box.Width / 4)))
-            {
-                player.Hp -= 10;
-                list[c].Active = false;
-                list.Remove(list[c]);
-                c--;
-            }
-            */
             
             foreach (Entity e in Game1.Entities)
             {
@@ -81,6 +73,12 @@ player.Box.Width, player.Box.Width / 4)))
                         PhysManager.Knockback(p);
                     }
                 }
+            }
+
+            //Remove if 20 or more unicorns from start so they don't stack up and lag
+            if (Math.Abs(Box.X - startX) > PhysManager.Unicorns * 20)
+            {
+                Game1.RemoveEntity(this);
             }
         }
         public override void Draw(SpriteBatch batch)
