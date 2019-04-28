@@ -33,7 +33,7 @@ namespace DrCanoli
         private Player player;
         private BossStates state;
         private int timer;
-        private List<Bullet> list;
+        //private List<Bullet> list;
         private Texture2D bulletTexture;
         public Boss(int x, int y, int width, int height, AnimationSet animSet, int hp, int dmg, PhysManager phys, Texture2D shadow, Texture2D healthBar, Player player, Texture2D bulletTexture)
             : base(x, y, width, height, hp, dmg, animSet, phys, shadow)
@@ -43,9 +43,10 @@ namespace DrCanoli
             this.health = maxHp;
             this.player = player;
             state = BossStates.Top;
-            list = new List<Bullet>();
+            //list = new List<Bullet>();
             this.bulletTexture = bulletTexture;
         }
+        /*
         public void UpdateBullets()
         {
             for(int c = 0; c < list.Count; c++)
@@ -55,7 +56,7 @@ namespace DrCanoli
                     list[c].Update();
                     if (FighterState == FighterState.Jump)
                     {
-                        if (list[c].Rect.Intersects(new Rectangle(player.Box.X, player.Box.Y, player.Box.Width, player.Box.Height)))
+                        if (list[c].Box.Intersects(new Rectangle(player.Box.X, player.Box.Y, player.Box.Width, player.Box.Height)))
                         {
                             player.Hp -= 10;
                             list[c].Active = false;
@@ -65,7 +66,7 @@ namespace DrCanoli
                     }
                     else
                     {
-                        if(list[c].Rect.Intersects(new Rectangle(player.Box.X, player.Box.Y + player.Box.Height - player.Box.Width / 8,
+                        if(list[c].Box.Intersects(new Rectangle(player.Box.X, player.Box.Y + player.Box.Height - player.Box.Width / 8,
                         player.Box.Width, player.Box.Width / 4)))
                         {
                             player.Hp -= 10;
@@ -87,6 +88,7 @@ namespace DrCanoli
                 }
             }
         }
+        */
         public override void Update()
         {
                 switch (state)
@@ -103,17 +105,17 @@ namespace DrCanoli
                         {
                             if (timer % 100 == 0)
                             {
-                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Down));
+                                Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Down));
                             }
                             else if (timer % 50 == 0)
                             {
                                 if (player.Box.X > Box.X)
                                 {
-                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
+                                    Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
                                 }
                                 else if (player.Box.X < Box.X)
                                 {
-                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
+                                    Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
                                 }
                             }
                         }
@@ -140,17 +142,17 @@ namespace DrCanoli
                         {
                             if (timer % 100 == 0)
                             {
-                                list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Up));
+                                Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Up));
                             }
                             else if (timer % 50 == 0)
                             {
                                 if (player.Box.X > Box.X)
                                 {
-                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
+                                    Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Right));
                                 }
                                 else if (player.Box.X < Box.X)
                                 {
-                                    list.Add(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
+                                    Game1.AddEntity(new Bullet(bulletTexture, new Rectangle(Box.X, Box.Y, PhysManager.Unicorns * 2, PhysManager.Unicorns), Direction.Left));
                                 }
                             }
                         }

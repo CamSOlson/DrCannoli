@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DrCanoli
 {
-    class Obstacle: IDrawn
+    class Obstacle: Entity
     {
         private Rectangle box;
         private Texture2D sprite;
@@ -25,20 +25,24 @@ namespace DrCanoli
 			this.sprite = sprite;
 		}
 
-		public void Update()
+		public override void Update()
 		{
 			
 		}
 
-		public void Draw(SpriteBatch batch)
+		public override void Draw(SpriteBatch batch)
         {
 			batch.Draw(sprite, new Rectangle(box.X - Game1.CameraOffset, box.Y, box.Width, box.Height), Color.White);
 		}
 
-        public Rectangle Box
+        public override Rectangle Box
         {
             get { return box; }
             set { box = value; }
+        }
+        public override Rectangle Hitbox
+        {
+            get { return box; }
         }
     }
 }

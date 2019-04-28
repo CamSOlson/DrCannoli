@@ -12,7 +12,7 @@ namespace DrCanoli
 {
 
 	enum FighterState {Idle, Move, Jump, SusJump}
-    class Fighter: IDrawn
+    class Fighter: Entity
     {
         //fields
         private Rectangle box;
@@ -87,12 +87,12 @@ namespace DrCanoli
         public Fighter(int x, int y, int width, int height, int hp, int dmg, AnimationSet animationSet, FighterState fighterState, Texture2D shadow)
             : this(new Rectangle(x,y,width,height), hp, dmg, animationSet, fighterState, shadow) { }
 
-        public virtual void Update()
+        public override void Update()
         {
             animation.Update();
         }
 
-        public virtual void Draw(SpriteBatch batch)
+        public override void Draw(SpriteBatch batch)
         {
             animation.Draw(box, batch, currentColor);
         }
@@ -137,13 +137,12 @@ namespace DrCanoli
             set { invulnTime = value; }
         }
 
-        public Rectangle Box
+        public override Rectangle Box
         {
             get { return box; }
             set { box = value; }
         }
-        //oof
-        public Rectangle Hitbox
+        public override Rectangle Hitbox
         {
             get { return new Rectangle(box.X, box.Y + box.Height - box.Width / 4, box.Width, box.Width / 4); }
         }

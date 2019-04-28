@@ -39,8 +39,10 @@ namespace DrCanoli
 
 		private List<IDrawn> drawables;
         private List<Obstacle> obstacles;
-        private List<Fighter> entities;
         private List<Enemy> enemyList;
+        private static List<Entity> entities;
+        private static List<Entity> addEntities;
+        private static List<Entity> removeEntities;
         private Boss boss;
         private Player player;
         private Background background;
@@ -80,6 +82,18 @@ namespace DrCanoli
         {
             get { return elapsedTime; }
             set { elapsedTime = value; }
+        }
+        public static List<Entity> Entities
+        {
+            get { return entities; }
+        }
+        public static void AddEntity(Entity e)
+        {
+            addEntities.Add(e);
+        }
+        public static void RemoveEntity(Entity e)
+        {
+            removeEntities.Add(e);
         }
 
         public Game1()
@@ -197,7 +211,9 @@ namespace DrCanoli
         private void LevelStart()
         {
             //Initialize entity list
-            entities = new List<Fighter>();
+            entities = new List<Entity>();
+            addEntities = new List<Entity>();
+            removeEntities = new List<Entity>();
 
             //Spawn boss
             AnimationSet bossAnimSet = new AnimationSet(
@@ -255,6 +271,7 @@ namespace DrCanoli
                     {
                         Obstacle obstacle = new Obstacle(x, y + 6 * PhysManager.Unicorns, PhysManager.Unicorns, PhysManager.Unicorns, obstacleTexture);
                         obstacles.Add(obstacle);
+                        entities.Add(obstacle);
                     }
                 }
             }
@@ -316,13 +333,31 @@ namespace DrCanoli
 
                     //ALWAYS update player, no ifs/elses about it
                     elapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
-                    player.Update();
-                    boss.Update();
-                    boss.UpdateBullets();
-                    foreach (Enemy e in enemyList)
+
+                    //Add entities that are stored in the add list to avoid concurrent modification exception
+                    foreach (Entity e in addEntities)
+                    {
+                        entities.Add(e);
+                    }
+                    addEntities.Clear();
+                    //Remove entities marked for removal here to avoid concurrent modification exception
+                    foreach (Entity e in removeEntities)
+                    {
+                        entities.Remove(e);
+                    }
+                    removeEntities.Clear();
+                    //Update all entities in the entity list
+                    foreach (Entity e in entities)
                     {
                         e.Update();
+                        if (e is Enemy && !((Enemy)e).Active)
+                        {
+                            removeEntities.Add(e);
+                        }
                     }
+
+
+
                     phys.CheckCollisions();
                     //Update camera
                     cameraOffset = player.Box.X - graphics.PreferredBackBufferWidth / 2 + player.Box.Width / 2;
@@ -390,7 +425,7 @@ namespace DrCanoli
         /// <param name="e1"></param>
         /// <param name="e2"></param>
         /// <returns></returns>
-        private static int EntityComparator(Fighter e1, Fighter e2)
+        private static int EntityComparator(Entity e1, Entity e2)
         {
             if (e1.Box.Y + e1.Box.Height > e2.Box.Y + e2.Box.Height)
             {
@@ -439,29 +474,19 @@ namespace DrCanoli
                     
                     //This does the clearing, no need to waste time with redundant clears
                     background.Draw(spriteBatch);
-                    //draws the obstacles
-                    foreach (Obstacle obstacle in obstacles)
+
+                    foreach (Entity ent in entities)
                     {
-                        obstacle.Draw(spriteBatch);
-                    }
-                    boss.Draw(spriteBatch);
-                    boss.DrawBullets(spriteBatch);
-                    //Entities (enemies and player)
-                    foreach (Fighter ent in entities)
-                    {
-                        if (ent is Enemy && ((Enemy) ent).Active)
+                        if (ent is Fighter)
                         {
-                            ent.DrawShadow(spriteBatch);
-                            ent.Draw(spriteBatch);
+                            ((Fighter)ent).DrawShadow(spriteBatch);
                         }
-                        else if (ent is Player)
-                        {
-                            ent.DrawShadow(spriteBatch);
-                            ent.Draw(spriteBatch);
-                        }
+
+                        ent.Draw(spriteBatch);
+
                     }
 
-					
+
 
                     //GUI
                     //Health bar

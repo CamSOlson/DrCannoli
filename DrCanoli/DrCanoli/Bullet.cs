@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace DrCanoli
 {
-    class Bullet
+    class Bullet: Entity
     {
         private Texture2D texture;
         private Rectangle rect;
@@ -19,7 +19,12 @@ namespace DrCanoli
             get { return active; }
             set { active = value; }
         }
-        public Rectangle Rect
+        public override Rectangle Box
+        {
+            get { return rect; }
+            set { rect = value; }
+        }
+        public override Rectangle Hitbox
         {
             get { return rect; }
         }
@@ -31,7 +36,7 @@ namespace DrCanoli
             active = true;
             startX = rect.X;
         }
-        public void Update()
+        public override void Update()
         {
                 switch (dir)
                 {
@@ -54,8 +59,31 @@ namespace DrCanoli
             {
                 active = false;
             }
+            /*
+            if (list[c].Box.Intersects(new Rectangle(player.Box.X, player.Box.Y + player.Box.Height - player.Box.Width / 8,
+player.Box.Width, player.Box.Width / 4)))
+            {
+                player.Hp -= 10;
+                list[c].Active = false;
+                list.Remove(list[c]);
+                c--;
+            }
+            */
+            
+            foreach (Entity e in Game1.Entities)
+            {
+                if (e is Player)
+                {
+                    Player p = ((Player)e);
+                    if (p.FighterState != FighterState.Jump && Box.Intersects(p.Hitbox))
+                    {
+                        p.Hp -= 10;
+                        PhysManager.Knockback(p);
+                    }
+                }
+            }
         }
-        public void Draw(SpriteBatch batch)
+        public override void Draw(SpriteBatch batch)
         {
                 batch.Draw(texture, new Rectangle(rect.X - Game1.CameraOffset, rect.Y, rect.Width, rect.Height), Color.White);
         }

@@ -236,7 +236,7 @@ namespace DrCanoli
         }
 
         //called once when hit, sets washit's state machine to jumping (which sets an initial y and passes the player an ititial y velocity
-        private void Knockback(Fighter wasHit)
+        public static void Knockback(Fighter wasHit)
         {
             //will override jumping state if hit midair, so this can use the same fields for moving back as jumping
             //also will simply calculate new position based on stored values and updates said values
@@ -245,7 +245,7 @@ namespace DrCanoli
             //set player state machine to jumping
             if (wasHit.FighterState != FighterState.Jump)
             {
-                wasHit.InitialY = player.Box.Y;
+                wasHit.InitialY = wasHit.Box.Y;
                 wasHit.VelocityY = InitialYVelocity;
                 wasHit.FighterState = FighterState.Jump;
             }
