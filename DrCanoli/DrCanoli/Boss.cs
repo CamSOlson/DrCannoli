@@ -49,6 +49,17 @@ namespace DrCanoli
         {
             base.Update();
 
+            if (Invulnerable)
+            {
+                //Color = Color.Blue;
+                InvulnTime -= Game1.ElapsedTime;
+                if (InvulnTime <= 0)
+                {
+                    Invulnerable = false;
+                    //Color = Color.White;
+                }
+            }
+
             if (phys.Player.Box.X < Box.X)
             {
                 //If player is to the left of the enemy

@@ -60,7 +60,7 @@ namespace DrCanoli
             //check weapons with boss
             if (player.Wep.Swinging && boss.Hitbox.Intersects(player.Wep.Box))
             {
-                if (!boss.Stunned)
+                if (!boss.Invulnerable)
                     Hit(player, boss);
             }
             if (player.Hitbox.Intersects(boss.Hitbox) && player.FighterState != FighterState.Jump)
@@ -207,6 +207,11 @@ namespace DrCanoli
             {
                 Knockback(Target);
             }
+            else if (Target.Hp > 0)
+            {
+                Target.Invulnerable = true;
+                Target.InvulnTime = 1;
+            }
             else
             {
                 if(Target is Player)
@@ -218,10 +223,6 @@ namespace DrCanoli
                 {
                     Enemy enemy = (Enemy)Target;
                     enemy.Active = false;
-                }
-                else
-                {
-                    Boss bossu = (Boss)Target;
                 }
             }
 
