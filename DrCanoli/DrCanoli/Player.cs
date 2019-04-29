@@ -125,8 +125,7 @@ namespace DrCanoli
                         }
                         if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space) || gpState.Buttons.A == ButtonState.Pressed && gpPrevious.Buttons.A == ButtonState.Released)    //when Space is pressed
                         {
-                            if (!SuspendedJump)
-                                InitialY = Box.Y;
+                            InitialY = Box.Y;
                             VelocityY = PhysManager.InitialYVelocity;
                             FighterState = FighterState.Jump;
                             Box = new Rectangle(Box.X, Box.Y - 5, Box.Width, Box.Height);
@@ -161,8 +160,7 @@ namespace DrCanoli
                         }
                         if (kbState.IsKeyDown(Keys.Space) && kbPrevious.IsKeyUp(Keys.Space) || gpState.Buttons.A == ButtonState.Pressed && gpPrevious.Buttons.A == ButtonState.Released) //when Space is pressed
                         {
-                            if (!SuspendedJump)
-                                InitialY = Box.Y;
+                            InitialY = Box.Y;
                             VelocityY = PhysManager.InitialYVelocity;
                             FighterState = FighterState.Jump;
                             Box = new Rectangle(Box.X, Box.Y, Box.Width, Box.Height);

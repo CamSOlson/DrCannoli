@@ -17,6 +17,7 @@ namespace DrCanoli
         private List<Obstacle> obstacles;
         //we could also give this a reference to the player
         private Player player;
+        private Boss boss;
         private static int unicorns; //standard unit for window height
         private double frameSeconds;
         private static double acceleration; //time between frames, acceleration in unicorns per frameSeconds squared
@@ -28,6 +29,12 @@ namespace DrCanoli
             get { return unicorns; }
         }
 
+        public Boss Boss
+        {
+            get { return boss; }
+            set { boss = value; }
+        }
+
         public PhysManager(Player player, List<Enemy> enemies, List<Obstacle> obs, int screenHeight, Boss boss)
         {
             this.player = player;
@@ -36,6 +43,7 @@ namespace DrCanoli
             unicorns = screenHeight / 9;
             frameSeconds = 1 / 60; //if the framerate isn't excatly 60 we should update this
             acceleration = -.981 * 2; //treating a meter as 2 unicorns and frameSeconds being the time between frames in seconds
+            this.boss = boss;
         }
         public void CheckCollisions()
         {
@@ -46,6 +54,34 @@ namespace DrCanoli
                 {
                     if (!e.Stunned)
                         Hit(player, e);
+                }
+            }
+
+            //check weapons with boss
+            if (player.Wep.Swinging && boss.Hitbox.Intersects(player.Wep.Box))
+            {
+                if (!boss.Stunned)
+                    Hit(player, boss);
+            }
+            if (player.Hitbox.Intersects(boss.Hitbox))
+            {
+                Rectangle intersect = Rectangle.Intersect(player.Hitbox, boss.Hitbox);
+                if (player.Hitbox.X < boss.Hitbox.X && intersect.Height > intersect.Width)
+                {
+                    player.Box = new Rectangle(player.Box.X - intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
+                }
+                else if (intersect.Height > intersect.Width)
+                {
+                    player.Box = new Rectangle(player.Box.X + intersect.Width, player.Box.Y, player.Box.Width, player.Box.Height);
+                }
+                else if (player.Hitbox.Y < boss.Hitbox.Y && intersect.Height < intersect.Width)
+                {
+                    player.Box = new Rectangle(player.Box.X, player.Box.Y - intersect.Height, player.Box.Width, player.Box.Height);
+                    player.SuspendedJump = true;
+                }
+                else if (intersect.Height < intersect.Width)
+                {
+                    player.Box = new Rectangle(player.Box.X, player.Box.Y + intersect.Height, player.Box.Width, player.Box.Height);
                 }
             }
 
@@ -168,7 +204,7 @@ namespace DrCanoli
 				Target.Hp -= player0.Wep.Damage;
 			}
 
-            if (Target.Hp > 0)
+            if (Target.Hp > 0 && !(Target is Boss))
             {
                 Knockback(Target);
             }
@@ -179,10 +215,14 @@ namespace DrCanoli
                     Player player = (Player)Target;
                     player.Alive = false;
                 }
-                else
+                else if (Target is Enemy)
                 {
                     Enemy enemy = (Enemy)Target;
                     enemy.Active = false;
+                }
+                else
+                {
+                    Boss bossu = (Boss)Target;
                 }
             }
 

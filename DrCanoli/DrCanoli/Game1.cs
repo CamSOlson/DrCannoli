@@ -236,7 +236,7 @@ namespace DrCanoli
             );
             boss = new Boss(PhysManager.Unicorns * 25, PhysManager.Unicorns * 9 - PhysManager.Unicorns * 4, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, bossAnimSet, 200, 0, shadowTexture, phys, bulletTexture);
             entities.Add(boss);
-
+            phys.Boss = boss;
             //Set floor top value
             floorTop = graphics.PreferredBackBufferHeight / 3 * 2;
 
