@@ -264,6 +264,7 @@ namespace LevelEditorHWK
                 reader.Close();
                 // Clear the group box
                 mapBox.Controls.Clear();
+                mapBox.Controls.Add(panel);
                 // Generate picture boxes for map tiles
                 for (int i = 0; i < positionList.Count; i++)
                 {
