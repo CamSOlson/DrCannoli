@@ -63,7 +63,7 @@ namespace DrCanoli
                 if (!boss.Stunned)
                     Hit(player, boss);
             }
-            if (player.Hitbox.Intersects(boss.Hitbox))
+            if (player.Hitbox.Intersects(boss.Hitbox) && player.FighterState != FighterState.Jump)
             {
                 Rectangle intersect = Rectangle.Intersect(player.Hitbox, boss.Hitbox);
                 if (player.Hitbox.X < boss.Hitbox.X && intersect.Height > intersect.Width)
@@ -99,12 +99,12 @@ namespace DrCanoli
                         if (!player.Invulnerable)
                             Hit(e, player);
 
-                        if (player.Box.X < e.Box.X)
+                        if (player.Box.X < e.Box.X && player.FighterState != FighterState.Jump)
                         {
                             //From left
                             e.Box = new Rectangle(e.Box.X + intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
                         }
-                        else
+                        else if (player.FighterState != FighterState.Jump)
                         {
                             //From right
                             e.Box = new Rectangle(e.Box.X - intersect.Width, e.Box.Y, e.Box.Width, e.Box.Height);
@@ -114,12 +114,12 @@ namespace DrCanoli
                     {
                         Rectangle newBox = e.Box;
                         //Enemy is coming from top/bottom
-                        if (player.Box.Y < e.Box.Y)
+                        if (player.Box.Y < e.Box.Y && player.FighterState != FighterState.Jump)
                         {
                             //From bottom
                             newBox = new Rectangle(e.Box.X, e.Box.Y + intersect.Height, e.Box.Width, e.Box.Height);
                         }
-                        else
+                        else if (player.FighterState != FighterState.Jump)
                         {
                             //From top
                             newBox = new Rectangle(e.Box.X, e.Box.Y - intersect.Height, e.Box.Width, e.Box.Height);
