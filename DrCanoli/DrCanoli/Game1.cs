@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace DrCanoli
 {
-	enum GameState { Menu, Options, Game, GameOver, Pause }	//states of game, more levels can be added as needed
+	enum GameState { Menu, Options, Game, GameOver, Pause, Victory }	//states of game, more levels can be added as needed
 
     /// <summary>
     /// This is the main type for your game. Neat! -Cam -Julien -Liam -Alex -Drew
@@ -392,6 +392,10 @@ namespace DrCanoli
 					{               //changes state to gameover screen when player hp reaches 0
 						gameState = GameState.GameOver;
 					}
+                    if (!boss.Alive)
+                    {               //changes state to gameover screen when player hp reaches 0
+                        gameState = GameState.Victory;
+                    }
 
                     break;
 				case GameState.GameOver:
@@ -403,6 +407,15 @@ namespace DrCanoli
 						gameState = GameState.Menu;
 					}
 					break;
+                case GameState.Victory:
+                    gameOverCount++;
+                    if (gameOverCount > 180)        //counts to 3 seconds then restarts level
+                    {
+                        gameOverCount = 0;
+                        LevelStart();           //resets player and enemies when level is restarted
+                        gameState = GameState.Menu;
+                    }
+                    break;
 				case GameState.Pause:
 					if ((kbState.IsKeyDown(Keys.Escape) && !lastKbState.IsKeyDown(Keys.Escape)) || (gpState.Buttons.Start == ButtonState.Pressed && gpPrevious.Buttons.Start != ButtonState.Pressed))	//returns to game when esc is pressed
 					{
@@ -528,7 +541,14 @@ namespace DrCanoli
 						);
 
 					break;
-				case GameState.Pause:
+                case GameState.Victory:
+                    GraphicsDevice.Clear(Color.CornflowerBlue);          //placeholder color for testing
+                    spriteBatch.DrawString(
+                        font, "Congradulations Dr. Cannoli, you have vanquished the memes with your vast knowledge of sandwiches!", new Vector2(10, 10), Color.White
+                        );
+
+                    break;
+                case GameState.Pause:
 					GraphicsDevice.Clear(Color.Gray);      //placeholder color for testing
 					spriteBatch.DrawString(
 						font, "The game is paused. Press esc to return to game. Press m to go back to menu.", new Vector2(10, 10), Color.White

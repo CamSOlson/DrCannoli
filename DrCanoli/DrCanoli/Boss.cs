@@ -20,8 +20,7 @@ namespace DrCanoli
 
     class Boss : Fighter
     {
-        private int maxHp;
-        private int health;
+
         private BossState state;
         private int timer;
         private PhysManager phys;
@@ -29,16 +28,21 @@ namespace DrCanoli
         private Random rando;
         private int startY;
         private int endY;
+        private bool alive;
 
         public Boss(int x, int y, int width, int height, AnimationSet animSet, int hp, int dmg, Texture2D shadow, PhysManager phys, Texture2D bulletTexture)
             : base(x, y, width, height, hp, dmg, animSet, FighterState.Idle, shadow)
         {
-            maxHp = hp;
-            this.health = maxHp;
             state = BossState.Idle;
             this.phys = phys;
             this.bulletTexture = bulletTexture;
             rando = new Random();
+            alive = true;
+        }
+
+        public bool Alive
+        {
+            get { return (Hp > 0); }
         }
 
         public override void Update()
