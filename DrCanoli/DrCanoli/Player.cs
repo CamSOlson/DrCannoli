@@ -304,12 +304,6 @@ namespace DrCanoli
             //Attacking animation
 
             animation.FacingRight = facingRight;
-
-            //Damage tester
-            if (kbState.IsKeyDown(Keys.H) && kbPrevious.IsKeyUp(Keys.H))
-            {
-                Hp = Hp - 10;
-            }
 		}
 
         public override void Draw(SpriteBatch batch)	//has states for drawing character based on state
