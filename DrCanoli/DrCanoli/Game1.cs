@@ -234,7 +234,7 @@ namespace DrCanoli
                 Animation.LoadAnimation(Animation.ERIN_ATTACK_SANDWICH, Content),
                 Animation.LoadAnimation(Animation.ERIN_HIT, Content)
             );
-            boss = new Boss(PhysManager.Unicorns * 25, PhysManager.Unicorns * 9 - PhysManager.Unicorns * 4, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, bossAnimSet, 200, 0, shadowTexture, phys, bulletTexture);
+            boss = new Boss(PhysManager.Unicorns * 64, PhysManager.Unicorns * 9 - PhysManager.Unicorns * 4, PhysManager.Unicorns * 2, PhysManager.Unicorns * 4, bossAnimSet, 200, 0, shadowTexture, phys, bulletTexture);
             entities.Add(boss);
             phys.Boss = boss;
             //Set floor top value
