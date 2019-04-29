@@ -137,7 +137,7 @@ namespace DrCanoli
             gpPrevious = new GamePadState();
 
 			// Get data from text file
-			textFile = new TextFile("Content/test6.txt");
+			textFile = new TextFile("Content/final.txt");
             levelData = textFile.Read();
             base.Initialize();
 		}
