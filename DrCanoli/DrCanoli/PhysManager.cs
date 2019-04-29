@@ -77,7 +77,6 @@ namespace DrCanoli
                 else if (player.Hitbox.Y < boss.Hitbox.Y && intersect.Height < intersect.Width)
                 {
                     player.Box = new Rectangle(player.Box.X, player.Box.Y - intersect.Height, player.Box.Width, player.Box.Height);
-                    player.SuspendedJump = true;
                 }
                 else if (intersect.Height < intersect.Width)
                 {
